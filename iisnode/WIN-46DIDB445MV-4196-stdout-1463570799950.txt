@@ -1,0 +1,8 @@
+aaaamongoDB_driver - connect to db
+[0mGET /Show-Request-Infomation-List [32m200 [0m9.543 ms - -[0m
+[0mGET /favicon.ico [32m200 [0m1.042 ms - -[0m
+[0mGET /apple-touch-icon-precomposed.png [31m500 [0m21.823 ms - -[0m
+[0mGET /apple-touch-icon.png [31m500 [0m0.815 ms - -[0m
+[0mGET /Show-Request-Infomation-List [32m200 [0m0.815 ms - -[0m
+[0mGET /apple-touch-icon-precomposed.png [31m500 [0m0.737 ms - -[0m
+[0mGET /apple-touch-icon.png [31m500 [0m0.673 ms - -[0m

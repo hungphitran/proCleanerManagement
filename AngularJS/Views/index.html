@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+	<head>
+		<meta charset="utf-8">
+		<title>Management page of procleaner</title>
+
+		<meta name="description" content="description">
+		<meta name="author" content="DevOOPS">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="mytemplate/plugins/bootstrap/bootstrap.css" rel="stylesheet">
+		<!-- <link href="mytemplate/css/Account/style.css" rel="stylesheet"> -->
+		<!-- <link href="mytemplate/css/Account/jquery-ui-1.css" rel="stylesheet"> -->
+		<link rel="stylesheet" href="/MyFile/CSS/DateRangePicker/jquery-ui.min.css">
+    	<link rel="stylesheet" href="/MyFile/CSS/DateRangePicker/jquery.comiseo.daterangepicker.css">
+    	<link rel="stylesheet" href="/MyFile/CSS/DateRangePicker/datepicker.css">
+
+    	<link rel="stylesheet" href="/MyFile/CSS/Login/layout.css">
+
+		<!-- <link href="mytemplate/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet"> -->
+		<link href="mytemplate/fonts/font-awesome.css" rel="stylesheet">
+		<link href="mytemplate/plugins/fancybox/jquery.fancybox.css" rel="stylesheet">
+		<link href="mytemplate/plugins/fullcalendar/fullcalendar.css" rel="stylesheet">
+		<link href="mytemplate/plugins/xcharts/xcharts.min.css" rel="stylesheet">
+		<link href="mytemplate/plugins/select2/select2.css" rel="stylesheet">
+		<link href="mytemplate/css/style.css" rel="stylesheet">
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+				<script src="http://getbootstrap.com/docs-assets/js/html5shiv.js"></script>
+				<script src="http://getbootstrap.com/docs-assets/js/respond.min.js"></script>
+		<![endif]-->
+
+		<!-- load my config -->
+	<script src="mytemplate/plugins/jquery/jquery-2.1.0.min.js"></script>
+	 <!-- // <script src="/MyFile/JS/Lib/jquery/jquery-1.11.3.min.js"></script> -->
+    <script src="mytemplate/plugins/bootstrap/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/MyFile/CSS/TableStyle.css">
+
+    <script src="/MyFile/JS/Lib/pdfMaker/pdfmake.js"></script>
+    <script src="/MyFile/JS/Lib/pdfMaker/vfs_fonts.js"></script>
+    
+
+
+
+    <script src="/MyFile/JS/Lib/angular/angular.js"></script>
+    <script src="/MyFile/JS/Lib/angular/angular-route.js"></script>
+    <script src="/MyFile/JS/Lib/angular/angular-resource.js"></script>
+
+
+
+
+    <script src="/MyFile/JS/Controller/ControllerManager.js"></script>
+    <script src="/MyFile/JS/Controller/Location/LocationCtrl.js"></script>
+
+    <script src="/MyFile/JS/Controller/Helper/HelperCtrl.js"></script>
+    <script src="/MyFile/JS/Controller/Helper/BusyHelper.js"></script>
+
+    <script src="/MyFile/JS/Controller/Stuff/StuffCtrl.js"></script>
+    <script src="/MyFile/JS/Controller/Stuff/StuffOffCtrl.js"></script>
+
+    <script src="/MyFile/JS/Controller/Request/RequestCtrl.js"></script>
+    <script src="/MyFile/JS/Controller/Request/WaitingRequest.js"></script>
+    <script src="/MyFile/JS/Controller/Request/ProgressRequest.js"></script>
+    <script src="/MyFile/JS/Controller/Request/ProgressRequestDetail.js"></script>
+    <script src="/MyFile/JS/Controller/Request/DoneRequest.js"></script>
+    <script src="/MyFile/JS/Controller/Request/DoneRequestDetail.js"></script>
+    <script src="/MyFile/JS/Controller/Request/CreateRequest.js"></script>
+
+    <script src="/MyFile/JS/Controller/System/CreateNewAccount.js"></script>
+    <script src="/MyFile/JS/Controller/System/LoginCtrl.js"></script>
+    <script src="/MyFile/JS/Controller/Service/ListService.js"></script>
+
+    <script src="/MyFile/JS/Controller/Salary/StaffSalaryCtrl.js"></script>
+    <script src="/MyFile/JS/Controller/Salary/HelperSalaryCtrl.js"></script>
+
+    <script src="/MyFile/JS/Controller/Salary/PaymentConfig.js"></script>
+    <script src="/MyFile/JS/Controller/Salary/PaymentRequestCtrl.js"></script>
+    <script src="/MyFile/JS/Controller/Salary/PaymentRequestDetailCtrl.js"></script>
+    <script src="/MyFile/JS/Controller/Customer/CustomerCtrl.js"></script>
+
+    
+
+	</head>
+<body ng-controller="mainController">
+<!--Start Header-->
+<div id="screensaver">
+	<canvas id="canvas"></canvas>
+	<i class="fa fa-lock" id="screen_unlock"></i>
+</div>
+<div id="modalbox">
+	<div class="devoops-modal">
+		<div class="devoops-modal-header">
+			<div class="modal-header-name">
+				<span>Basic table</span>
+			</div>
+			<div class="box-icons">
+				<a class="close-link">
+					<i class="fa fa-times"></i>
+				</a>
+			</div>
+		</div>
+		<div class="devoops-modal-inner">
+		</div>
+		<div class="devoops-modal-bottom">
+		</div>
+	</div>
+</div>
+<header class="navbar">
+	<div class="container-fluid expanded-panel">
+		<div class="row">
+			<div class="col-xs-12 col-sm-2 nopadding" style="text-align:center; background-color:#fff";>
+				<a href="/Home"><img src="/img/logo.jpg" style="height: 50px; width:114px;"></a>
+			</div>
+			<div id="top-panel" class="col-xs-12 col-sm-10">
+				<div class="row">
+					<div class="col-xs-8 col-sm-4">
+						<a href="#" class="show-sidebar">
+						  <i class="fa fa-bars"></i>
+						</a>
+						<!--<div id="search">
+							<input type="text" placeholder="search"/>
+							<i class="fa fa-search"></i>
+						</div>-->
+					</div>
+
+					<div class="col-xs-4 col-sm-8 top-panel-right">
+					<!-- <div ng-show="true" class="pull-right" style="padding-top:10px;">
+						<button type="button" class="btn btn-success" style="background-color:#8cc13d;">Đăng Nhập</button>
+					</div> -->
+					<div ng-show="loginOK">
+						<ul class="nav pull-right top-menu">
+			            <!-- user login dropdown start-->
+			                <a href="#" class="dropdown-toggle account" data-toggle="dropdown">
+								<div class="avatar">
+									<img src="{{stuff.hinhanh}}" class="img-rounded" alt="avatar" />
+								</div>
+								<div class="user-mini pull-right">
+									<span>{{stuff.hoten}}</span>
+								</div>
+							</a>
+			            <!-- user login dropdown end -->
+			        	</ul>
+			        </div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</header>
+<!--End Header-->
+<!--Start Container-->
+<div id="main" class="container-fluid">
+	<div class="row">
+		<div id="sidebar-left" class="col-xs-2 col-sm-2">
+			<ul class="nav main-menu">
+				<li class="borderbottom">
+					<a href="/Dashboard" class="active">
+						<i class="fa fa-dashboard"></i>
+						<span class="hidden-xs">Thống Kê</span>
+					</a>
+				</li>
+				<li class="dropdown borderbottom">
+					<a href="#" class="dropdown-toggle">
+						<i class="fa fa-shopping-cart"></i>
+						<span class="hidden-xs">Đơn Hàng</span>
+					</a>
+					<ul class="dropdown-menu">
+						<li class=" borderbottom"><a class="" href="/Show-Waiting-Request-List"><i class="fa fa-phone" style=" padding-right:5px;"></i>Chưa Xác Định Chi Phí</a></li>
+						<li class=" borderbottom"><a class="" href="/Show-Request-Infomation-List"><i class="fa fa-tasks" style=" padding-right:5px;"></i>ĐH Cần Xử Lý</a></li>
+						<li class=" borderbottom"><a class="" href="/History-Request"><i class="fa fa-check-square-o" style="padding-right:5px;"></i>Lịch Sử Đơn Hàng</a></li>
+						<li class=" borderbottom"><a class="" href="/Create-New-Request"><i class="fa fa-plus" style="padding-right:5px;"></i>Tạo Đơn Hàng</a></li>
+					</ul>
+				</li>
+				<li class="dropdown borderbottom">
+					<a href="#" class="dropdown-toggle">
+						<i class="fa fa-user"></i>
+						 <span class="hidden-xs">Người Giúp Việc</span>
+					</a>
+					<ul class="dropdown-menu">
+						
+						<li class=" borderbottom"><a class="" href="/Show-Helper-Infomation-List"><i class="fa fa-list" style="padding-right:5px;"></i>Danh Sách NGV</a></li>
+						<li class=" borderbottom"><a class="" href="/Add-New-Helper"><i class="fa fa-plus" style="padding-right:5px;"></i>Thêm NGV</a></li>
+						<li class=" borderbottom"><a class="" href="/Show-Helpers-Busy-List"><i class="fa fa-list" style="padding-right:5px;"></i>Lịch làm việc</a></li>
+					</ul>
+				</li>
+				<li class="dropdown borderbottom">
+					<a href="#" class="dropdown-toggle">
+						<i class="fa fa-users"></i>
+						 <span class="hidden-xs">Nhân Viên</span>
+					</a>
+					<ul class="dropdown-menu">
+						<li class=" borderbottom"><a class="" href="/Show-Stuff-Infomation-List"><i class="fa fa-list" style="padding-right:5px;"></i>Danh Sách NV</a></li>
+						<li class=" borderbottom"><a class="" href="/Add-New-Stuff"><i class="fa fa-plus" style="padding-right:5px;"></i>Thêm Nhân Viên</a></li>
+						<li class=" borderbottom"><a class="" href="/Show-Off-Stuff-List"><i class="fa fa-list" style="padding-right:5px;"></i>Quản lý ngày nghỉ</a></li>
+					</ul>
+				</li>
+				<li class="dropdown borderbottom">
+					<a href="#" class="dropdown-toggle">
+						<i class="fa fa-map-marker"></i>
+						 <span class="hidden-xs">Địa Điểm</span>
+					</a>
+					<ul class="dropdown-menu">
+						<li class=" borderbottom"><a class="" href="/Show-List-Location">Danh Sách</a></li>
+						<li class=" borderbottom"><a class="" href="/Add-New-Location">Thêm Khu Vực</a></li>
+						<li class=" borderbottom"><a class="" href="/Add-New-District">Thêm Quận</a></li>
+						<li class=" borderbottom"><a class="" href="/Add-New-Ward">Thêm Phường</a></li>
+					</ul>
+				</li>
+
+				<li class="dropdown borderbottom">
+					<a href="#" class="dropdown-toggle">
+						<i class="fa fa-users"></i>
+						 <span class="hidden-xs">Khách Hàng</span>
+					</a>
+					<ul class="dropdown-menu">
+						<li class=" borderbottom"><a class="" href="/Show-List-Customer">Thông Tin Khách Hàng</a></li>
+						<li class=" borderbottom"><a class="" href="/List-Customer-To-Show-Request">Danh Sách Đơn Hàng</a></li>
+					</ul>
+				</li>
+
+				<li class="dropdown borderbottom">
+					<a href="#" class="dropdown-toggle">
+						<i class="fa fa-list"></i>
+						 <span class="hidden-xs">Tài Chính</span>
+					</a>
+					<ul class="dropdown-menu">
+						<li class=" borderbottom"><a href="/Payment-Request">Thanh Toán Đơn Hàng</a></li>
+						<li class=" borderbottom"><a class="" href="/Show-Staff-Salary">Lương Nhân Viên</a></li>
+						<li><a class="submenu" href="/Show-Helper-Salary">Lương Người Giúp Việc</a></li>
+					</ul>
+				</li>
+
+				<li class="dropdown borderbottom">
+					<a href="#" class="dropdown-toggle">
+						<i class="fa fa-user"></i>
+						 <span class="hidden-xs">Hệ Thống</span>
+					</a>
+					<ul class="dropdown-menu">
+						
+						<li class=" borderbottom"><a class="" href="/Create-New-Account"><i class="fa fa-plus" style="padding-right:5px;"></i>Tạo Tài Khoản</a></li>
+						<li class=" borderbottom"><a class="" href="/Edit-Role"><i class="fa fa-sitemap" style="padding-right:5px;"></i>Phân Quyền</a></li>
+						<li class=" borderbottom"><a class="" href="/Show-Cost"><i class="fa fa-money" style="padding-right:5px;"></i>Tham Số Chi Phí</a></li>
+					</ul>
+				</li>
+
+				<li class="dropdown borderbottom">
+					<a href="#" class="dropdown-toggle">
+						<i class="fa fa-user"></i>
+						 <span class="hidden-xs">Tài Khoản</span>
+					</a>
+					<ul class="dropdown-menu">
+						
+						<li class=" borderbottom"><a class="" ng-click="manageAccount()" ng-show="loginOK"  style="cursor:poiter;"><i class="fa fa-plus" style="padding-right:5px;"></i>Quản Lý Tài Khoản</a></li>
+						<li class=" borderbottom" ><a class="" ng-click="logout()" ng-show="loginOK"  style="cursor:poiter;"><i class="fa fa-sitemap" style="padding-right:5px;"></i>Đăng Xuất</a></li>
+						<li class=" borderbottom"><a class="" href="/Login" ng-hide="loginOK"  style="cursor:poiter;"><i class="fa fa-sitemap" style="padding-right:5px;"></i>Đăng Nhập</a></li>
+					</ul>
+				</li>
+				
+			</ul>
+		</div>
+		<!--Start Content-->
+		<div id="content" class="col-xs-12 col-sm-10">
+			<div ng-view></div>
+		</div>
+		<!--End Content-->
+	</div>
+
+</div>
+
+<script src="mytemplate/plugins/bootstrap/bootstrap.min.js"></script>
+<script src="mytemplate/plugins/justified-gallery/jquery.justifiedgallery.min.js"></script>
+<script src="mytemplate/plugins/tinymce/tinymce.min.js"></script>
+<script src="mytemplate/plugins/tinymce/jquery.tinymce.min.js"></script>
+
+<script src="mytemplate/js/devoops.js"></script>
+<script src="/MyFile/JS/Lib/HighChart/highcharts.js"></script>
+<script src="/MyFile/JS/Lib/HighChart/data.js"></script>
+<script src="/MyFile/JS/Lib/HighChart/drilldown.js"></script>
+<script src="/MyFile/JS/Lib/HighChart/exporting.js"></script>
+<script src="/MyFile/JS/Lib/DateRangePicker/jquery-ui.js"></script>
+<script src="/MyFile/JS/Lib/DateRangePicker/jquery.comiseo.daterangepicker.min.js"></script>
+
+<script type="text/javascript" src="/MyFile/JS/Lib/DateRangePicker/datepicker.js"></script>
+
+<script src="/MyFile/JS/Lib/DateRangePicker/moment.min.js"></script>
+
+<script src="/MyFile/JS/Controller/Dashboard/DashboardCtrl.js"></script>
+
+</body>
+</html>

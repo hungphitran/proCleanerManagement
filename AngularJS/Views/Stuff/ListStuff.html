@@ -1,0 +1,69 @@
+<div class="row">
+  <div id="breadcrumb" class="col-md-12">
+    <span> Thông tin nhân viên </span>
+  </div>
+</div>
+
+<div id="loadDataSection" style="text-align:center;">
+      <span>Loading...</span>
+      </br>
+      <img src="img/devoops_getdata.gif" alt="Loading Data"/>
+</div>
+
+<div id="dataSection">
+<label style="padding-left:35px;">Tìm kiếm theo: </label>
+    <div class="form-group col-lg-12" style="padding-right:5px; text-align:left;">
+      <div class="col-lg-3 " style=" text-align:left; padding-bottom:10px;padding-left:20px;">
+          <select class="form-control valid" ng-model="typeSearch" ng-options="tieuchi for tieuchi in tieuchiSearch" ng-init="typeSearch=' Tất Cả '"></select>
+      </div>
+      <div class="col-lg-4 nopadding" style="padding-bottom:10px;text-align:left;padding-right:15px;">
+        <div  id="search" style="text-align:left;margin-top:-3px;" >
+          <input type="text" placeholder="Search" ng-model="searchText"/>
+          <i class="fa fa-search" style="margin-top:-10px;" ></i>
+        </div>
+      </div>
+  </div>
+
+
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box">
+      <div class="box-content no-padding" style="text-align:center;">
+        <table class="table table-bordered table-striped table-hover table-heading " >
+
+          <thead style="text-align:center;color:#02571c;">
+            <tr>
+              <th style="text-align:center;"><i class="fa fa-user"></i> Hình Ảnh</th>
+              <th style="text-align:center;"><i class="fa fa-tag"></i> CMND</th>
+              <th style="text-align:center;"><i class="fa fa-meh-o"></i> Họ Tên</th>
+              <th style="text-align:center;"><i class="fa fa-calendar"></i> Ngày Sinh</th>
+              <th style="text-align:center;"><i class="fa fa-mobile"></i> Điện Thoại</th>
+              <th style="text-align:center;"><i class="fa fa-map-marker"></i> Quê Quán</th>
+              <th style="text-align:center;"><i class="fa fa-calendar"></i>Ngày Bắt Đầu</th>
+              <th style="text-align:center;"><i class="fa fa-gears"></i> Lựa Chọn</th>
+            </tr>
+          </thead>
+          <tbody>
+          <!-- Start: list_row -->
+            <tr ng-repeat = "stuff in stuffList | filter:searchText">
+                <td><img style="width:50px;height:50px;" src="{{stuff.hinhanh}}?time={{timeTemp}}" alt="avatar"></td>
+                <td>{{stuff.cmnd}}</td>
+                <td>{{stuff.hoten}}</td>
+                <td>{{stuff.ngaysinh.getDate()}}/{{stuff.ngaysinh.getMonth()+1}}/{{stuff.ngaysinh.getFullYear()}}</td>
+                <td>{{stuff.sodt}}</td>
+                <td>{{stuff.quequan}}</td>
+                <td>{{stuff.ngaylamviec.getDate()}}/{{stuff.ngaylamviec.getMonth()+1}}/{{stuff.ngaylamviec.getFullYear()}}</td>
+                <td>
+                    <button title="Chỉnh sửa thông tin nhân viên" class="btn btn-info myDeleteButton" ng-click = "editStuff(stuff)"><i class="fa fa-edit"></i></button>
+                    <button title="Xóa nhân viên ra khỏi danh sách " class="btn btn-danger myDeleteButton" ng-click = "deleteStuff(stuff)"><i class="fa fa-trash-o"></i></button>
+                </td>
+              </tr>
+            
+          <!-- End: list_row -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

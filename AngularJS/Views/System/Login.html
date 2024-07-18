@@ -1,0 +1,24 @@
+<div class="loginContainer" style="display: flex;height: 600px;margin: -14px;">
+		
+		<div class="form-bg">
+			<form>
+				<h2>Login</h2>
+				<div class="input-group loginInput ">
+				  <span class="input-group-addon" id="basic-addon1" style="width:41px;height:33px;"><i class="fa fa-user fa-2x"></i></span>
+				  <input type="text" class="form-control" placeholder="Tài khoản " aria-describedby="basic-addon1" style="height: 33px;" ng-model="loginInfo.username" autofocus>
+				</div>
+				<div class="input-group loginInput ">
+				  <span class="input-group-addon" id="basic-addon1"  style="width:41px;height:33px;"><i class="fa fa-key fa-2x"></i></span>
+				  <input class="form-control" placeholder="Mật khẩu" aria-describedby="basic-addon1" style="height: 33px;" ng-model="loginInfo.password" type="password">
+				</div>
+				<div class="input-group" style="text-align:center;padding-left:30px;"  ng-show="loginFail" >
+                	<span style="text-align:center;color:red"><i class="fa fa-warning"></i>Tài khoản hoặc mật khẩu không đúng</span>
+            	</div>
+				<!-- <label for="remember" style="margin-top:20px;margin-left:5px;">
+				  <input type="checkbox" id="remember" value="remember" />
+				  <span>Remember me on this computer</span>
+				</label> -->
+				<button class="btn btn-info" style="margin-top:10px;margin-left:230px;display:relative;" ng-click="login()">Đăng Nhập</button>
+			<form>
+		</div>
+</div>

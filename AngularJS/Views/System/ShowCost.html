@@ -1,0 +1,219 @@
+
+<div class="modal fade  bs-example-modal-lg" id="addServiceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="border-radius:5px;">
+  <div class="modal-dialog  modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color:#8cc13d;padding-top:5px;padding-bottom:5px;">
+        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+        <h4 class="modal-title" id="myModalLabel"> Tạo dịch vụ mới </h4>
+      </div>
+      <div class="modal-body" style="padding-left:20px;padding-right:20px ;padding-bottom:2px;">
+
+          <form class="form-horizontal">
+
+                <div class="form-group" style="text-align:center;">
+                  <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;"> Tên Dịch Vụ : </label>
+                  <input class="col-lg-3 " style="text-align:left;" ng-model="newService.tentieuchi" type="text"/> 
+                  <div >
+                    <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;"> Giá Cơ bản ( VNĐ/Giờ ) : </label>
+                    <input class="col-lg-2 " style="text-align:left;" ng-model="newService.giachuan" type="text" format="number" /> 
+                    
+                  </div>
+                </div>
+                  <div class="form-group" style="text-align:center;">
+                  <div>
+                    <label class="control-label col-lg-4" style="text-align:center; color:#02571c;"> Phụ Phí: </label>
+                    <div class="col-lg-3" style="text-align:left; ">
+                      <div class="radio-inline " style="text-align:left;">
+                        <label style="padding-left:10px;">
+                          <input type="radio" name="radioPhuPhi"  ng-model="newService.phuphi" value="Không"> Không
+                          <i class="fa fa-circle-o"></i>
+                        </label>
+                      </div>
+                      <div class="radio-inline">
+                        <label style="padding-left:10px;">
+                          <input  type="radio" name="radioPhuPhi" ng-model="newService.phuphi" value="Có"> Có
+                          <i class="fa fa-circle-o"></i>
+                        </label>
+                      </div>
+                      </div>
+                  </div>
+                  </div>
+
+                <div class="form-group" style="text-align:center;">
+                  
+                    <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;">  Phí Ngoài Giờ KH ( % ) : </label>
+                    <input class="col-lg-2" style="text-align:left;" ng-model="newService.phingoaigiokh" type="text" format="number"/> 
+
+                  <div>
+                    <label class="control-label col-lg-4" style="text-align:center; color:#02571c;padding-left:10px;">  Phí Ngoài Giờ NGV ( % ) : </label>
+                    <input class=" col-lg-2 " style="text-align:left;" ng-model="newService.phingoaigiongv" type="text" format="number"/> 
+                  </div>
+
+                  <div class="col-lg-12 myWarning" ng-show="newService.phingoaigiongv > newService.phingoaigiokh ">
+                    <label for="cname" class="control-label myWarningLabel" ><i class="fa fa-warning"></i> Phí ngoài giờ người giúp việc không được lớn hơn khách hàng </label>
+                  </div>
+
+                </div>
+
+                <div class="form-group ">
+                    <label class="control-label col-lg-12" style="text-align:left; color:#02571c;padding-left:10px;">Diễn giải về dịch vụ :</label>
+                    <div class="col-lg-12">
+                        <textarea ng-model="newService.diengiai" style="height: 100px;" class="form-control col-lg-12 " id="ccomment" name="comment" required=""></textarea>
+                    </div>
+                </div>
+
+            </form>
+      </div>  
+      <div class="modal-footer" style="padding-bottom:5px;">
+        <button type="button" class="btn btn-success" ng-click="saveNewService()">Lưu Lại</button>
+        <button  title="Quay lại" type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- modal for chi tiet thoa thuan -->
+<div class="modal fade  bs-example-modal-lg" id="editServiceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="border-radius:5px;">
+  <div class="modal-dialog  modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color:#8cc13d;padding-top:5px;padding-bottom:5px;">
+        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+        <h4 class="modal-title" id="myModalLabel"> Thông tin chi tiết của dịch vụ </h4>
+      </div>
+      <div class="modal-body" style="padding-left:20px;padding-right:20px ;padding-bottom:2px;">
+
+          <form class="form-horizontal">
+
+                <div class="form-group" style="text-align:center;">
+                  <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;"> Tên Dịch Vụ : </label>
+                  <span class="control-label col-lg-3" style="text-align:left;">{{serviceDetail.tentieuchi}}</span>
+                  <div>
+                    <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;"> Giá Cơ bản ( VNĐ/Giờ ) : </label>
+                    <input class="control-label col-lg-3 editService myTransparentInput" style="text-align:left;" ng-model="serviceDetail.giachuan" type="text" format="number" /> 
+                    
+                  </div>
+                </div>
+
+                <div class="form-group" style="text-align:center;">
+                  
+                  <div>
+                    <label class="control-label col-lg-3" style="text-align:left; color:#02571c;"> Phụ Phí : </label>
+                    <div class="col-lg-3" style="text-align:left; ">
+                      <div class="radio-inline " style="text-align:left;">
+                        <label style="padding-left:10px;">
+                          <input class="editService" type="radio" name="radioPhuPhi"  ng-model="serviceDetail.phuphi" value="Không"> Không
+                          <i class="fa fa-circle-o"></i>
+                        </label>
+                      </div>
+                      <div class="radio-inline">
+                        <label style="padding-left:10px;">
+                          <input  class="editService"  type="radio" name="radioPhuPhi" ng-model="serviceDetail.phuphi" value="Có"> Có
+                          <i class="fa fa-circle-o"></i>
+                        </label>
+                      </div>
+                      </div>
+                  </div>
+                </div>
+
+                <div class="form-group" style="text-align:center;">
+                  
+                    <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;">  Phí Ngoài Giờ KH ( % ) : </label>
+                    <input class="control-label col-lg-3 editService myTransparentInput" style="text-align:left;" ng-model="serviceDetail.phingoaigiokh" type="text" format="number"/> 
+
+                  <div>
+                    <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;">  Phí Ngoài Giờ NGV ( % ) : </label>
+                    <input class="control-label col-lg-3 editService  myTransparentInput" style="text-align:left;" ng-model="serviceDetail.phingoaigiongv" type="text" format="number"/> 
+                  </div>
+                </div>
+
+                <div class="form-group ">
+                    <label class="control-label col-lg-12" style="text-align:left; color:#02571c;padding-left:10px;">Diễn giải về dịch vụ :</label>
+                    <div class="col-lg-12">
+                        <textarea ng-model="serviceDetail.diengiai" style="height: 100px;" class="form-control col-lg-12 editService" id="ccomment" name="comment" required=""></textarea>
+                    </div>
+                </div>
+
+            </form>
+      </div>  
+      <div class="modal-footer" style="padding-bottom:5px;">
+        <button type="button" class="btn btn-success" ng-click="saveEditService()" id="btnSaveEditService">Chỉnh Sửa</button>
+        <button  title="Quay lại" type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div id="loadDataSection" style="text-align:center;">
+      <span>Loading...</span>
+      </br>
+      <img src="img/devoops_getdata.gif" alt="Loading Data"/>
+</div>
+
+
+<div id="dataSection" style="padding-top:5px;">
+
+<label style="padding-left:35px;">Tìm kiếm theo: </label>
+<div class="form-group col-lg-12" style="padding-right:5px; text-align:left;">
+  <div class="col-lg-3 " style=" text-align:left; padding-bottom:10px;padding-left:20px;">
+      <select class="form-control valid" ng-model="typeSearch" ng-options="tieuchi for tieuchi in tieuchiSearch" ng-init="typeSearch=' Tất Cả '"></select>
+  </div>
+  <div class="col-lg-4 nopadding" style="padding-bottom:10px;text-align:left;padding-right:15px;">
+    <div  id="search" style="text-align:left;margin-top:-3px;" >
+      <input type="text" placeholder="Search" ng-model="searchText"/>
+      <i class="fa fa-search" style="margin-top:-10px;" ></i>
+    </div>
+  </div>
+  <div class="col-lg-2" style="padding-bottom:10px;text-align:left;padding-right:15px;">
+    <button class="btn btn-info" ng-click="addService()">Thêm Dịch Vụ</button>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box" >
+	  <div class="box-name" style="background-color:#8cc13d;color:#02571c;">
+          <i class="fa fa-info"></i>
+          <span>Thông tin các chi phí </span>
+        </div>
+      <div class="box-content no-padding" style="text-align:center;">
+        <table class="table table-bordered table-striped table-hover table-heading " >
+
+          <thead style="text-align:center;color:#02571c;">
+            <tr>
+              <th style="text-align:center;"><i class="fa fa-thumbs-o-up"></i> Dịch Vụ </th>
+              <th style="text-align:center;"><i class="fa fa-money"></i> Giá Cơ bản ( VNĐ/Giờ )</th>
+              <th style="text-align:center;"><i class="fa fa-money"></i> Phụ Phí </th>
+              <th style="text-align:center;"><i class="fa fa-plus-circle"></i> Phí Ngoài Giờ KH </th>
+              <th style="text-align:center;"><i class="fa fa-plus-circle"></i> Phí Ngoài Giờ NGV </th>
+              <th style="text-align:center;"><i class="fa fa-gears"></i> Xử Lý </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat = "service in serviceList">
+                    <td>{{service.tentieuchi}}</td>
+                    <td><input ng-model="service.giachuan" class="form-control-static"  format="number" type="text" style="background:rgba(0,0,0,0);border:none;text-align:center;" disabled="disabled">  </td>
+                    <td >{{service.phuphi}}</td>
+                    <td>{{service.phingoaigiokh}} (%)</td>
+                    <td>{{service.phingoaigiongv}} (%)</td>
+                    <td>
+                      
+                      <button title="Chỉnh sửa chi phí dịch vụ" class="btn btn-success myDeleteButton" ng-click = "editSericeCost(service)">Chỉnh Sửa</button>
+                      <button title="Xóa dịch vụ" class="btn btn-delete" ng-click = "deleteService(service)">Xóa</button>
+                    </td>
+                </tr>
+          <!-- End: list_row -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

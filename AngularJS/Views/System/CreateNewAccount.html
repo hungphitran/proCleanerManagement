@@ -1,0 +1,108 @@
+<div class="row">
+  <div id="breadcrumb" class="col-md-12">
+    <span> Tạo tài khoản hệ thống </span>
+  </div>
+</div>
+
+<div id="loadDataSection" style="text-align:center;">
+      <span>Loading...</span>
+      </br>
+      <img src="img/devoops_getdata.gif" alt="Loading Data"/>
+</div>
+
+<div id="dataSection">
+<div class="row">
+  <div class="col-lg-12">
+      <section class="panel">
+        <header class="panel-heading">
+          Thông tin tài khoản :
+        </header>
+        <div class="panel-body">
+          <div class="form">
+            <form novalidate="novalidate" class="form-validate form-horizontal" id="feedback_form" method="get" action="">
+
+        	  <div class="form-group ">
+                <label for="cname" class="control-label col-lg-4">CMND nhân viên : </label>
+                <div class="col-lg-4">
+                  <select class="form-control valid" ng-model="formData.cmnd" ng-options="opt for opt in stuffCMNDList"></select>
+                </div>
+                <span class="control-label col-lg-4" style="text-align:left;"> Tên nhân viên : {{stuffName}} </span>
+              <div class="col-lg-12 myWarning"  ng-show="wrong[5]">
+                  <label for="cname" class="control-label myWarningLabel" ><i class="fa fa-warning"></i> Không tồn tại nhân viên chưa có tài khoản. </label>
+              </div>
+              </div> 
+
+
+              <div class="form-group ">
+                <label for="cname" class="control-label col-lg-4">Tài khoản : <span class="myRequiredIcon">*</span></label>
+                <div class="col-lg-4">
+                  <input ng-model="formData.username" class="form-control" id="cname" required="" type="text" ng-change="checkUsername($event)">
+                </div>
+                <div class="col-lg-12 myUsernameOK"  ng-show="wrong[3]">
+                	<label  for="cname" class="control-label myUsernameOKLabel" style="color=green"><i class="fa fa-check"></i> Có thể sử dụng tài khoản này </label>
+                </div>
+                <div class="col-lg-12 myWarning"  ng-show="wrong[0]">
+	                <label for="cname" class="control-label myWarningLabel" ><i class="fa fa-warning"></i> Tài khoản này đã bị trùng </label>
+	            </div>
+              </div>  
+              
+
+              <div class="form-group ">
+                <label for="cname" class="control-label col-lg-4">Mật khẩu : <span class="myRequiredIcon">*</span></label>
+                <div class="col-lg-4">
+                  <input ng-model="formData.password" class="form-control valid" id="cname" minlength="1" required="" type="password">
+                </div>
+                <div class="col-lg-12 myWarning"  ng-show="wrong[1]">
+		              <label for="cname" class="control-label myWarningLabel" ><i class="fa fa-warning"></i> Mật khẩu phải có ít nhất 6 kí tự và không chứa khoảng trắng </label>
+		             </div>
+              </div>  
+              
+              
+              <div class="form-group ">
+                <label for="cname" class="control-label col-lg-4">Nhập lại mật khẩu : <span class="myRequiredIcon">*</span></label>
+                <div class="col-lg-4">
+                  <input ng-model="formData.rePassword" class="form-control valid" id="cname" minlength="1" required="" type="password">
+                </div>
+                <div class="col-lg-12 myWarning"  ng-show="wrong[2]">
+	                <label for="cname" class="control-label myWarningLabel" ><i class="fa fa-warning"></i> Mật khẩu không trùng nhau, vui lòng kiểm tra lại </label>
+	              </div>
+              </div>  
+              <div class="form-group ">
+                <label for="cname" class="control-label col-lg-4">Quyền hệ thống : </label>
+                <div class="col-lg-4">
+                  <table class ="mytableSoTruong">
+                      <tr ng-repeat="role in roleList">
+                        <td>
+                          <div class="checkbox-inline">
+                            <label>
+                                <input class="chooseRoleCheckBox" type ="checkbox" 
+                              ng-checked="formData.quyen.indexOf(role) > -1" ng-click="chooseRole(role)">  {{role}}<i class="fa fa-square-o"></i>
+                            </label>
+                          </div>
+                        </td>
+                      </tr>
+                  </table>
+
+                </div>
+                <div class="col-lg-12 myWarning"  ng-show="wrong[4]">
+                  <label for="cname" class="control-label myWarningLabel" ><i class="fa fa-warning"></i> Chưa chọn quyền trong hệ thống </label>
+                </div>
+              </div>
+              
+
+
+              <div class="form-group">
+                  <div class="col-lg-12" style="text-align:center;">
+                        <button title="Tạo tài khoản" type="save" class="btn btn-primary btn-label-left" ng-click="createAccount()">
+                        <span><i class="fa fa-floppy-o"></i></span>
+                          Tạo Tài Khoản
+                        </button>
+                      </div>
+              </div>
+            </form>
+          </div>
+        </div>
+    </section>
+  </div>
+</div>
+</div>

@@ -1,0 +1,249 @@
+aaaamongoDB_driver - connect to db
+[0mGET /public/images/ngv/021787965/avatar.jpg [32m200 [0m9.388 ms - -[0m
+[0mGET /public/images/ngv/021787965/avatar.jpg [32m200 [0m2.766 ms - -[0m
+[0mGET /public/images/ngv/24248642/avatar.jpg [32m200 [0m1.021 ms - -[0m
+[0mGET / [32m200 [0m3.429 ms - -[0m
+[0mGET /mytemplate/plugins/bootstrap/bootstrap.css [32m200 [0m1.539 ms - -[0m
+[0mGET /MyFile/CSS/DateRangePicker/jquery-ui.min.css [32m200 [0m0.968 ms - -[0m
+[0mGET /MyFile/CSS/DateRangePicker/jquery.comiseo.daterangepicker.css [32m200 [0m0.893 ms - -[0m
+[0mGET /MyFile/CSS/DateRangePicker/datepicker.css [32m200 [0m1.231 ms - -[0m
+[0mGET /mytemplate/plugins/fancybox/jquery.fancybox.css [32m200 [0m3.986 ms - -[0m
+[0mGET /MyFile/CSS/Login/layout.css [32m200 [0m4.866 ms - -[0m
+[0mGET /mytemplate/fonts/font-awesome.css [32m200 [0m4.151 ms - -[0m
+[0mGET /mytemplate/plugins/fullcalendar/fullcalendar.css [32m200 [0m1.819 ms - -[0m
+[0mGET /mytemplate/plugins/xcharts/xcharts.min.css [32m200 [0m1.006 ms - -[0m
+[0mGET /mytemplate/plugins/select2/select2.css [32m200 [0m0.835 ms - -[0m
+[0mGET /mytemplate/css/style.css [32m200 [0m1.016 ms - -[0m
+[0mGET /mytemplate/plugins/bootstrap/bootstrap.min.js [32m200 [0m2.407 ms - -[0m
+[0mGET /MyFile/CSS/TableStyle.css [32m200 [0m2.395 ms - -[0m
+[0mGET /mytemplate/plugins/jquery/jquery-2.1.0.min.js [32m200 [0m4.057 ms - -[0m
+[0mGET /MyFile/JS/Lib/pdfMaker/pdfmake.js [32m200 [0m2.177 ms - -[0m
+[0mGET /MyFile/JS/Lib/pdfMaker/vfs_fonts.js [32m200 [0m3.544 ms - -[0m
+[0mGET /MyFile/JS/Lib/angular/angular-route.js [32m200 [0m2.251 ms - -[0m
+[0mGET /MyFile/JS/Lib/angular/angular.js [32m200 [0m3.304 ms - -[0m
+[0mGET /MyFile/JS/Lib/angular/angular-resource.js [32m200 [0m2.092 ms - -[0m
+[0mGET /MyFile/JS/Controller/ControllerManager.js [32m200 [0m1.832 ms - -[0m
+[0mGET /MyFile/JS/Controller/Location/LocationCtrl.js [32m200 [0m1.327 ms - -[0m
+[0mGET /MyFile/JS/Controller/Helper/HelperCtrl.js [32m200 [0m1.558 ms - -[0m
+[0mGET /MyFile/JS/Controller/Helper/BusyHelper.js [32m200 [0m1.929 ms - -[0m
+[0mGET /MyFile/JS/Controller/Stuff/StuffCtrl.js [32m200 [0m1.096 ms - -[0m
+[0mGET /MyFile/JS/Controller/Stuff/StuffOffCtrl.js [32m200 [0m0.903 ms - -[0m
+[0mGET /MyFile/JS/Controller/Request/RequestCtrl.js [32m200 [0m0.953 ms - -[0m
+[0mGET /MyFile/JS/Controller/Request/WaitingRequest.js [32m200 [0m0.684 ms - -[0m
+[0mGET /MyFile/JS/Controller/Request/ProgressRequest.js [32m200 [0m0.871 ms - -[0m
+[0mGET /MyFile/JS/Controller/Request/ProgressRequestDetail.js [32m200 [0m2.001 ms - -[0m
+[0mGET /MyFile/JS/Controller/Request/DoneRequest.js [32m200 [0m1.625 ms - -[0m
+[0mGET /MyFile/JS/Controller/Request/DoneRequestDetail.js [32m200 [0m0.910 ms - -[0m
+[0mGET /MyFile/JS/Controller/Request/CreateRequest.js [32m200 [0m0.750 ms - -[0m
+[0mGET /MyFile/JS/Controller/System/CreateNewAccount.js [32m200 [0m2.158 ms - -[0m
+[0mGET /MyFile/JS/Controller/System/LoginCtrl.js [32m200 [0m1.074 ms - -[0m
+[0mGET /MyFile/JS/Controller/Service/ListService.js [32m200 [0m1.243 ms - -[0m
+[0mGET /MyFile/JS/Controller/Salary/StaffSalaryCtrl.js [32m200 [0m1.122 ms - -[0m
+[0mGET /MyFile/JS/Controller/Salary/PaymentConfig.js [32m200 [0m0.873 ms - -[0m
+[0mGET /MyFile/JS/Controller/Salary/HelperSalaryCtrl.js [32m200 [0m1.993 ms - -[0m
+[0mGET /MyFile/JS/Controller/Salary/PaymentRequestCtrl.js [32m200 [0m0.948 ms - -[0m
+[0mGET /MyFile/JS/Controller/Salary/PaymentRequestDetailCtrl.js [32m200 [0m1.718 ms - -[0m
+[0mGET /MyFile/JS/Controller/Customer/CustomerCtrl.js [32m200 [0m1.042 ms - -[0m
+[0mGET /mytemplate/plugins/justified-gallery/jquery.justifiedgallery.min.js [32m200 [0m1.909 ms - -[0m
+[0mGET /mytemplate/plugins/tinymce/tinymce.min.js [32m200 [0m1.333 ms - -[0m
+[0mGET /mytemplate/plugins/tinymce/jquery.tinymce.min.js [32m200 [0m2.826 ms - -[0m
+[0mGET /mytemplate/js/devoops.js [32m200 [0m1.143 ms - -[0m
+[0mGET /MyFile/JS/Lib/HighChart/highcharts.js [32m200 [0m1.441 ms - -[0m
+[0mGET /MyFile/JS/Lib/HighChart/data.js [32m200 [0m0.864 ms - -[0m
+[0mGET /MyFile/JS/Lib/HighChart/drilldown.js [32m200 [0m0.900 ms - -[0m
+[0mGET /MyFile/JS/Lib/HighChart/exporting.js [32m200 [0m1.149 ms - -[0m
+[0mGET /MyFile/JS/Lib/DateRangePicker/jquery-ui.js [32m200 [0m1.188 ms - -[0m
+[0mGET /MyFile/JS/Lib/DateRangePicker/jquery.comiseo.daterangepicker.min.js [32m200 [0m1.258 ms - -[0m
+[0mGET /MyFile/JS/Lib/DateRangePicker/datepicker.js [32m200 [0m0.870 ms - -[0m
+[0mGET /MyFile/JS/Lib/DateRangePicker/moment.min.js [32m200 [0m0.859 ms - -[0m
+[0mGET /MyFile/JS/Controller/Dashboard/DashboardCtrl.js [32m200 [0m0.934 ms - -[0m
+[0mGET /img/logo.jpg [32m200 [0m0.925 ms - -[0m
+[0mGET /{{stuff.hinhanh}} [32m200 [0m0.643 ms - -[0m
+[0mGET /mytemplate/img/devoops_pattern_b10.png [32m200 [0m1.068 ms - -[0m
+[0mGET /mytemplate/fonts/fontawesome-webfont.woff?v=4.0.3 [32m200 [0m1.150 ms - -[0m
+[0mGET /Views/System/Login.html [32m200 [0m1.082 ms - -[0m
+[0mGET /img/bg.jpg [32m200 [0m0.980 ms - -[0m
+[0mGET /img/form-bg.png [32m200 [0m0.675 ms - -[0m
+[0mGET /img/bg_form.jpg [32m200 [0m2.941 ms - -[0m
+["Quản lý"]
+[0mPOST /api/account/login [32m200 [0m47.452 ms - 522[0m
+[0mGET /public/images/nhanvien/215230707/avatar.jpg [32m200 [0m2.201 ms - -[0m
+role Quản lý
+[0mGET /ListRequest [32m200 [0m1.754 ms - -[0m
+[0mGET /img/devoops_getdata.gif [32m200 [0m4.892 ms - -[0m
+[0mGET /mytemplate/img/devoops_pattern_b10.png [32m200 [0m0.857 ms - -[0m
+[0mGET /MyFile/CSS/images/ui-bg_glass_65_ffffff_1x400.png [31m500 [0m1.162 ms - -[0m
+[0mGET /mytemplate/img/ui-left.png [32m200 [0m3.141 ms - -[0m
+[0mGET /mytemplate/img/ui-right.png [32m200 [0m4.463 ms - -[0m
+[0mPOST /api/request/list/notdone [32m200 [0m63.113 ms - 653[0m
+[0mGET /MyFile/CSS/images/ui-icons_222222_256x240.png [31m500 [0m0.729 ms - -[0m
+role Quản lý
+[0mGET /ProgressRequestDetail [32m200 [0m1.229 ms - -[0m
+[0mGET /img/devoops_getdata.gif [32m200 [0m1.348 ms - -[0m
+[0mGET /api/requestDetail/findByYeuCau/57333239b6015cc810dd0397 [32m200 [0m4.037 ms - 333[0m
+[ 'Quận 1',
+  'Quận 3',
+  'Quận 5',
+  'Quận 10',
+  'Quận Phú Nhuận',
+  'Quận Bình Thạnh',
+  'Quận 11' ]
+result ,
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+0  0
+1  16
+16
+[0mPOST /api/helper/findFreeHelper [32m200 [0m65.179 ms - 14801[0m
+[0mGET /public/images/ngv/24248642/avatar.jpg [32m200 [0m1.119 ms - -[0m
+[0mGET /public/images/ngv/24248642/avatar.jpg [32m200 [0m1.893 ms - -[0m
+[0mGET /public/images/ngv/022759102/avatar.jpg [32m200 [0m0.977 ms - -[0m
+[0mGET /public/images/ngv/021895096/avatar.jpg [32m200 [0m0.913 ms - -[0m
+[0mGET /public/images/ngv/024695124/avatar.jpg [32m200 [0m2.156 ms - -[0m
+[0mGET /public/images/ngv/022156022/avatar.jpg [32m200 [0m1.313 ms - -[0m
+[0mGET /public/images/ngv/022072280/avatar.jpg [32m200 [0m1.004 ms - -[0m
+[0mGET /public/images/ngv/023137048/avatar.jpg [32m200 [0m5.020 ms - -[0m
+[0mGET /public/images/ngv/341067954/avatar.jpg [32m200 [0m1.217 ms - -[0m
+[0mGET /public/images/ngv/025471444/avatar.jpg [32m200 [0m1.125 ms - -[0m
+[0mGET /public/images/ngv/023023198/avatar.png [32m200 [0m1.261 ms - -[0m
+[0mGET /public/images/ngv/022929293/avatar.jpg [32m200 [0m1.272 ms - -[0m
+[0mGET /public/images/ngv/194288681/avatar.jpg [32m200 [0m1.804 ms - -[0m
+[0mGET /public/images/ngv/022223877/gksk/gksk-1.jpg [32m200 [0m423.699 ms - -[0m
+[0mGET /public/images/ngv/022223877/gksk/gksk-0.jpg [32m200 [0m474.961 ms - -[0m
+[0mGET /public/images/ngv/24248642/avatar.jpg [32m200 [0m2.964 ms - -[0m
+role Quản lý
+[0mGET /WaitingRequest [32m200 [0m3.277 ms - -[0m
+[0mGET /img/devoops_getdata.gif [32m200 [0m1.479 ms - -[0m
+[0mPOST /api/request/list/waiting [32m200 [0m3.005 ms - 2[0m
+[0mGET /img/devoops_getdata.gif [32m200 [0m1.038 ms - -[0m
+[0mPOST /api/request/list/notdone [32m200 [0m4.042 ms - 653[0m
+[0mGET /MyFile/CSS/images/ui-icons_222222_256x240.png [31m500 [0m3.062 ms - -[0m
+[0mPOST /api/request/list/notdone [32m200 [0m37.119 ms - 20123[0m
+[0mGET /img/devoops_getdata.gif [32m200 [0m3.553 ms - -[0m
+[0mPOST /api/request/list/waiting [32m200 [0m2.100 ms - 2[0m
+[0mPOST /api/request/list/waiting [32m200 [0m9.287 ms - 10104[0m
+[0mGET /api/requestDetail/findByYeuCau/5730a86039e879cc0c17c58f [32m200 [0m3.872 ms - 333[0m
+[0mPOST /api/request/updateThoaThuan [32m200 [0m20.751 ms - 9435[0m
+[0mGET /img/devoops_getdata.gif [32m200 [0m1.257 ms - -[0m
+[0mPOST /api/request/list/notdone [32m200 [0m4.113 ms - 653[0m
+[0mPOST /api/request/list/notdone [32m200 [0m16.145 ms - 20790[0m
+[0mGET /img/devoops_getdata.gif [32m200 [0m4.607 ms - -[0m
+[0mGET /api/requestDetail/findByYeuCau/5730a86039e879cc0c17c58f [36m304 [0m3.081 ms - -[0m
+[ 'Quận 4', 'Quận 7', 'Quận Nhà Bè' ]
+result ,,
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+0  0
+1  11
+2  0
+11
+[0mPOST /api/helper/findFreeHelper [32m200 [0m23.786 ms - 9972[0m
+nhan vien xu ly la 215230707
+update  nhan vien xu ly
+[0mPOST /api/requestDetail/updateGiaoViec [32m200 [0m3.968 ms - 41[0m
+[0mGET /img/devoops_getdata.gif [32m200 [0m2.179 ms - -[0m
+[0mPOST /api/request/list/notdone [32m200 [0m4.292 ms - 653[0m
+[0mPOST /api/request/list/notdone [32m200 [0m35.976 ms - 20799[0m
+[0mGET /public/images/ngv/24248642/avatar.jpg [32m200 [0m3.442 ms - -[0m
+[0mGET /img/devoops_getdata.gif [32m200 [0m2.342 ms - -[0m
+[0mGET /api/requestDetail/findByYeuCau/5730a86039e879cc0c17c58f [32m200 [0m4.892 ms - 343[0m
+[ 'Quận 4', 'Quận 7', 'Quận Nhà Bè' ]
+result ,,
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+0  0
+1  11
+2  0
+11
+[0mPOST /api/helper/findFreeHelper [32m200 [0m52.492 ms - 9972[0m
+[0mGET /img/devoops_getdata.gif [32m200 [0m1.485 ms - -[0m
+[0mPOST /api/request/list/notdone [32m200 [0m5.105 ms - 653[0m
+[0mGET /img/devoops_getdata.gif [32m200 [0m1.224 ms - -[0m
+[0mGET /api/requestDetail/findByYeuCau/57333239b6015cc810dd0397 [36m304 [0m3.166 ms - -[0m
+[ 'Quận 1',
+  'Quận 3',
+  'Quận 5',
+  'Quận 10',
+  'Quận Phú Nhuận',
+  'Quận Bình Thạnh',
+  'Quận 11' ]
+result ,
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+0  0
+1  16
+16
+[0mPOST /api/helper/findFreeHelper [32m200 [0m20.180 ms - 14801[0m
+[0mGET /img/devoops_getdata.gif [32m200 [0m1.199 ms - -[0m
+[0mPOST /api/request/list/waiting [32m200 [0m2.194 ms - 2[0m
+[0mGET /img/devoops_getdata.gif [32m200 [0m2.894 ms - -[0m
+[0mPOST /api/request/list/notdone [32m200 [0m36.540 ms - 653[0m
+[0mPOST /api/request/list/notdone [32m200 [0m24.121 ms - 20799[0m
+[0mGET /img/devoops_getdata.gif [32m200 [0m2.800 ms - -[0m
+[0mGET /api/requestDetail/findByYeuCau/5730a86039e879cc0c17c58f [36m304 [0m2.070 ms - -[0m
+[ 'Quận 4', 'Quận 7', 'Quận Nhà Bè' ]
+result ,,
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+0  0
+1  11
+2  0
+11
+[0mPOST /api/helper/findFreeHelper [32m200 [0m13.853 ms - 9972[0m
+[0mPOST /api/requestDetail/updateDone [32m200 [0m4.140 ms - 16[0m
+[0mPOST /api/request/updateStatus [32m200 [0m4.702 ms - 16[0m

@@ -1,0 +1,270 @@
+
+
+<div class="row">
+  <div id="breadcrumb" class="col-md-12">
+    <span> Đặt Yêu Cầu Cho Khách Hàng </span>
+  </div>
+</div>
+
+<div id="loadDataSection" style="text-align:center;">
+      <span>Loading...</span>
+      </br>
+      <img src="img/devoops_getdata.gif" alt="Loading Data"/>
+</div>
+
+<div id="dataSection">
+  <!-- Form validations -->              
+  <div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+          <header class="panel-heading">
+            Thông tin đơn hàng : 
+          </header>
+          <div class="panel-body">
+            <div class="form">
+              <form novalidate="novalidate" class="form-validate form-horizontal" id="feedback_form" action="">
+
+
+                <div class="form-group " style="padding-left:20px;padding-right:20px;">
+                    <label for="cname" class="control-label col-lg-4" style="text-align:right;">Số Điện Thoại KH<span class=" myRequiredIcon">*</span> : </label>
+                    <div class="col-lg-6">
+                      <input ng-model="newRequest.sdtkhachhang" class="col-lg-3 form-control valid" id="cname" maxlength="12" required="" autofocus >
+                    </div>
+                  
+                  <div  class="col-lg-12 myWarning" ng-show="wrong[0]">
+                      <label class="control-label myWarningLabel" ><i class="fa fa-warning"></i> Số điện thoại của khách hàng không được để trống </label>
+                  </div>
+                </div>
+                
+                <div class="form-group " style="padding-left:20px;padding-right:20px;">
+                  <div >
+                    <label for="cname" class="control-label col-lg-4"  style="text-align:right;">Họ và Tên KH<span class=" myRequiredIcon">*</span> : </label>
+                    <div class="col-lg-6">
+                      <input ng-model="newRequest.hoten" class="form-control valid">
+                    </div>
+                  </div>
+
+                  <div  class="col-lg-12 myWarning" ng-show="wrong[1]">
+                      <label class="control-label myWarningLabel" ><i class="fa fa-warning"></i> Họ và tên của khách hàng không được để trống </label>
+                  </div>
+                </div>
+
+                <div class="form-group " style="padding-left:20px;padding-right:20px;">
+                    <label for="cname" class="control-label col-lg-4" style="text-align:right;">Địa Chỉ Khách Hàng<span class=" myRequiredIcon">*</span> : </label>
+                    <div class="col-lg-6">
+                      <input ng-model="newRequest.diachi" class="form-control valid" >
+                    </div>
+                    <div  class="col-lg-12 myWarning" ng-show="wrong[2]">
+                      <label class="control-label myWarningLabel" ><i class="fa fa-warning"></i> Địa chỉ không được để trống </label>
+                  </div>
+                </div>
+
+                <div class="form-group " style="padding-left:20px;padding-right:20px;">
+                <div >
+                    <label for="cname" class="control-label col-lg-4"  style="text-align:right;">Quận<span class=" myRequiredIcon">*</span> : </label>
+                    <div class="col-lg-6">
+                      <select class="form-control valid" ng-model="newRequest.quan" ng-options="opt for opt in listDistrict"></select>
+                  </div>
+                </div>
+
+                  
+                </div>  
+                
+
+                <div class="form-group " style="padding-left:20px;padding-right:20px;">
+                  <div >
+                    <label for="cname" class="control-label col-lg-4" style="text-align:right;">Loại Dịch Vụ<span class=" myRequiredIcon">*</span> : </label>
+
+                    <div class="row form-group">
+                    <div class="col-sm-7">
+                      <table class ="mytableSoTruong">
+                        <tr ng-repeat="service in listService"><td>
+                        <div class="checkbox-inline">
+                        <label>
+                          <input type ="checkbox" 
+                          ng-checked="newRequest.loaidichvu.indexOf(service.tentieuchi) > -1"
+          ng-click="chooseService(service.tentieuchi)">  {{service.tentieuchi}} ( {{service.giachuan | number}} VNĐ/ Giờ - Phí ngoài giờ : {{service.phingoaigiokh}}% - Phụ phí : {{service.phuphi}})<i class="fa fa-square-o"></i>
+                        </label></div></td></tr>
+                      </table>
+                    </div>
+                  </div>
+
+                  </div>
+
+                  <div  class="col-lg-12 myWarning" ng-show="wrong[3]">
+                      <label class="control-label myWarningLabel" ><i class="fa fa-warning"></i> Hãy chọn ít nhất 1 dịch vụ </label>
+                  </div>
+                </div> 
+                
+                <div  class="form-group" style="padding-left:20px;padding-right:20px;">
+              
+                  <label class="control-label col-lg-4" style="text-align:right;"> Loại Yêu Cầu : </label>
+                  <div class="radio-inline">
+                    <label style="padding-left:10px;">
+                      <input type="radio" name="radioLoaiyeucau"  ng-model="newRequest.loaiyeucau" value="Ngắn hạn" checked>Ngắn hạn<i class="fa fa-circle-o"></i>
+                    </label>
+                  </div>
+                  <div class="radio-inline">
+                    <label style="padding-left:10px;">
+                      <input  type="radio" name="radioLoaiyeucau" ng-model="newRequest.loaiyeucau" value="Dài hạn">Dài hạn<i class="fa fa-circle-o"></i>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="form-group " style="padding-left:20px;padding-right:20px;" ng-show="nganhan">
+                  <div >
+                    <label for="cname" class="control-label col-lg-4" style="text-align:right;">Ngày Làm Việc<span class=" myRequiredIcon">*</span> : </label>
+                    <div class="col-lg-3">
+                      <input id="datePickerNgayBatDau" class="form-control valid">
+                    </div>
+                  </div>
+
+                  <div  class="col-lg-12 myWarning" ng-show="wrong[4]">
+                      <label class="control-label myWarningLabel" ><i class="fa fa-warning"></i> Ngày làm việc không chính xác, vui lòng chọn lại </label>
+                  </div>
+                </div>
+
+                <div class="form-group " style="padding-left:20px;padding-right:20px;" ng-hide="nganhan">
+                  <div >
+                    <label for="cname" class="control-label col-lg-3" style="text-align:right;">Ngày Làm Việc<span class=" myRequiredIcon">*</span> : </label>
+                    
+                    <div >
+                      <div class="col-lg-1">
+                        <label  class="control-label" >Từ : </label>
+                      </div>
+                      <div  >
+                        <input class="col-lg-2"  class="form-control valid" id="datePickerNgayBatDauTuNgay" >
+                      </div>
+                    </div>
+                    <div >
+                      <div class="col-lg-1">
+                        <label  class="control-label" >Đến : </label>
+                      </div>
+                      <div  >
+                        <input class="col-lg-2" class="form-control valid" id="datePickerNgayBatDauDenNgay" >
+                      </div>
+                    </div>
+                  </div>
+
+                  <div  class="col-lg-12 myWarning" ng-show="wrong[4]">
+                      <label class="control-label myWarningLabel" ><i class="fa fa-warning"></i> Ngày làm việc không chính xác, vui lòng chọn lại </label>
+                  </div>
+                </div> 
+                 
+
+                <div class="form-group " style="padding-left:20px;padding-right:20px;">
+                  <div >
+                    <label for="cname" class="control-label col-lg-4" style="text-align:right;">Giờ Bắt Đầu<span class=" myRequiredIcon">*</span> : </label>
+                    <div class="col-lg-2">
+
+                      <select class="form-control valid " name="singleSelect" ng-model="newRequest.giobatdau" >
+                        <option ng-repeat="gioBD in timeOption" value="{{gioBD}}"> {{(gioBD - (gioBD%60))/60}} h {{(gioBD%60)}} phút</option>
+                      </select>
+
+                    </div>
+                  </div>
+                  <div >
+                    <label for="cname" class="control-label col-lg-2"  style="text-align:right;">Giờ Kết Thúc<span class=" myRequiredIcon">*</span> : </label>
+                    <div class="col-lg-2">
+                      <select class="form-control valid" name="singleSelect" ng-model="newRequest.gioketthuc" >
+                        <option ng-repeat="gioKT in timeOption" value="{{gioKT}}"  > {{(gioKT - (gioKT%60))/60}} h {{(gioKT%60)}} phút</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div  class="col-lg-12 myWarning" ng-show="wrong[5]">
+                      <label class="control-label myWarningLabel" ><i class="fa fa-warning"></i> Khung giờ sai ( khoảng cách phải lớn hơn hoặc bằng 2 tiếng và không được lẻ 30 phút ) </label>
+                  </div>
+                </div>  
+              
+                <div class="form-group " style="padding-left:20px;padding-right:20px;">
+                  
+                <table class="table table-bordered table-striped table-heading " >
+                    <thead style="text-align:center;color:#02571c;">
+                      <tr>
+                        <th style="text-align:center;"><i class="fa fa-money"></i> Phí Cơ Bản</th>
+                        <th style="text-align:center;"><i class="fa fa-plus-circle"></i> Phụ Phí</th>
+                        <th style="text-align:center;"><i class="fa fa-money"></i> Phí Ngoài Giờ</th>
+                        <th style="text-align:center;"><i class="fa fa-check-square"></i> Tổng Chi Phí</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Start: list_row -->
+                    <tr>
+                        <td style="text-align:center;">{{costTemp.chiphi | number}}</td>
+                        <td style="text-align:center;">{{costTemp.phuphi}}</td>
+                        <td style="text-align:center;">{{costTemp.chiphingoaigio | number}} ({{costTemp.sogiongoaigio}} Giờ) </td>
+                        <td style="text-align:center;">{{costTemp.chiphi+costTemp.chiphingoaigio | number}}</td>
+                        
+                     </tr>
+                      
+                    <!-- End: list_row -->
+                    </tbody>
+                  </table>
+                </div>
+
+              </div>  
+                
+                <div ng-show="wrong[6]" class="col-lg-12 myWarning" >
+                  <label for="cname" class="control-label myWarningLabel" ><i class="fa fa-warning"></i> Dữ liệu sai, vui lòng kiểm tra lại  </label>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <div class="col-sm-offset-2 col-sm-2">
+                          <button title="Tạo yêu cầu và lưu vào cơ sở dữ liệu" class="btn btn-primary btn-label-left" ng-click="createRequest()">
+                            Tạo Yêu Cầu
+                          </button>
+                        </div>
+                        <div class="col-sm-offset-2 col-sm-2">
+                          <button title="Hủy bỏ"  class="btn btn-default btn-label-left" ng-click="cancelCreateRequest()">
+                          <span> <i class="fa fa-times txt-danger"></i></span>
+                            Hủy Bỏ
+                          </button>
+                        </div>
+                    </div>
+                </div>
+              </form>
+            </div>
+          </div>
+      </section>
+    </div>
+  </div>
+
+</div>
+
+<script type="text/javascript" src="/MyFile/JS/Lib/jquery/jquery.js"></script> 
+<script>
+// // Create fancybox2 gallery
+
+// function DemoGallery(){
+//   $('.fancybox').fancybox({
+//     openEffect  : 'none',
+//     closeEffect : 'none'
+//   });
+//   $(".myFancyBox").each(function(){
+
+//    $(this).fancybox({
+
+//        href : $(this).attr('src')
+
+//    });
+
+
+// });
+// }
+$(document).ready(function() {
+  alert("aaa");
+  webshims.setOptions('forms-ext', {types: 'date'});
+  webshims.polyfill('forms forms-ext');
+  $.webshims.formcfg = {
+  en: {
+  dFormat: '-',
+  dateSigns: '-',
+  patterns: {
+      d: "mm-dd-yy"
+  }
+  }
+  };
+});
+</script>

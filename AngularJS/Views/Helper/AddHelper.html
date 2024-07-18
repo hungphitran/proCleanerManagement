@@ -1,0 +1,335 @@
+<div class="row">
+  <div id="breadcrumb" class="col-md-12">
+    <span> Thêm người giúp việc </span>
+  </div>
+</div>
+
+<div id="loadDataSection" style="text-align:center;">
+      <span>Loading...</span>
+      </br>
+      <img src="img/devoops_getdata.gif" alt="Loading Data"/>
+</div>
+
+<div id="dataSection">
+  <!-- Form validations -->              
+  <div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+          <header class="panel-heading">
+            Thông tin người giúp việc :
+          </header>
+          <div class="panel-body">
+            <div class="form">
+              <form novalidate="novalidate" class="form-validate form-horizontal" id="feedback_form" action="">
+
+                <div class="form-group ">
+                  <label for="cname" class="control-label col-lg-4">Họ và Tên<span class=" myRequiredIcon">*</span> : </label>
+                  <div class="col-lg-6">
+                    <input ng-model="formData.hoten" class="form-control valid" id="cname" minlength="1" required="" type="text" autofocus>
+                  </div>
+                  <div class="col-lg-12 myWarning" ng-show="wrong[0]">
+                    <label for="cname" class="control-label myWarningLabel" ><i class="fa fa-warning"></i> Họ và tên không được để trống </label>
+                  </div>
+                </div>
+
+                <div class="form-group ">
+
+                    <label for="cname" class="control-label col-lg-3">Chứng minh nhân dân<span class=" myRequiredIcon">*</span> : </label>
+                    <div class="col-lg-3">
+                      <input ng-model="formData.cmnd" class="form-control valid" id="cname" maxlength="9" required="">
+                    </div>
+
+                     <label for="cname" class="control-label col-lg-3">Dân Tộc<span class=" myRequiredIcon">*</span> : </label>
+                    <div class="col-lg-3">
+                      <input ng-model="formData.dantoc" class="form-control valid" id="cname" maxlength="9" required=""  >
+                    </div>
+
+                  <div  class="col-lg-12 myWarning" ng-show="wrong[1]">
+                      <label class="control-label myWarningLabel" ><i class="fa fa-warning"></i> Chứng minh nhân dân không được trùng và có 9 chữ số </label>
+                  </div>
+                  <div  class="col-lg-12 myWarning" ng-show="wrong[2]">
+                      <label class="control-label myWarningLabel" ><i class="fa fa-warning"></i> Thông số dân tộc không được để trống </label>
+                  </div>
+
+                </div>
+
+                <div class="form-group ">
+                    <label for="cname" class="control-label col-lg-3">Ngày sinh<span class=" myRequiredIcon">*</span> : </label>
+                  <div class="col-lg-3">
+                    <input ng-model="formData.ngaysinh" class="form-control valid" id="cname" required="" type="date">
+                  </div>
+                    <label for="cname" class="control-label col-lg-3">Giới Tính : </label>
+                  <div class="col-lg-3">
+                    <select class="form-control valid" ng-model="formData.gioitinh" >
+                      <option value="Nam">Nam</option>
+                      <option value="Nữ">Nữ</option>
+                    </select>
+                  </div>
+
+                  <div  class="col-lg-12 myWarning" ng-show="wrong[3]">
+                    <label for="cname" class="control-label myWarningLabel" ><i class="fa fa-warning"></i> Ngày sinh sai, vui lòng kiểm tra lại </label>
+                  </div>
+                </div>
+
+                <div class="form-group ">
+                  <label for="cname" class="control-label col-lg-3">Trình Độ Học Vấn<span class=" myRequiredIcon">*</span> : </label>
+                  <div class="col-lg-3">
+                    <select class="form-control valid" ng-model="formData.trinhdohocvan" >
+                      <option value="Đại học">Đại học</option>
+                      <option value="Cao đẳng">Cao đẳng</option>
+                      <option value="Trung cấp">Trung cấp</option>
+                      <option value="Phổ thông">Phổ thông</option>
+                    </select>
+                  </div>
+
+                  <label for="cname" class="control-label col-lg-3">Tình Trạng Hôn Nhân : </label>
+                  <div class="col-lg-3">
+                    <select class="form-control valid" ng-model="formData.tinhtranghonnhan" >
+                      <option value="Đã có gia đình">Đã có gia đình</option>
+                      <option value="Độc thân">Độc thân</option>
+                    </select>
+                  </div>
+                  
+                </div>
+
+                 <div class="form-group " ng-show="formData.tinhtranghonnhan == 'Đã có gia đình'">
+
+                  <label for="cname" class="control-label col-lg-3">Số lượng con<span class=" myRequiredIcon" min="0" max="10">*</span> : </label>
+                  <div class="col-lg-3">
+                    <input ng-model="formData.soluongcon" class="form-control valid" id="cname" required="" type="number">
+                  </div>
+
+                  <label for="cname" class="control-label col-lg-3">Thông tin con cái <span class=" myRequiredIcon">*</span> : </label>
+                  <div class="col-lg-3">
+                    <table class ="mytableSoTruong">
+                      <tr ng-repeat="childElement in formData.thongtincon">
+                      <td>
+                        <input ng-model="childElement.tuoi" class=" form-control valid" type="number">  Tuổi
+                        </td>
+                      </tr>
+                    </table>
+
+                  </div>
+
+
+                  <div  class="col-lg-12 myWarning" ng-show="wrong[4]">
+                    <label for="cname" class="control-label myWarningLabel" ><i class="fa fa-warning"></i> Thông tin về con cái sai, vui lòng kiểm tra lại </label>
+                  </div>
+                </div>
+
+                <div class="form-group ">
+                  <label for="cname" class="control-label col-lg-3">Chiều Cao <span class=" myRequiredIcon">*</span> ( Cm ) : </label>
+                  <div class="col-lg-3">
+                    <input ng-model="formData.chieucao" class="form-control valid" id="cname" required="" >
+                  </div>
+
+                  <label for="cname" class="control-label col-lg-3">Cân Nặng <span class=" myRequiredIcon">*</span> ( Kg ) : </label>
+                  <div class="col-lg-3">
+                    <input ng-model="formData.cannang" class="form-control valid" id="cname" required="">
+
+                  </div>
+
+                  <div  class="col-lg-12 myWarning" ng-show="wrong[5]">
+                    <label for="cname" class="control-label myWarningLabel" ><i class="fa fa-warning"></i> Thông số chiều cao sai, vui lòng kiểm tra lại </label>
+                  </div>
+                  <div  class="col-lg-12 myWarning" ng-show="wrong[6]">
+                    <label for="cname" class="control-label myWarningLabel" ><i class="fa fa-warning"></i> Thông số cân nặng sai, vui lòng kiểm tra lại </label>
+                  </div>
+                </div>
+
+               
+                
+
+                <div class="form-group ">
+                  <label for="cname" class="control-label col-lg-4">Quê quán : </label>
+                  <div class="col-lg-6">
+                    <input ng-model="formData.quequan" class="form-control valid" id="cname" required="" type="text">
+                  </div>
+                </div> 
+
+                <div class="form-group ">
+                  <label for="cname" class="control-label col-lg-4">Số điện thoại<span class=" myRequiredIcon">*</span> : </label>
+                  <div class="col-lg-3">
+                    <input ng-model="formData.sodt" class="form-control valid" id="cname" required="" >
+                  </div>
+                  <div  class="col-lg-12 myWarning" ng-show="wrong[7]">
+                    <label for="cname" class="control-label myWarningLabel" ><i class="fa fa-warning"></i> Số điện thoại không được để trống </label>
+                  </div>
+                </div>
+                 
+
+                <div class="form-group ">
+                  <label for="cname" class="control-label col-lg-4">Địa chỉ<span class=" myRequiredIcon">*</span> : </label>
+                  
+                <div class="form-group ">
+                  <label for="cname" class="control-label col-lg-1">Quận : </label>
+                  <div class="col-lg-2">
+                    <select class="form-control valid" ng-model="formData.diachi.quan" ng-options="opt for opt in districts"></select>
+                  </div>
+
+                  <label for="cname" class="control-label col-lg-1">Phường : </label>
+                  <div class="col-lg-3">
+                    <select class="form-control valid" ng-model="formData.diachi.phuong" ng-options="opt for opt in wards"></select>
+                  </div>
+                </div>
+              
+
+              <div ng-show="wrong[8]" class="col-lg-12 myWarning" >
+                  <label for="cname" class="control-label myWarningLabel" ><i class="fa fa-warning"></i>  Địa chỉ không được để trống </label>
+                </div>
+              </div>
+              
+
+                <div class="form-group ">
+                  <label for="cname" class="control-label col-lg-4">Số năm kinh nghiệm<span class="myRequiredIcon">*</span> :</label>
+                  <div class="col-lg-6">
+                    <input ng-model="formData.sonamkinhnghiem" class="form-control valid" id="cname" required="" type="number" min="0" >
+                  </div>
+                  <div ng-show="wrong[9]" class="col-lg-12 myWarning" >
+                    <label for="cname" class="control-label myWarningLabel" ><i class="fa fa-warning"></i> Số năm kinh nghiệm không được để trống </label>
+                  </div>
+                </div> 
+
+                
+
+                <div class="form-group ">
+                  <label for="cname" class="control-label col-lg-4">Sở trường<span class="myRequiredIcon">*</span> : </label>
+
+                  <div class="row form-group">
+                  <div class="col-sm-6">
+                    <table class ="mytableSoTruong">
+                      <tr ng-repeat="tieuchi in tieuchiList"><td>
+                      <div class="checkbox-inline">
+                      <label>
+                        <input type ="checkbox" 
+                        ng-checked="formData.sotruong.indexOf(tieuchi) > -1"
+        ng-click="chooseSoTruong(tieuchi)">  {{tieuchi}}<i class="fa fa-square-o"></i>
+                      </label></div></td></tr>
+                    </table>
+                  </div>
+
+                  </div>
+                    <div ng-show="wrong[10]" class="col-lg-12 myWarning" >
+                      <label for="cname" class="control-label myWarningLabel" ><i class="fa fa-warning"></i> Hãy chọn ít nhất 1 sở trường </label>
+                    </div>
+                  </div>
+                  
+
+                <div class="form-group ">
+                    <label for="ccomment" class="control-label col-lg-4">Mô tả kinh nghiệm : </label>
+                    <div class="col-lg-6">
+                        <textarea ng-model="formData.motakinhnghiem" style="height: 87px;" class="form-control col-lg-4" id="ccomment" name="comment" required=""></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group ">
+                    <label  class="control-label col-lg-4">Đánh Giá : </label>
+                    <div class="col-lg-6">
+                        <textarea ng-model="formData.danhgia" style="height: 87px;" class="form-control col-lg-4"  name="comment" ></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group " >
+                <div>
+                  <label class="control-label col-lg-4" >Hình ảnh : </label>
+                  <div class="col-lg-6 row ">
+                    <input class="col-lg-3" type="file" id="chooseFileHelperAvatar" name="chooseAvatar" onchange="angular.element(this).scope().fileAvatarChanged(this);" accept="image/*"/>
+                    <img class="helperAvatar myFancyBox" id="avatar" src="img/avatar.jpg" alt="ảnh đại diện" />
+                  </div>
+                </div>
+                </div>
+
+                <div class="form-group ">
+                  <label for="cname" class="control-label col-lg-4">Giấy khám sức khỏe :</label>
+                  <div class="col-lg-6 row" >
+                    <input class="col-lg-3" style="padding-right:10px;" type="file" id="chooseGKSK" name="chooseGKSK" onchange="angular.element(this).scope().fileGKSKChanged(this);" accept="image/*" multiple/>
+                    <div class="col-lg-7" style="padding-left:10px;text-align: center;">
+                    <table class="listImage col-lg-7" >
+                      <tr ng-repeat="gksk in gkskList">
+                        <td >{{gksk}}</td>
+                        <td class="column">
+                        <ul style="margin-bottom:-3px;">
+                          <li class="gkskIcon" style="list-style:none; margin-bottom:-5px;" ><i class="fa fa-chevron-circle-up" ng-click="moveUpGKSK(gksk)"></i></li>
+                          <li class="gkskIcon"  style="list-style:none;  margin-top:-5px;"><i class="fa fa-chevron-circle-down" ng-click="moveDownGKSK(gksk)"></i></li>  
+                        </ul></td>
+                        <td class="gkskIcon"  style="padding-right:5px;padding-left:5px;">
+                        <i class="fa fa-expand" ng-click="showFancyBox(gksk)" rel="gallery1"></i>
+                        </td>
+                        <td id="{{gksk}}"><i class="fa fa-times gkskIcon" ng-click="removeGKSK(gksk)"></i></td>
+                      </tr>
+                    </table>
+                    </div>
+                  </div>
+                </div>   
+                
+                <div class="form-group ">
+                  <label for="cname" class="control-label col-lg-4">Lương cố định :</label>
+                  <div class="col-lg-6">
+                    <input class="col-lg-6" ng-model="formData.luongcodinh" class="form-control valid" id="cname" required="" format="number" type="text" min="0">
+                    <label class="control-label col-lg-4"> ( VNĐ/Tháng ) </label>
+                  </div>
+
+                </div> 
+
+                <div class="form-group ">
+                  <label for="cname" class="control-label col-lg-4">Mức lương theo giờ :</label>
+                  <div class="col-lg-6">
+                    <input class="col-lg-6" ng-model="formData.mucluongtheogio" class="form-control valid" id="cname" required="" format="number" type="text" min="0">
+                    <label class="control-label col-lg-4"> ( VNĐ/Giờ ) </label>
+                  </div>
+                  <div ng-show="wrong[11]" class="col-lg-12 myWarning" >
+                    <label for="cname" class="control-label myWarningLabel" ><i class="fa fa-warning"></i>  Lương cố định và mức lương theo giờ không được cùng bằng 0</label>
+                   </div>
+                </div> 
+                
+                <div ng-show="wrong[12]" class="col-lg-12 myWarning" >
+                  <label for="cname" class="control-label myWarningLabel" ><i class="fa fa-warning"></i> Dữ liệu sai, vui lòng kiểm tra lại  </label>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <div class="col-sm-offset-2 col-sm-2">
+                          <button title="Lưu thông tin người giúp việc vào cơ sở dữ liệu" class="btn btn-primary btn-label-left" ng-click="addHelper()">
+                          <span><i class="fa fa-floppy-o"></i></span>
+                            Lưu Lại
+                          </button>
+                        </div>
+                        <div class="col-sm-offset-2 col-sm-2">
+                          <button title="Hủy bỏ và quay lại danh sách người giúp việc"  class="btn btn-default btn-label-left" ng-click="cancelAddHelper()">
+                          <span> <i class="fa fa-times txt-danger"></i></span>
+                            Hủy Bỏ
+                          </button>
+                        </div>
+                    </div>
+                </div>
+              </form>
+            </div>
+          </div>
+      </section>
+    </div>
+  </div>
+</div>
+<script>
+// Create fancybox2 gallery
+
+function DemoGallery(){
+  $('.fancybox').fancybox({
+    openEffect  : 'none',
+    closeEffect : 'none'
+  });
+  $(".myFancyBox").each(function(){
+
+   $(this).fancybox({
+
+       href : $(this).attr('src')
+
+   });
+
+
+});
+}
+$(document).ready(function() {
+  // Load Fancybox2 and make gallery in callback
+  LoadFancyboxScript(DemoGallery);
+});
+</script>

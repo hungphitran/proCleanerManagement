@@ -1,0 +1,157 @@
+<div class="row">
+  <div id="breadcrumb" class="col-md-12">
+    <span> Danh sách tài khoản của nhân viên </span>
+  </div>
+</div>
+
+<div class="modal fade  bs-example-modal-lg" id="accountDetailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="border-radius:3px;">
+  <div class="modal-dialog  modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color:#8cc13d;padding-top:5px;padding-bottom:5px;">
+        <h4 class="modal-title" id="myModalLabel"> Đánh giá và hoàn thành </h4>
+      </div>
+      <div class="modal-body"style="text-align:center;padding-top:0px;">
+        <form class="form-horizontal">
+            <div class="form-group" style="text-align:center;padding-top:0px;">
+              <label class="control-label col-lg-6" style="text-align:right; color:#02571c;padding-left:10px;">Tài Khoản : </label>
+              <span class="control-label col-lg-6" style="text-align:left;">{{accountDetail.username}}</span>
+                
+            </div>
+
+            <div class="form-group" style="text-align:center;">
+              <label class="control-label col-lg-6" style="text-align:right; color:#02571c;"> Mật Khẩu : </label>
+              <input class="control-label col-lg-6" style="text-align:left;border:none;background-color:transparent;" value="{{accountDetail.password}}" disabled="disabled" type="password">
+            </div>
+
+            <div class="form-group" style="text-align:center;">
+                
+              <label class="control-label col-lg-6" style="text-align:right; color:#02571c;padding-left:10px;"> CMND :  </label>
+              <span class="control-label col-lg-6" style="text-align:left;">{{accountDetail.cmnd}}</span>  
+              
+            </div>
+          
+            <div class="form-group" style="text-align:center;">
+              <label class="control-label col-lg-6" style="text-align:right; color:#02571c;padding-left:10px;"> Nhân Viên :</label>
+              <span class="control-label col-lg-6" style="text-align:left;">{{accountDetail.hoten}}</span>
+            </div>
+
+            <div class="form-group" style="text-align:center;">
+              <label class="control-label col-lg-6" style="text-align:right; color:#02571c;padding-left:10px;display:inline-block;"> Quyền Hệ Thống :</label>
+              <div class="col-lg-4">
+                  <table class ="mytableSoTruong">
+                      <tr ng-repeat="role in roleList">
+                        <td>
+                          <div class="checkbox-inline">
+                            <label>
+                                <input class="chooseRoleCheckBox" type ="checkbox" 
+                              ng-checked="newRole.indexOf(role) > -1" ng-click="chooseRole(role)">  {{role}}<i class="fa fa-square-o"></i>
+                            </label>
+                          </div>
+                        </td>
+                      </tr>
+                  </table>
+            </div>
+            </div>
+                <div class="col-lg-12 myWarning"  ng-show="wrong[4]">
+                  <label for="cname" class="control-label myWarningLabel" ><i class="fa fa-warning"></i> Chưa chọn quyền trong hệ thống </label>
+            </div>
+          </form>  
+      </div>
+
+      <div class="modal-footer" style="padding-bottom:5px;">
+
+        <button type="button" class="btn btn-info" ng-show="chooseNewRole" ng-click="changeRole()">Lưu lại</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color:#8cc13d;">
+        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+        <h4 class="modal-title" id="myModalLabel"> Xác Nhận Thao Tác Xóa </h4>
+      </div>
+      <div class="modal-body">
+          <p class="control-label" style="text-align:center;">  Bạn có chắc chắn muốn xóa <span ng-bind="titleDelete"></span> ? </p>
+      </div>  
+      <div class="modal-footer">
+      <button title="Xác nhận xóa" type="button" class="btn btn-danger" ng-click="confirmDeleteAccount()">Xóa</button>
+    <button title="Không xóa và quay lại" type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+    </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div id="loadDataSection" style="text-align:center;">
+      <span>Loading...</span>
+      </br>
+      <img src="img/devoops_getdata.gif" alt="Loading Data"/>
+</div>
+
+<div id="dataSection">
+<label style="padding-left:35px;">Tìm kiếm theo: </label>
+    <div class="form-group col-lg-12" style="padding-right:5px; text-align:left;">
+      <div class="col-lg-3 " style=" text-align:left; padding-bottom:10px;padding-left:20px;">
+          <select class="form-control valid" ng-model="typeSearch" ng-options="tieuchi for tieuchi in tieuchiSearch" ng-init="typeSearch=' Tất Cả '"></select>
+      </div>
+      <div class="col-lg-4 nopadding" style="padding-bottom:10px;text-align:left;padding-right:15px;">
+        <div  id="search" style="text-align:left;margin-top:-3px;" >
+          <input type="text" placeholder="Search" ng-model="searchText"/>
+          <i class="fa fa-search" style="margin-top:-10px;" ></i>
+        </div>
+      </div>
+  </div>
+
+
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box">
+      <div class="box-content no-padding" style="text-align:center;">
+        <table class="table table-bordered table-striped table-hover table-heading " >
+          <thead style="text-align:center;color:#02571c;">
+            <tr>
+              <th style="text-align:center;"><i class="fa fa-user"></i> Tài Khoản</th>
+              <th style="text-align:center;"><i class="fa fa-key"></i>Mật Khẩu</th>
+              <th style="text-align:center;"><i class="fa fa-tag"></i> CMND</th>
+              <th style="text-align:center;"><i class="fa fa-meh-o"></i> Nhân Viên</th>
+              <th style="text-align:center;"><i class="fa fa-sitemap"></i>  Quyền Hệ Thống</th>
+              <th style="text-align:center;"><i class="fa fa-gears"></i> Lựa Chọn</th>
+            </tr>
+          </thead>
+          <tbody>
+          <!-- Start: list_row -->
+            <tr ng-repeat = "account in accountListOriginal | filter:searchText">
+                <td>{{account.username}}</td>
+                <td><input type="password" value="{{account.password}}" disabled="disabled" style="width:auto;height:auto;"></td>
+                <td>{{account.cmnd}}</td>
+                <td>{{account.hoten}}</td>
+                <td style="text-align:center;">
+                  <table class ="mytableSoTruong" style="text-align:center;width:100%;height:100%;">
+                      <tr ng-repeat="role in account.quyen" style="text-align:center;width:100%;height:100%;">
+                        <td style="text-align:center;width:100%;height:100%;">
+                          {{role}}
+                        </td>
+                      </tr>
+                  </table>
+                </td>
+                <td>
+                    <button title="Chỉnh sửa thông tin tài khoản" class="btn btn-info myDeleteButton" ng-click = "showAccountDetail(account)">Chi tiết</button>
+                    <button title="Xóa tài khoản trong hệ thống" class="btn btn-danger myDeleteButton"  ng-show="account.username != rootAccount.username"  ng-click = "deleteAccount(account)">Xóa</button>
+                </td>
+              </tr>
+            
+          <!-- End: list_row -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

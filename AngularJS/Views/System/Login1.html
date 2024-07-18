@@ -1,0 +1,23 @@
+<div class="container" >
+    <form class="login-form" style="margin-top:20px;">        
+        <div class="login-wrap">
+            <p class="login-img"><i class="fa fa-unlock-alt fa-2x"></i></p>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-user"></i></span>
+              <input type="text" class="form-control" ng-model="formData.username" placeholder="Username" autofocus>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                <input type="password" class="form-control" ng-model="formData.password" placeholder="Password">
+            </div>
+            <div class="input-group" style="text-align:center;" ng-show="loginFail">
+                <span style="text-align:center;color:red"><i class="fa fa-warning"></i>Tài khoản hoặc mật khẩu không đúng</span>
+            </div>
+            <div class="input-group" style="text-align:center;" ng-show="loginSuccess">
+                <span style="text-align:center;color:green;"><i class="fa fa-check"></i> Đăng nhập thành công, vui lòng đợi</span>
+            </div>
+            <button class="btn btn-primary btn-lg btn-block" ng-click="login()"> Đăng Nhập</button>
+        </div>
+    </form>
+
+</div>
