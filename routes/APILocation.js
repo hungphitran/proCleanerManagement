@@ -1,50 +1,63 @@
-var LocationTemp = require('../Models/Location');
-var LocationModel = LocationTemp.LocationModel;
-var DistrictTemp = require('../Models/District');
-var DistrictModel = DistrictTemp.DistrictModel;
-exports.listLocation = function (req, res) {
-  LocationModel.find(function(err, _locations) {
-    // if there is an error retrieving, send the error. nothing after res.send(err) will execute
-            if (err){
-                res.send(err);
-                return;
-            }
+const LocationTemp = require('../Models/Location');
+const LocationModel = LocationTemp.LocationModel;
+const DistrictTemp = require('../Models/District');
+const DistrictModel = DistrictTemp.DistrictModel;
+module.exports.listLocation = async (req, res) => {
+  const locations = await LocationModel.find();
 
-            res.json(_locations); // return all todos in JSON format
-  });
+  if (!locations) {
+    res.send(err);
+    return;
+  }
+  res.json(locations);
 }
 
-exports.createLocation = function (req, res) {
-    var tenkhuvucTemp = req.body.tenkhuvuc;
-    LocationModel.find({
-        tenkhuvuc : tenkhuvucTemp
-    },function(err, _locations) {
-        var result = {success:false, exist:false};
-        if (err){
-            res.send(result);
-            return;
-        }
-        if(_locations.length > 0){
+
+
+module.exports.createLocation = async (req, res) => {
+    const tenkhuvucTemp = req.body.tenkhuvuc;
+    const result = {success: true, exist: false};
+
+    try {
+        const locations = await LocationModel.find({tenkhuvuc: tenkhuvucTemp});
+        if(locations.length > 0) {
             result.success = true;
             result.exist = true;
-            res.send(result);
-            return;
+            return res.send(result);
         }
-        LocationModel.create({
-            tenkhuvuc : req.body.tenkhuvuc
-        }, function(err, location) {
-            if (err){
-                res.send(result);
-                return;
-            }
-            result.success = true;
-            res.send(result);
-        });
-    });
+    
+        const newLocation = new LocationModel({
+            tenkhuvuc: req.body.tenkhuvuc
+        })
+
+        await newLocation.save();
+        result.success = true;
+        res.send(result);
+    } catch (error) {
+        res.send(result);
+    }
 };
 
-exports.deleteLocation = function(req,res){
-    LocationModel.remove({
+// deleteOne: xóa một địa điểm duy nhất từ cơ sở dữ liệu đó là tenkhuvuc.
+// deleteCount: đếm số địa điểm đã bị xóa
+// 2 cái này lấy từ thư viện ORM  => npm install mongoose
+exports.deleteLocation = async(req,res) => {
+    const result = {success: fasle};
+    try {
+        const tenkhuvuc = req.params.tenkhuvuc;
+
+        const deleted = await LocationModel.deleteOne({tenkhuvuc: tenkhuvuc});
+
+        if(deleted.deleteCount === 1) {
+            result.success = true;
+        }
+    } catch (error) {
+        //console.error("Lỗi khi xóa địa điểm: ", error);
+    }
+
+    res.send(result);
+
+    /*LocationModel.remove({
         tenkhuvuc : req.params.tenkhuvuc
     },function(err,_location)
         {
@@ -55,5 +68,5 @@ exports.deleteLocation = function(req,res){
             }
             result.success = true;
             res.send(result);
-        });
+        });*/
 };

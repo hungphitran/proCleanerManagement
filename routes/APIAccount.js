@@ -5,7 +5,7 @@ const Staff = StaffTemp.Stuff;
 const validate = require('../MyMiddleware/Validate.js')
 
 module.exports.listAccount = async (req, res) => {
-  const accounts = await Account.find(find);
+  const accounts = await Account.find();
 
   if (!accounts) {
     res.send(err);
@@ -14,7 +14,6 @@ module.exports.listAccount = async (req, res) => {
 
   res.json(accounts);
 }
-
 
 module.exports.findUsername = async (req, res) => {
   let find = {
@@ -49,48 +48,50 @@ module.exports.addAccount = async (req, res) => {
     hoten: req.body.hoten
   });
   let result = { success: false };
-  const isSave = await Account.save(newAccount);
-
-  if (!isSave) {
+  const isSave = await newAccount.save();
+  if (isSave) {
     result.success = true;
   }
 
   res.send(result); 
-};
+}
 
+module.exports.findStuffHaveNotAccount = async (req, res) => {
+  const result = { err: true };
+  const resultList = [];
 
-exports.findStuffHaveNotAccount = function(req,res){
-  var result ={err:true};
-  var resultList = [];
-  stuff.find(function(err, _stuffs) {
+  const staffs = await Staff.find();
+  if (!staffs) {
+    res.send(result);
+  }
+
+  const accounts = await Account.find()
+
+  // staffs.forEach(staff => {
+  //   const hasAccount = Account.find()
     
-    if (err){
-        res.send(result);
-    }
+  //   // if (!hasAccount) {//
+  //   //   resultList.push({ cmnd: staff.cmnd, hoten: staff.hoten });
+  //   // }
+  // });
 
-    Account.find(function(err, _accounts) {
-      if (err){
-          res.send(result);
-      }
-      var i,j;
-      for (j = 0; j < _stuffs.length; j++){
-           for (i = 0; i < _accounts.length; i++) {
-            if(_stuffs[j].cmnd == _accounts[i].cmnd){
+  let i,j;
+      for (j = 0; j < staffs.length; j++){
+           for (i = 0; i < accounts.length; i++) {
+            if(staffs[j].cmnd == accounts[i].cmnd){
                 break;
             }
           };
-          if(i==_accounts.length){
-              resultList.push({"cmnd":_stuffs[j].cmnd, "hoten":_stuffs[j].hoten});
+          if(i==accounts.length){
+              resultList.push({"cmnd":staffs[j].cmnd, "hoten":staffs[j].hoten});
           }
-      };
-      res.send(resultList);
-    });
- 
-  });
+        };
+        res.send(resultList);
+
+  // res.send(resultList);
 }
 
-
-exports.logout = function(req,res){
+module.exports.logout = (req, res) => {
     console.log("logout");
     req.session.username = "";
     req.session.password = "";
@@ -139,114 +140,60 @@ module.exports.login = async (req, res) => {
   }
 }
 
-// exports.login = function(req,res){
+module.exports.changePassword = async (req, res) => {
+  const username = req.body.username;
+  const newPassword = req.body.password;
+  let result = { success: false };
 
-//   Account.find({
-//       username : req.body.username,
-//       password : req.body.password
-//   }, function (err, _account) {
-//     var result ={success:false};
-//     if (err){
-//         result.success = false;
-//         res.send(result);
-//         return;
-//     }else{
-//       if(_account==null){
-//         result.success = false;
-//         res.send(result);
-//         return;
-//       }else{
-//         if(_account.length==0){
-//           result.success = false;
-//           res.send(result);
-//           return;
-//         }else{
+  const isChangePassDone = await Account.update({ username: username }, { password: newPassword });
+  if (!isChangePassDone) {
+    result.success = true;
+  }
 
-//           stuff.find({
-//             cmnd:_account[0].cmnd
-//           },
-//           function (err, stuffList){
-//             if(err || stuffList.length == 0){
-//               result.success = false;
-//               res.send(result);
-//               return;
-//             }else{
-//               req.session.username = _account[0].username;
-//               req.session.password = _account[0].password;
-//               req.session.role = _account[0].quyen;
-//               req.session.cmnd = _account[0].cmnd;
-//               req.session.hoten = _account[0].hoten;
-//               req.session.loginStatus = true;
-//               console.log(req.session.role);
-//               ///// not done yet
-//               result={
-//                 success:true,
-//                 stuff:stuffList[0],
-//                 startURL:validate.startURL,
-//                 templateURL:validate.templateURL,
-//                 account:_account[0]
-//               };
-//               res.send(result);
-//               return;
-//             }
-            
-
-//           });
-          
-//         }
-//       }
-//     }
-    
-//   });
-
-// }
-
-exports.changePassword = function(req,res){
-  Account.update({
-      username : req.body.username
-  },{password : req.body.password}, function (err, _account) {
-    var result ={success:false};
-    if (!err){
-        result.success = true;
-    }
-    res.send(result);
-  });
+  res.send(result);
 }
 
-exports.changeRole = function(req,res){
-  Account.update({
-      username : req.body.username
-  },{quyen : req.body.quyen}, function (err, _account) {
-    var result ={success:false};
-    if (!err){
-        result.success = true;
-    }
-    res.send(result);
-  });
+module.exports.changeRole = async (req, res) => {
+  const username = req.body.username;
+  const newRole = req.body.quyen;
+  let result = { success: false };
+
+  const isChangeRoleDone = await Account.update({ username: username }, { quyen: newRole });
+  if (!isChangeRoleDone) {
+    result.success = true;
+  }
+
+  res.send(result);
 }
 
+module.exports.updateDone = async (req, res) => {
+  const id = req.body.id;
+  let result = { success: false }; 
 
-exports.updateDone = function(req,res){
-  var idDetail = req.body.id;
-  Account.update({
-      id : idDetail
-  },{matdo : req.body.matdo, hudo : req.body.hudo, lienlac :req.body.lienlac, trangthai : req.body.trangthai, nhanxet : req.body.nhanxet}, function (err, _details) {
-    var result ={success:false};
-    if (!err){
-        result.success = true;
-    }
-    res.send(result);
-  });
-}
-exports.deleteAccount = function(req,res){
-  Account.remove({
-        username : req.params.username
-    }, function (err, _account) {
-      var result = {success:false};
-      if(!err){
-        result.success = true;
-      }
-      res.send(result);
-
+  const isUpdateDone = await Account.update(
+    { _id: id }, 
+    { matdo : req.body.matdo, 
+      hudo : req.body.hudo, 
+      lienlac :req.body.lienlac, 
+      trangthai : req.body.trangthai, 
+      nhanxet : req.body.nhanxet
     });
+  
+  if (!isUpdateDone) {
+    result.success = true;
+  }
+
+  res.send(result);
+}
+
+module.exports.deleteAccount = async (req, res) => {
+  const username = req.params.username;
+  let result = { success: false };
+
+  const isDeleted = await Account.remove({ username: username });
+  if (!isDeleted) {
+    result.success = true;
+  }
+
+  res.send(result);
 }

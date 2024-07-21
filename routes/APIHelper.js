@@ -1,20 +1,21 @@
-var HelperTemp = require('../Models/Helper');
-var helper = HelperTemp.Helper;
-var WorkPlanTemp = require('../Models/WorkPlan');
-var WorkPlanModel = WorkPlanTemp.WorkPlan;
-var RequestDetailTemp = require('../Models/RequestDetail');
-var RequestDetailModel = RequestDetailTemp.RequestDetailModel;
+const HelperTemp = require('../Models/Helper');
+const helper = HelperTemp.Helper;
+const WorkPlanTemp = require('../Models/WorkPlan');
+const WorkPlanModel = WorkPlanTemp.WorkPlan;
+const RequestDetailTemp = require('../Models/RequestDetail');
+const RequestDetailModel = RequestDetailTemp.RequestDetailModel;
 
-var HelperBusyDateTemp = require('../Models/HelperBusyDate');
-var helperBusyDate = HelperBusyDateTemp.HelperBusyDate;
+const HelperBusyDateTemp = require('../Models/HelperBusyDate');
+const helperBusyDate = HelperBusyDateTemp.HelperBusyDate;
 
-var HelperSalaryTemp = require('../Models/HelperSalary');
-var HelperSalary = HelperSalaryTemp.HelperSalary;
+const HelperSalaryTemp = require('../Models/HelperSalary');
+const HelperSalary = HelperSalaryTemp.HelperSalary;
 
-var DistrictTemp = require('../Models/District');
-var DistrictModel = DistrictTemp.DistrictModel;
+const DistrictTemp = require('../Models/District');
+const DistrictModel = DistrictTemp.DistrictModel;
 
-var fs = require('fs');
+const fs = require('fs');
+const { LEGAL_TLS_SOCKET_OPTIONS } = require('mongodb');
 
 function getFileType(url)
 {
@@ -22,39 +23,34 @@ function getFileType(url)
     return url.substring(position,url.length);
 }
 
-exports.listHelper = function (req, res) {
-  helper.find(function(err, _helpers) {
-    // if there is an error retrieving, send the error. nothing after res.send(err) will execute
-            if (err){
-                res.send(err);
-                return;
-            }
-            res.json(_helpers); // return all todos in JSON format
-  });
+module.exports.listHelper = async (req, res) => {
+  const records = await helper.find();
+
+  res.json(records);
 }
 
-exports.uploadImage = function (req, res) {
-
-
+module.exports.uploadImage = async (req, res) => {
   try{
-   var oldName = req.files.image.name;
-   var newName = req.body.fileName;
-   var parentPath = "public/images/ngv/"+req.body.parentPath;
-   var path = "public/images/ngv/"+req.body.path;
-   if (!fs.existsSync(parentPath)){
-    fs.mkdirSync(parentPath);
+    const oldName = req.files.image.name;
+    const newName = req.body.fileName;
+    const parentPath = "public/images/ngv/" + req.body.parentPath;
+    const path = "public/images/ngv/"+ req.body.path;
+
+    if (!fs.existsSync(parentPath)) {
+      fs.mkdirSync(parentPath);
     }
-   if (!fs.existsSync(path)){
-    fs.mkdirSync(path);
+    if (!fs.existsSync(path)) {
+      fs.mkdirSync(path);
     }
-   ins = fs.createReadStream(req.files.image.path).pipe(fs.createWriteStream(path+newName));
-   res.end();
- }catch(err){
-   res.send(err);
- }
+    ins = fs.createReadStream(req.files.image.path).pipe(fs.createWriteStream(path + newName));
+    res.end();
+  } catch(err){
+    res.send(err);
+  }
 }
-exports.createHelper = function (req, res) {
-  helper.create({
+
+module.exports.createHelper = async (req, res) => {
+  await helper.create({
             cmnd : req.body.cmnd,
             hoten : req.body.hoten,
             ngaysinh : req.body.ngaysinh,
@@ -77,14 +73,9 @@ exports.createHelper = function (req, res) {
             chieucao : req.body.chieucao,
             cannang : req.body.cannang,
             thongtincon : req.body.thongtincon
-
-        }, function(err, _helper) {
-            if (err){
-                res.send(err);
-                return;
-            }
-            res.end();
         });
+
+  res.end();
 };
 
 var deleteFolderRecursive = function(path) {
@@ -101,47 +92,35 @@ var deleteFolderRecursive = function(path) {
   }
 };
 
-exports.deleteHelper = function(req,res){
-    helper.remove({
-        _id : req.body._id
-    },function(err,_helper)
-        {
-            if(err){
-                var result ={success:false};
-                res.send(result);
-                return;
-            }
-            if (fs.existsSync("public/images/ngv/"+req.body.cmnd)){
-              deleteFolderRecursive("public/images/ngv/"+req.body.cmnd);
-            }
+module.exports.deleteHelper = async (req, res) => {
+  const id = req.body._id;
 
-            helper.find(function(err, _helpers){
-                if(err){
-                    res.send(err);
-                    return;
-                }
-                res.send(_helpers);
-            });
-        });
+  const isDeleted = await helper.remove({ _id: id });
+  if (!isDeleted) {
+    res.send({ success: false });
+  }
+
+  if (fs.existsSync("public/images/ngv/" + req.body.cmnd)){
+    deleteFolderRecursive("public/images/ngv/" + req.body.cmnd);
+  }
+
+  const helperRecords = helper.find();
+  res.send(helperRecords);
 };
-exports.findHelper = function(req,res){
 
-  helper.find({
-      cmnd : req.params.cmnd
-  }, function (err, _helper) {
-    if (err){
-        res.send(err);
-        return;
-    }
-    res.json(_helper);
+module.exports.findHelper = async (req,res) => {
+  const helperFind = await helper.find({
+    cmnd : req.params.cmnd
   });
+
+  res.json(helperFind);
 }
 
-exports.editHelper = function(req,res){
-
+module.exports.editHelper = async (req, res) => {
   console.log("cmnd "+req.body.cmnd);
   console.log(req.body.sotruong);
-  helper.update({
+
+  const editHelper = await helper.update({
       cmnd : req.body.cmnd
   },{
       hoten : req.body.hoten,
@@ -164,122 +143,101 @@ exports.editHelper = function(req,res){
       chieucao : req.body.chieucao,
       cannang : req.body.cannang,
       thongtincon : req.body.thongtincon
-    }, function (err, _details) {
-      console.log(err);
-      console.log(_details);
-    var result ={success:false};
-    if (!err){
-        result.success = true;
-    }
-    res.send(result);
-  });
+    });
+  if (!editHelper) {
+    res.send({ success: false });
+  }
+  res.send({ success: true });
 }
 
-exports.findFreeHelper = function(req, res){
+module.exports.findFreeHelper = async (req, res) => {
+  const ngayLamSearch = req.body.ngaylam;
+  const giobdSearch = req.body.giobd;
+  const gioktSearch = req.body.giokt;
+  const nguoigiupviec = req.body.nguoigiupviec;
+  let listHelper = [];
+  const quan = req.body.quan;
+  const sotruong = req.body.sotruong;
 
-    var ngayLamSearch = req.body.ngaylam;
-    var giobdSearch = req.body.giobd;
-    var gioktSearch = req.body.giokt;
-    var nguoigiupviec = req.body.nguoigiupviec;
-    var listHelper = [];
-    var quan = req.body.quan;
-    var sotruong = req.body.sotruong;
+  const findHelperBusyDate = await helperBusyDate.find({
+    ngay: ngayLamSearch,
+    $or:[
+      {giobd : { $gte: giobdSearch, $lt: gioktSearch }},
+      {giokt : { $gt: giobdSearch, $lte: gioktSearch }},
+      {
+        giobd : { $lte: giobdSearch },
+        giokt : { $gte: gioktSearch }
+      },
+    ]
+  });
 
-    
+  const findWorkPlan = await WorkPlanModel.find({
+    ngaylam:ngayLamSearch,
+    $or:[
+      {giobatdau : { $gte: giobdSearch, $lt: gioktSearch }},
+      {gioketthuc : { $gt: giobdSearch, $lte: gioktSearch }},
+      {
+        giobatdau : { $lte: giobdSearch },
+        gioketthuc : { $gte: gioktSearch }
+      },
+    ]
+  }); 
 
-    helperBusyDate.find({
-      ngay:ngayLamSearch,
-      $or:[
-        {giobd : {$gte:giobdSearch, $lt:gioktSearch}},
-        {giokt : {$gt:giobdSearch, $lte:gioktSearch}},
-        {
-          giobd : { $lte:giobdSearch},
-          giokt : {$gte:gioktSearch}
-        },
-      ]
-    },
-      function(err, _busyDates){
+  if (!findWorkPlan) {
+    res.send(listHelper);
+  }
 
-        WorkPlanModel.find({
-            ngaylam:ngayLamSearch,
-            $or:[
-              {giobatdau : {$gte:giobdSearch, $lt:gioktSearch}},
-              {gioketthuc : {$gt:giobdSearch, $lte:gioktSearch}},
-              {
-                giobatdau : { $lte:giobdSearch},
-                gioketthuc : {$gte:gioktSearch}
-              },
-            ]
-        }, function (err, _workPlans) {
-            if(err ){
-              listHelper = [];
-              res.send(listHelper);
-              return;
-            }
-            
-            DistrictModel.find({
-              tenquan:quan
-            },function(err, _district){
-                DistrictModel.find({
-                  khuvuc:_district[0].khuvuc
-                },function(err, _districtList){
-                  
-                  var listDistrictName  = [];
-          
-                  for (var i = 0; i < _districtList.length; i++) {
-                    listDistrictName.push(_districtList[i].tenquan);
-                  };
-                  console.log(listDistrictName);    
-                    helper.find({
-                      sotruong:{ $in:sotruong},
-                      "diachi.quan":{$in: listDistrictName }
-                    },function(err, _helpers) {
-                      if (err){
-                          listHelper = [];
-                          res.send(listHelper);
-                          return;
-                      }
+  const findDistrict = await DistrictModel.find({ tenquan: quan });
+  const findDistrictList = await DistrictModel.find({ khuvuc: findDistrict[0].khuvuc });
+  let listDistrictName  = [];
 
-                      for(var i =0; i<_helpers.length;i++){
-                          if((existInWorkPlanArray(_helpers[i].cmnd,_workPlans) == true 
-                            || existInBusyDateArray(_helpers[i].cmnd,_busyDates) == true) && _helpers[i].cmnd != nguoigiupviec){
-                            _helpers.splice(i,1);
-                            i--;
-                          }
-                      }
+  for (let i = 0; i < findDistrictList.length; i++) {
+    listDistrictName.push(findDistrictList[i].tenquan);
+  };
+  console.log(listDistrictName); 
 
-                      var result = new Array(sotruong.length+1);
+  const findHelper = await helper.find({
+    sotruong: { $in: sotruong },
+    "diachi.quan":{ $in: listDistrictName }
+  });
+  if (!findHelper) {
+    res.send(listHelper);
+  }
 
-                      for (var i = 0; i < sotruong.length+1; i++) {
-                        result[i] = [];
-                      };
-                      console.log("result "+result);
-                      for(var i =0; i<_helpers.length;i++){
-                        console.log(checkNumberService(_helpers[i].sotruong, sotruong));
-                          result[checkNumberService(_helpers[i].sotruong, sotruong)].push(_helpers[i]);
-                      }
+  for (let i = 0; i < findHelper.length; i++) {
+    if ((existInWorkPlanArray(findHelper[i].cmnd, findWorkPlan) == true || existInBusyDateArray(findHelper[i].cmnd, findHelperBusyDate) == true) 
+    && findHelper[i].cmnd != nguoigiupviec) {
+      findHelper.splice(i, 1);
+      i--;
+    }
+  }
 
-                      for (var i = 0; i < sotruong.length+1; i++) {
-                        arrangByDistrict(result[i],quan);
-                        console.log(i+"  "+result[i].length);
-                      };
-                      
-                      var lastResult = [];
-                      for (var i = sotruong.length; i >= 0; i--) {
-                        lastResult = lastResult.concat(result[i]);
-                      };
-                      console.log(lastResult.length);
-                      res.send(lastResult);
-                      return;
-                    });
+  let result = new Array(sotruong.length + 1);
 
-                });
+  for (let i = 0; i < sotruong.length + 1; i++) {
+    result[i] = [];
+  }
 
-            });
+  console.log("result " + result);
 
-          });
-      });
-} 
+  for(let i = 0; i < findHelper.length; i++){
+    console.log(checkNumberService(findHelper[i].sotruong, sotruong));
+    result[checkNumberService(findHelper[i].sotruong, sotruong)].push(findHelper[i]);
+  }
+
+  for (let i = 0; i < sotruong.length+1; i++) {
+    arrangByDistrict(result[i], quan);
+    console.log(i + "  " + result[i].length);
+  };
+  
+  let lastResult = [];
+  for (let i = sotruong.length; i >= 0; i--) {
+    lastResult = lastResult.concat(result[i]);
+  };
+  console.log(lastResult.length);
+
+  res.send(lastResult);
+}
 
 function arrangByDistrict(arr, district){
     for (var i = 0; i < arr.length; i++) {
@@ -321,156 +279,149 @@ function existInBusyDateArray(cmnd, arr){
     return false;
 }
 
-exports.paymentSalary = function(req, res){
-  HelperSalary.update({
-      startDate:req.body.startDate,
-      endDate:req.body.endDate,
-      cmnd:req.body.cmnd
-  },{
-      trangthai:req.body.trangthai
-    }, function (err, _helperSalary) {
-    var result ={success:false};
-    if (!err){
-        result.success = true;
-    }
+module.exports.paymentSalary = async (req, res) => {
+  const helperSalary = await HelperSalary.update(
+  {
+    startDate: req.body.startDate,
+    endDate: req.body.endDate,
+    cmnd: req.body.cmnd
+  },
+  {
+    trangthai:req.body.trangthai
+  });
+
+  let result = { success: false };
+  if (helperSalary){
+      result.success = true;
+  }
+  res.send(result);
+}
+
+module.exports.listHelperSalary = async (req, res) => {
+  const startDate = new Date(req.body.startDate);
+  const endDate = new Date(req.body.endDate);
+
+  const findHelperSalary = await HelperSalary.find({
+    startDate:req.body.startDate,
+    endDate:req.body.endDate
+  });
+
+  if (!findHelperSalary){
+    let result = { success: false };
     res.send(result);
-  });
+  }
+  if (findHelperSalary.length == 0){
+      calculateNewSalary(req, res, startDate, endDate);
+  } else {
+    res.send(findHelperSalary);
+  }
 }
 
+async function calculateNewSalary(req, res, startDate, endDate) {
+  const findHelper = await helper.find();
+  if (!findHelper){
+    res.send({ success: false });
+  }
 
-exports.listHelperSalary = function (req, res) {
-  var startDate = new Date(req.body.startDate);
-  var endDate = new Date(req.body.endDate);
-  HelperSalary.find({
-            startDate:req.body.startDate,
-            endDate:req.body.endDate
-        },function(err,_helperSalary){
-      if(err){
-          var result ={success:false};
-          res.send(result);
-          return;
-      }
-      if(_helperSalary.length==0){
-          calculateNewSalary(req, res,startDate,endDate);
-      }else{
-        res.send(_helperSalary);
-      }
+  let newHelpers = [];
+  const findRequestDetail = RequestDetailModel.find({
+      trangthai:"Hoàn thành",
+      giobatdau : {$lt:endDate, $gte:startDate}
   });
-  
-}
+  if (!findRequestDetail){
+    res.send({ success: false });
+  }
 
-function calculateNewSalary(req, res,startDate,endDate){
-  helper.find(function(err, _helpers) {
-        
-        if (err){
-            var result ={success:false};
-            res.send(result);
-            return;
-        }
-        var newHelpers = [];
-        RequestDetailModel.find({
-            trangthai:"Hoàn thành",
-            giobatdau : {$lt:endDate, $gte:startDate}
-            
-        }, function (err, _workTimes) {
-          if (err){
-              var result ={success:false};
-              res.send(result);
-              return;
-          }
+  var totalWorkDateInMonth =  getWorkDate(startDate,1,daysInThisMonth(startDate.getMonth()+1,startDate.getFullYear())+1);
+  var workDateInThisTimeRange = totalWorkDateInMonth;
+  if(startDate.getMonth() == endDate.getMonth()){
+    var dateTemp = new Date(endDate);
+    dateTemp.setDate(dateTemp.getDate());
+    workDateInThisTimeRange = getWorkDate(startDate,startDate.getDate(),dateTemp.getDate());
+  }
+    for(var i=0;i<findHelper.length;i++){
+        var helperTemp = {};
+        helperTemp.startDate = startDate;
+        helperTemp.endDate = endDate;
+        helperTemp._id = findHelper[i]._id;
+        helperTemp.cmnd =findHelper[i].cmnd;
+  //     helperTemp.email =findHelper[i].email;
+        helperTemp.hinhanh =findHelper[i].hinhanh;
+        helperTemp.hoten =findHelper[i].hoten;
+        helperTemp.luongcodinh =findHelper[i].luongcodinh;
+        helperTemp.mucluongtheogio =findHelper[i].mucluongtheogio;
+        helperTemp.ngaysinh =findHelper[i].ngaysinh;
+        helperTemp.ngaylamviec =findHelper[i].ngaylamviec;
+        helperTemp.quequan =findHelper[i].quequan;
+        helperTemp.sodt =findHelper[i].sodt;
+        helperTemp.batdaulamviec = false;
+        helperTemp.dateOffBeforeWork = -1;
+        helperTemp.listWorkTime = [];
+        helperTemp.salary = 0;
+        helperTemp.workTimeInside = 0;
+        helperTemp.workTimeOutside = 0;
+        helperTemp.workTimeTotal = 0;
+        helperTemp.workDateInThisTimeRange = workDateInThisTimeRange;
+        helperTemp.totalWorkDateInMonth = totalWorkDateInMonth;
 
-          var totalWorkDateInMonth =  getWorkDate(startDate,1,daysInThisMonth(startDate.getMonth()+1,startDate.getFullYear())+1);
-          var workDateInThisTimeRange = totalWorkDateInMonth;
-          if(startDate.getMonth() == endDate.getMonth()){
-            var dateTemp = new Date(endDate);
-            dateTemp.setDate(dateTemp.getDate());
-            workDateInThisTimeRange = getWorkDate(startDate,startDate.getDate(),dateTemp.getDate());
-          }
-           for(var i=0;i<_helpers.length;i++){
-               var helperTemp = {};
-               helperTemp.startDate = startDate;
-               helperTemp.endDate = endDate;
-               helperTemp._id = _helpers[i]._id;
-               helperTemp.cmnd =_helpers[i].cmnd;
-          //     helperTemp.email =_helpers[i].email;
-               helperTemp.hinhanh =_helpers[i].hinhanh;
-               helperTemp.hoten =_helpers[i].hoten;
-               helperTemp.luongcodinh =_helpers[i].luongcodinh;
-               helperTemp.mucluongtheogio =_helpers[i].mucluongtheogio;
-               helperTemp.ngaysinh =_helpers[i].ngaysinh;
-               helperTemp.ngaylamviec =_helpers[i].ngaylamviec;
-               helperTemp.quequan =_helpers[i].quequan;
-               helperTemp.sodt =_helpers[i].sodt;
-               helperTemp.batdaulamviec = false;
-               helperTemp.dateOffBeforeWork = -1;
-               helperTemp.listWorkTime = [];
-               helperTemp.salary = 0;
-               helperTemp.workTimeInside = 0;
-               helperTemp.workTimeOutside = 0;
-               helperTemp.workTimeTotal = 0;
-               helperTemp.workDateInThisTimeRange = workDateInThisTimeRange;
-               helperTemp.totalWorkDateInMonth = totalWorkDateInMonth;
+        helperTemp.salary = (helperTemp.luongcodinh/totalWorkDateInMonth)*workDateInThisTimeRange;
+        helperTemp.trangthai = "Chưa thanh toán";
+        for(var j=0;j<findRequestDetail.length;j++){
+          if(helperTemp.cmnd==findRequestDetail[j].nguoigiupviec){
 
-               helperTemp.salary = (helperTemp.luongcodinh/totalWorkDateInMonth)*workDateInThisTimeRange;
-               helperTemp.trangthai = "Chưa thanh toán";
-               for(var j=0;j<_workTimes.length;j++){
-                 if(helperTemp.cmnd==_workTimes[j].nguoigiupviec){
-
-                   helperTemp.listWorkTime.push(_workTimes[j]);
-                   var startTime  = new Date(_workTimes[j].giobatdau);
-                   var endTime = new Date(_workTimes[j].gioketthuc);
-                   var workTimeTotalTemp = endTime.getUTCHours() - startTime.getUTCHours();
-                   helperTemp.workTimeTotal += endTime.getUTCHours() - startTime.getUTCHours();
-                   if(endTime.getUTCMinutes() - startTime.getUTCMinutes() > 0){
-                        helperTemp.workTimeTotal+=0.5;
-                   }else{
-                      if(endTime.getUTCMinutes() - startTime.getUTCMinutes() < 0){
-                        helperTemp.workTimeTotal-=0.5;
-                      }
-                   }
-                   helperTemp.salary = helperTemp.salary + helperTemp.mucluongtheogio * workTimeTotalTemp;
-                    _workTimes[j].giobatdau = new Date(_workTimes[j].giobatdau);
-                    _workTimes[j].gioketthuc = new Date(_workTimes[j].gioketthuc);
-                    
-                    var sogiongoaigio = _workTimes[j].sogiongoaigio;
-
-                    helperTemp.salary = helperTemp.salary + (sogiongoaigio * helperTemp.mucluongtheogio * 0.1);
-                 }
-                    
+            helperTemp.listWorkTime.push(findRequestDetail[j]);
+            var startTime  = new Date(findRequestDetail[j].giobatdau);
+            var endTime = new Date(findRequestDetail[j].gioketthuc);
+            var workTimeTotalTemp = endTime.getUTCHours() - startTime.getUTCHours();
+            helperTemp.workTimeTotal += endTime.getUTCHours() - startTime.getUTCHours();
+            if(endTime.getUTCMinutes() - startTime.getUTCMinutes() > 0){
+                helperTemp.workTimeTotal+=0.5;
+            }else{
+              if(endTime.getUTCMinutes() - startTime.getUTCMinutes() < 0){
+                helperTemp.workTimeTotal-=0.5;
               }
-              if(helperTemp.luongcodinh>0){
-                  var ngaylamviec = new Date(helperTemp.ngaylamviec);
-                  if(ngaylamviec>=startDate && ngaylamviec<endDate){
-                      var dateOffCountTemp = 0; // vi tinh luong tu ngay lam viec
-                      if(ngaylamviec>startDate)
-                        dateOffCountTemp = getWorkDate(ngaylamviec,1,ngaylamviec.getDate());
-
-                      helperTemp.salary = helperTemp.salary-((helperTemp.luongcodinh/totalWorkDateInMonth)*dateOffCountTemp);
-                      helperTemp.batdaulamviec = true;
-                      helperTemp.dateOffBeforeWork = dateOffCountTemp;
-                  }else{
-                    if(ngaylamviec>endDate){
-                      helperTemp.salary = 0;
-                      helperTemp.batdaulamviec = true;
-                    }
-                  }
-              }
-              
-            helperTemp.salary = helperTemp.salary-(helperTemp.salary%1000);
-            newHelpers.push(helperTemp);
-          }
-            if(startDate.getMonth() == endDate.getMonth()-1){
-              storeHelperSalaryToDB(newHelpers);
             }
+            helperTemp.salary = helperTemp.salary + helperTemp.mucluongtheogio * workTimeTotalTemp;
+            findRequestDetail[j].giobatdau = new Date(findRequestDetail[j].giobatdau);
+            findRequestDetail[j].gioketthuc = new Date(findRequestDetail[j].gioketthuc);
             
-            res.send(newHelpers);
-        });
-  });
+            var sogiongoaigio = findRequestDetail[j].sogiongoaigio;
+
+            helperTemp.salary = helperTemp.salary + (sogiongoaigio * helperTemp.mucluongtheogio * 0.1);
+          }
+            
+      }
+      if(helperTemp.luongcodinh>0){
+          var ngaylamviec = new Date(helperTemp.ngaylamviec);
+          if(ngaylamviec>=startDate && ngaylamviec<endDate){
+              var dateOffCountTemp = 0; // vi tinh luong tu ngay lam viec
+              if(ngaylamviec>startDate)
+                dateOffCountTemp = getWorkDate(ngaylamviec,1,ngaylamviec.getDate());
+
+              helperTemp.salary = helperTemp.salary-((helperTemp.luongcodinh/totalWorkDateInMonth)*dateOffCountTemp);
+              helperTemp.batdaulamviec = true;
+              helperTemp.dateOffBeforeWork = dateOffCountTemp;
+          }else{
+            if(ngaylamviec>endDate){
+              helperTemp.salary = 0;
+              helperTemp.batdaulamviec = true;
+            }
+          }
+      }
+      
+    helperTemp.salary = helperTemp.salary-(helperTemp.salary%1000);
+    newHelpers.push(helperTemp);
+  }
+    if(startDate.getMonth() == endDate.getMonth()-1){
+      storeHelperSalaryToDB(newHelpers);
+    }
+    
+    res.send(newHelpers);
 }
 
-function storeHelperSalaryToDB(newHelpers){
+async function storeHelperSalaryToDB(newHelpers){
     for (var i = 0; i < newHelpers.length; i++) {
-      HelperSalary.create({
+      await HelperSalary.create({
         startDate : newHelpers[i].startDate,
         endDate:newHelpers[i].endDate,
         cmnd :newHelpers[i].cmnd,
@@ -492,14 +443,9 @@ function storeHelperSalaryToDB(newHelpers){
         salary :newHelpers[i].salary,
         trangthai:newHelpers[i].trangthai,
         dateOffBeforeWork :newHelpers[i].dateOffBeforeWork
-      }, function(err, _helperSalary){
-        if(err){
-          console.log(err);
-        }
       })
     };
 }
-
 
 function getWorkDate(dateTemp,start,end){
     var date = new Date(dateTemp);
@@ -512,6 +458,7 @@ function getWorkDate(dateTemp,start,end){
     }
     return count;
 }
+
 function daysInThisMonth(month, year) {
     return new Date(year, month, 0).getDate();
 }

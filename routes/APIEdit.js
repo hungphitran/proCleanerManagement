@@ -1,41 +1,14 @@
-// var HelperTemp = require('../Models/Helper');
-// var helper = HelperTemp.Helper;
-// var HelperBusyDateTemp = require('../Models/HelperBusyDate');
-// var helperBusyDate = HelperBusyDateTemp.HelperBusyDate;
-// var AccountTemp = require('../Models/Account');
-// var Account = AccountTemp.Account;
-// var HelperSalaryTemp = require('../Models/HelperSalary');
-// var HelperSalary = HelperSalaryTemp.HelperSalary;
-// var StuffBusyTemp = require('../Models/OffDateStuff');
-// var offDateStuff = StuffBusyTemp.OffDateStuff;
-// var RequestTemp = require('../Models/Request');
-// var RequestModel = RequestTemp.RequestModel;
-// var StaffSalaryTemp = require('../Models/StaffSalary');
-// var StaffSalary = StaffSalaryTemp.StaffSalary;
-// var StuffTemp = require('../Models/Stuff');
-// var stuff = StuffTemp.Stuff;
-// var WorkPlanTemp = require('../Models/WorkPlan');
-// var WorkPlanModel = WorkPlanTemp.WorkPlan;
-var CustomerTemp = require('../Models/Customer');
-var CustomerModel = CustomerTemp.Customer;
+const CustomerTemp = require('../Models/Customer');
+const CustomerModel = CustomerTemp.Customer;
 
-exports.editAllThing = function(req, res){
+module.exports.editAllThing = async (req, res) => {
+  const customers = await CustomerModel.find();
 
-	CustomerTemp.find(function(err, _helpers) {
-      if (err){
-          res.send(err);
-          return;
-      }
-      for (var i = 0; i < _helpers.length; i++) {
-        CustomerTemp.update({
-          _id:_helpers[i]._id},
-          {sdt:"0"+_helpers[i].sdt+""},
-           function (err, _details) {
-          });
-        
-      };
-
-  });
+  for (var i = 0; i < customers.length; i++) {
+    CustomerModel.update(
+      {_id: customers[i]._id},
+      {sdt: "0" + customers[i].sdt + ""});
+  }
 
 	// stuff.find(function(err, _helpers) {
  //      if (err){

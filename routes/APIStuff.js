@@ -1,20 +1,21 @@
-var StuffTemp = require('../Models/Stuff');
-var stuff = StuffTemp.Stuff;
-var fs = require('fs');
-var StuffBusyTemp = require('../Models/OffDateStuff');
-var offDateStuff = StuffBusyTemp.OffDateStuff;
-var StaffSalaryTemp = require('../Models/StaffSalary');
-var StaffSalary = StaffSalaryTemp.StaffSalary;
-var AccountTemp = require('../Models/Account');
-var Account = AccountTemp.Account;
+const StuffTemp = require('../Models/Stuff');
+const stuff = StuffTemp.Stuff;
+const fs = require('fs');
+const StuffBusyTemp = require('../Models/OffDateStuff');
+const offDateStuff = StuffBusyTemp.OffDateStuff;
+const StaffSalaryTemp = require('../Models/StaffSalary');
+const StaffSalary = StaffSalaryTemp.StaffSalary;
+const AccountTemp = require('../Models/Account');
+const Account = AccountTemp.Account;
+
 
 function getFileType(url)
 {
     var position = url.lastIndexOf('.');
     return url.substring(position,url.length);
 }
-exports.uploadAvatar = function (req, res) {
 
+module.exports.uploadAvatar = function (req, res) {
   try{
     var oldName = req.files.image.name;
     var path = req.body.path;
@@ -33,20 +34,15 @@ exports.uploadAvatar = function (req, res) {
  }
 }
 
-exports.listStuff = function (req, res) {
+module.exports.listStuff = async (req, res) => {
   console.log("new url "+req.url);
-  stuff.find(function(err, _stuffs) {
-    // if there is an error retrieving, send the error. nothing after res.send(err) will execute
-            if (err){
-                res.send(err);
-                return;
-            }
-            res.json(_stuffs); // return all todos in JSON format
-  });
+
+  const findStuff = await stuff.find();
+  res.json(findStuff); // return all todos in JSON format
 }
 
-exports.createStuff = function (req, res) {
-  stuff.create({
+module.exports.createStuff = async (req, res) => {
+  await stuff.create({
           cmnd : req.body.cmnd,
           hoten : req.body.hoten,
           ngaysinh : req.body.ngaysinh,
@@ -70,47 +66,23 @@ exports.createStuff = function (req, res) {
       });
 };
 
-exports.deleteStuff = function(req,res){
-    stuff.remove({
-        _id : req.body._id
-    },function(err,_stuff)
-        {
-            if(err){
-                res.send(err);
-                return;
-            }
-            stuff.find(function(err, _stuffs){
-                if(err){
-                    res.send(err);
-                    return;
-                }
-                if (fs.existsSync("public/images/nhanvien/"+req.body.cmnd)){
-                  deleteFolderRecursive("public/images/nhanvien/"+req.body.cmnd);
-                }
-                Account.remove({
-                    cmnd : req.body.cmnd
-                }, function (err, _account) {
-                  console.log(err);
-                  console.log(_account);
-                  res.send(_stuffs);
-            
-                });
-            });
-        });
-};
+module.exports.deleteStuff = async (req, res) => {
+  await stuff.remove({_id: req.body._id});
 
-exports.findStuff = function(req,res){
-  stuff.find({
-      cmnd : req.params.cmnd
-  }, function (err, _stuff) {
-    if (err){
-        res.send(err);
-        return;
-    }
-    res.json(_stuff);
-  });
+  const findStuffs = await stuff.find();
+  if (fs.existsSync("public/images/nhanvien/"+req.body.cmnd)) {
+    deleteFolderRecursive("public/images/nhanvien/"+req.body.cmnd);
+  }
+
+  await Account.remove({cmnd: req.body.cmnd});
+
+  res.send(findStuffs);
 }
 
+module.exports.findStuff = async (req, res) => {
+  const findStuff = await stuff.find({cmnd: req.params.cmnd});
+  res.json(findStuff);
+}
 
 var deleteFolderRecursive = function(path) {
   if( fs.existsSync(path) ) {
@@ -126,161 +98,157 @@ var deleteFolderRecursive = function(path) {
   }
 };
 
-exports.editStuff = function(req,res){
-  stuff.update({
-      cmnd : req.body.cmnd
-  },{
+module.exports.editStuff = async (req, res) => {
+  const updateStuff = await stuff.update(
+    {cmnd : req.body.cmnd},
+    {
       hoten : req.body.hoten,
       ngaysinh : req.body.ngaysinh,
       sodt :  req.body.sodt,
       quequan : req.body.quequan,
       hinhanh : req.body.hinhanh,
       luong : req.body.luong,
-      email : req.body.email,
-    }, function (err, _details) {
-    var result ={success:false};
-    if (!err){
-        result.success = true;
+      email : req.body.email
     }
-    res.send(result);
-  });
-}
-
-
-exports.paymentSalary = function(req, res){
-  StaffSalary.update({
-      startDate:req.body.startDate,
-      endDate:req.body.endDate,
-      cmnd:req.body.cmnd
-  },{
-      trangthai:req.body.trangthai
-    }, function (err, _helperSalary) {
-    var result ={success:false};
-    if (!err){
-        result.success = true;
-    }
-    res.send(result);
-  });
-}
-
-
-exports.listSalary = function (req, res) {
-  var startDate = new Date(req.body.startDate)
-  var endDate = new Date(req.body.endDate);
-  
-    StaffSalary.find({
-            startDate:req.body.startDate,
-            endDate:req.body.endDate
-        },function(err,_staffSalary){
-      if(err){
-          var result ={success:false};
-          res.send(result);
-          return;
-      }
-      console.log(_staffSalary);
-      if(_staffSalary.length==0){
-          calculateNewSalary(req, res,startDate,endDate);
-      }else{
-        res.send(_staffSalary);
-      }
-  });
-}
-
-function calculateNewSalary(req, res,startDate,endDate){
-
-    stuff.find(function(err, _staffs) {
-        
-        if (err){
-            var result ={success:false};
-            res.send(result);
-            return;
-        }
-        var newStaffs = [];
-        offDateStuff.find({
-            ngay : {$lt:endDate, $gte:startDate}
-        }, function (err, _offDates) {
-          if (err){
-              var result ={success:false};
-              res.send(result);
-              return;
-          }
-          var totalWorkDateInMonth =  getWorkDate(startDate,1,daysInThisMonth(startDate.getMonth()+1,startDate.getFullYear())+1);
-          var workDateInThisTimeRange = totalWorkDateInMonth;
-          if(startDate.getMonth() == endDate.getMonth()){
-            var dateTemp = new Date(endDate);
-            dateTemp.setDate(dateTemp.getDate());
-            workDateInThisTimeRange = getWorkDate(startDate,startDate.getDate(),dateTemp.getDate());
-          }
-
-          for(var i=0;i<_staffs.length;i++){
-              var staffTemp = {};
-              staffTemp.startDate =startDate;
-              staffTemp.endDate = endDate;
-              staffTemp._id = _staffs[i]._id;
-              staffTemp.cmnd =_staffs[i].cmnd;
-              staffTemp.email =_staffs[i].email;
-              staffTemp.hinhanh =_staffs[i].hinhanh;
-              staffTemp.hoten =_staffs[i].hoten;
-              staffTemp.luong =_staffs[i].luong;
-              staffTemp.ngaysinh =_staffs[i].ngaysinh;
-              staffTemp.ngaylamviec =_staffs[i].ngaylamviec;
-              staffTemp.quequan =_staffs[i].quequan;
-              staffTemp.sodt =_staffs[i].sodt;
-              staffTemp.batdaulamviec = false;
-              staffTemp.workDateInThisTimeRange = workDateInThisTimeRange;
-              staffTemp.totalWorkDateInMonth = totalWorkDateInMonth;
-              staffTemp.dateOffBeforeWork = -1;
-              //staffTemp.workDateInThisTimeRange = workDateInThisTimeRange;
-              staffTemp.workDate = 0;
-              staffTemp.listOffDate = [];
-              staffTemp.salary = 0;
-              staffTemp.offDate = 0;
-              staffTemp.trangthai = "Chưa thanh toán";
-              for(var j=0;j<_offDates.length;j++){
-                if(staffTemp.cmnd==_offDates[j].cmnd){
-
-                  staffTemp.listOffDate.push(_offDates[j]);
-                  if(_offDates[j].loai=="Cả Ngày"){
-                    staffTemp.offDate += 1;
-                  }else{
-                    staffTemp.offDate += 0.5;
-                  }
-                  _offDates.splice(j,1);
-                  j--;
-
-                }
-              }
-              staffTemp.salary = (staffTemp.luong/totalWorkDateInMonth)*workDateInThisTimeRange-(staffTemp.luong/totalWorkDateInMonth)*staffTemp.offDate;
-
-              var ngaylamviec = new Date(staffTemp.ngaylamviec);
-              if(ngaylamviec>=startDate && ngaylamviec<endDate){
-                  var dateOffCountTemp = 0; // vi tinh luong tu ngay lam viec
-                  if(ngaylamviec>startDate)
-                    dateOffCountTemp = getWorkDate(ngaylamviec,1,ngaylamviec.getDate());
-
-                  staffTemp.salary = staffTemp.salary-((staffTemp.luong/totalWorkDateInMonth)*dateOffCountTemp);
-                  staffTemp.batdaulamviec = true;
-                  staffTemp.dateOffBeforeWork = dateOffCountTemp;
-              }else{
-                if(ngaylamviec>=endDate){
-                  staffTemp.salary = 0;
-                  staffTemp.batdaulamviec = true;
-                }
-              }
-              staffTemp.salary = staffTemp.salary-(staffTemp.salary%1000);
-              newStaffs.push(staffTemp);
-          }
-          if(startDate.getMonth() == endDate.getMonth()-1){
-              storeStaffSalaryToDB(newStaffs);
-            }
-          res.send(newStaffs);
-        });
-  });
-
+  );
+  let result = {success:false};
+  if (updateStuff){
+    result.success = true;
   }
-function storeStaffSalaryToDB(newStaffs){
+  res.send(result);
+}
+
+module.exports.paymentSalary = async (req, res) => {
+  const updateStaffSalary = await StaffSalary.update(
+    {
+      startDate: req.body.startDate,
+      endDate: req.body.endDate,
+      cmnd: req.body.cmnd
+    },
+    {trangthai: req.body.trangthai}
+  );
+
+  let result = {success:false};
+  if (updateStaffSalary) {
+      result.success = true;
+  }
+  res.send(result);
+}
+
+module.exports.listSalary = async (req, res) => {
+  const startDate = new Date(req.body.startDate)
+  const endDate = new Date(req.body.endDate);
+  
+  const findStaffSalary = await StaffSalary.find(
+    {
+      startDate:req.body.startDate,
+      endDate:req.body.endDate
+    }
+  );
+
+  if (!findStaffSalary) {
+    res.send({success:false});
+  }
+  console.log(findStaffSalary);
+  if (findStaffSalary.length == 0) {
+    calculateNewSalary(req, res, startDate, endDate);
+  }
+  else {
+    res.send(findStaffSalary);
+  }
+}
+
+async function calculateNewSalary(req, res, startDate, endDate){
+  let result = {success:false};
+  let newStaffs = [];
+
+  const findStuff = await stuff.find();
+  if (!findStuff) {
+    res.send(result);
+  }
+
+  const findOffDayStuff = await offDateStuff.find({ngay : {$lt:endDate, $gte:startDate}});
+  if (!findOffDayStuff) {
+    res.send(result);
+  }
+
+  let totalWorkDateInMonth =  getWorkDate(startDate, 1, daysInThisMonth(startDate.getMonth()+1,startDate.getFullYear())+1);
+  let workDateInThisTimeRange = totalWorkDateInMonth;
+
+  if (startDate.getMonth() == endDate.getMonth()){
+    let dateTemp = new Date(endDate);
+    dateTemp.setDate(dateTemp.getDate());
+    workDateInThisTimeRange = getWorkDate(startDate,startDate.getDate(),dateTemp.getDate());
+  }
+
+  for(let i=0;i<findStuff.length;i++){
+      let staffTemp = {};
+      staffTemp.startDate = startDate;
+      staffTemp.endDate = endDate;
+      staffTemp._id = findStuff[i]._id;
+      staffTemp.cmnd =findStuff[i].cmnd;
+      staffTemp.email =findStuff[i].email;
+      staffTemp.hinhanh =findStuff[i].hinhanh;
+      staffTemp.hoten =findStuff[i].hoten;
+      staffTemp.luong =findStuff[i].luong;
+      staffTemp.ngaysinh =findStuff[i].ngaysinh;
+      staffTemp.ngaylamviec =findStuff[i].ngaylamviec;
+      staffTemp.quequan =findStuff[i].quequan;
+      staffTemp.sodt =findStuff[i].sodt;
+      staffTemp.batdaulamviec = false;
+      staffTemp.workDateInThisTimeRange = workDateInThisTimeRange;
+      staffTemp.totalWorkDateInMonth = totalWorkDateInMonth;
+      staffTemp.dateOffBeforeWork = -1;
+      //staffTemp.workDateInThisTimeRange = workDateInThisTimeRange;
+      staffTemp.workDate = 0;
+      staffTemp.listOffDate = [];
+      staffTemp.salary = 0;
+      staffTemp.offDate = 0;
+      staffTemp.trangthai = "Chưa thanh toán";
+      for(let j=0;j<findOffDayStuff.length;j++){
+        if(staffTemp.cmnd==findOffDayStuff[j].cmnd){
+
+          staffTemp.listOffDate.push(findOffDayStuff[j]);
+          if(findOffDayStuff[j].loai=="Cả Ngày"){
+            staffTemp.offDate += 1;
+          }else{
+            staffTemp.offDate += 0.5;
+          }
+          findOffDayStuff.splice(j,1);
+          j--;
+
+        }
+      }
+      staffTemp.salary = (staffTemp.luong/totalWorkDateInMonth)*workDateInThisTimeRange-(staffTemp.luong/totalWorkDateInMonth)*staffTemp.offDate;
+
+      let ngaylamviec = new Date(staffTemp.ngaylamviec);
+      if(ngaylamviec>=startDate && ngaylamviec<endDate){
+          let dateOffCountTemp = 0; // vi tinh luong tu ngay lam viec
+          if(ngaylamviec>startDate)
+            dateOffCountTemp = getWorkDate(ngaylamviec,1,ngaylamviec.getDate());
+
+          staffTemp.salary = staffTemp.salary-((staffTemp.luong/totalWorkDateInMonth)*dateOffCountTemp);
+          staffTemp.batdaulamviec = true;
+          staffTemp.dateOffBeforeWork = dateOffCountTemp;
+      }else{
+        if(ngaylamviec>=endDate){
+          staffTemp.salary = 0;
+          staffTemp.batdaulamviec = true;
+        }
+      }
+      staffTemp.salary = staffTemp.salary-(staffTemp.salary%1000);
+      newStaffs.push(staffTemp);
+  }
+  if(startDate.getMonth() == endDate.getMonth()-1){
+      storeStaffSalaryToDB(newStaffs);
+    }
+  res.send(newStaffs);
+}
+
+// sai thi sua sau
+async function storeStaffSalaryToDB(newStaffs){
     for (var i = 0; i < newStaffs.length; i++) {
-      StaffSalary.create({
+      await StaffSalary.create({
         startDate :newStaffs[i].startDate,
         endDate:newStaffs[i].endDate,
         cmnd :newStaffs[i].cmnd,
@@ -299,7 +267,8 @@ function storeStaffSalaryToDB(newStaffs){
         totalWorkDateInMonth :newStaffs[i].totalWorkDateInMonth,
         salary :newStaffs[i].salary,
         trangthai:newStaffs[i].trangthai
-      }, function(err, _staffSalary){
+      })
+      .catch(function(err, _staffSalary){
         if(err){
           console.log(err);
         }
@@ -318,6 +287,7 @@ function getWorkDate(dateTemp,start,end){
     }
     return count;
 }
+
 function daysInThisMonth(month, year) {
     return new Date(year, month, 0).getDate();
 }

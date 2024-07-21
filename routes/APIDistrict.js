@@ -1,75 +1,58 @@
-var DistrictTemp = require('../Models/District');
-var DistrictModel = DistrictTemp.DistrictModel;
-var WardTemp = require('../Models/Ward');
-var WardModel = WardTemp.WardModel;
-exports.listDistrict = function (req, res) {
-  DistrictModel.find(function(err, _districts) {
-    // if there is an error retrieving, send the error. nothing after res.send(err) will execute
-            if (err){
-                res.send(err);
-                return;
-            }
+const DistrictTemp = require('../Models/District');
+const DistrictModel = DistrictTemp.DistrictModel;
+const WardTemp = require('../Models/Ward');
+const WardModel = WardTemp.WardModel;
 
-            res.json(_districts); // return all todos in JSON format
-  });
+
+module.exports.listDistrict = async (req, res) => {
+    const records = await DistrictModel.find();
+
+    res.json(records);
 }
 
-exports.createDistrict = function (req, res) {
-    var tenquanTemp = req.body.tenquan;
-    var khuvucTemp = req.body.khuvuc;
-    DistrictModel.find({
-        tenquan : tenquanTemp
-        
-    },function(err, _districts) {
-        var result = {success:false, exist:false};
-        if (err){
-            res.send(result);
-            return;
-        }
-        if(_districts.length > 0){
-            result.success = true;
-            result.exist = true;
-            res.send(result);
-            return;
-        }
-        DistrictModel.create({
-            tenquan : req.body.tenquan,
-            khuvuc : khuvucTemp
-        }, function(err, district) {
-            if (err){
-                res.send(result);
-                return;
-            }
-            result.success = true;
-            res.send(result);
-        });
-    });
+module.exports.createDistrict = async (req, res) => {
+    const tenquanTemp = req.body.tenquan;
+    const khuvucTemp = req.body.khuvuc;
+    let result = {
+        success: false,
+        exist: false
+    };
 
+    const districtRecords = await DistrictModel.find({ tenquan: tenquanTemp });
+    if (!districtRecords) {
+        // res.send(result);
+        res.status(500).json(req.body)
+    }
+    if (districtRecords.length > 0) {
+        result.success = true;
+        result.exist = true;
+        res.send(result);
+    }
+
+    const newDistrict = await DistrictModel.create({ 
+        tenquan: tenquanTemp,
+        khuvuc: khuvucTemp
+    });
+    if (!newDistrict) {
+        res.send(result);
+    }
+
+    result.success = true;
+    res.send(result);
 };
 
-exports.deleteDistrict = function(req,res){
+module.exports.deleteDistrict = async (req, res) => {
+    const tenquan = req.params.tenquan;
 
+    const isDeletedDistrict = await DistrictModel.deleteOne({ tenquan: tenquan });
+    if (!isDeletedDistrict) {
+        res.send({ success: false });
+    }
 
-    DistrictModel.remove({
-        tenquan : req.params.tenquan
-    },function(err,_location)
-    {
-        var result = {success:false};
-        if(err){
-            res.send(result);
-            return;
-        }
-        WardModel.remove({
-            quan : req.params.tenquan
-        },function(err,_ward)
-            {
-                if(err){
-                    res.send(result);
-                    return;
-                }
-                result.success = true;
-                res.send(result);
-            });
-    });
+    const isDeletedWard = await WardModel.deleteMany({ quan: tenquan });
+    if (!isDeletedWard) {
+        res.send({ success: false });
+    }
 
+    res.send({ success: true });
 };

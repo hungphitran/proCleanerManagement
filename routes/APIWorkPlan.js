@@ -1,131 +1,113 @@
-var WorkPlanTemp = require('../Models/WorkPlan');
-var WorkPlanModel = WorkPlanTemp.WorkPlan;
+const WorkPlanTemp = require('../Models/WorkPlan');
+const WorkPlanModel = WorkPlanTemp.WorkPlan;
 
 
-exports.updateWorkPlanNGV = function(req,res){
-  var idDetail = req.body.idchitietyc;
-  var result ={success:false};
+module.exports.updateWorkPlanNGV = async (req, res) => {
+  const idDetail = req.body.idchitietyc;
+  let result = {success: false};
 
-  WorkPlanModel.find({
-      idchitietyc : idDetail
-  }, function (err, _workPlans) {
-    if (err){
-        res.send(result);
-        return;
+  const findWorkPlan = await WorkPlanModel.find({idchitietyc: idDetail});
+  if (!findWorkPlan) {
+    res.send(result);
+  }
+
+  if (findWorkPlan.length == 0) {
+    const createWorkPlan = await WorkPlanModel.create(
+      {
+        idchitietyc : req.body.idchitietyc,
+        nguoigiupviec : req.body.nguoigiupviec,
+        ngaylam : req.body.ngaylam,
+        giobatdau : req.body.giobatdau,
+        gioketthuc : req.body.gioketthuc+60,
+        khachhang : req.body.khachhang,
+      }
+    );
+    if (createWorkPlan){
+      result.success = true;
     }
-    if(_workPlans.length==0){
-
-        WorkPlanModel.create({
-            idchitietyc : req.body.idchitietyc,
-            nguoigiupviec : req.body.nguoigiupviec,
-            ngaylam : req.body.ngaylam,
-            giobatdau : req.body.giobatdau,
-            gioketthuc : req.body.gioketthuc+60,
-            khachhang : req.body.khachhang,
-        },function (err, _details) {
-          if (!err){
-              result.success = true;
-          }
-          res.send(result);
-        });
-
-    }else{
-        WorkPlanModel.update({
-            idchitietyc : idDetail
-        },{nguoigiupviec : req.body.nguoigiupviec}, function (err, _details) {
-          if (!err){
-              result.success = true;
-          }
-          res.send(result);
-        });
+    res.send(result);
+  }
+  else {
+    const updateWorkPlan = await WorkPlanModel.update(
+      {idchitietyc: idDetail},
+      {nguoigiupviec: req.body.nguoigiupviec}
+    );
+    if (updateWorkPlan) {
+      result.success = true;
     }
-  });
+    res.send(result);
+  }
 }
 
-exports.updateWorkPlanTime = function(req,res){
+module.exports.updateWorkPlanTime = async (req, res) => {
+  const idDetail = req.body.idchitietyc;
+  let result ={success:false};
 
-  var idDetail = req.body.idchitietyc;
-  var result ={success:false};
-
-  WorkPlanModel.find({
-      idchitietyc : idDetail
-  }, function (err, _workPlans) {
-    if (err){
-        res.send(result);
-        return;
+  const findWorkPlan = await WorkPlanModel.find({idchitietyc : idDetail});
+  if (!findWorkPlan) {
+    res.send(result);
+  }
+  
+  if (findWorkPlan.length == 0) {
+    if (findWorkPlan) {
+      result.success = true;
     }
-    if(_workPlans.length==0){
-
-       var result ={success:false};
-          if (!err){
-              result.success = true;
-          }
-          res.send(result);
-
-    }else{
-        WorkPlanModel.update({
-            idchitietyc : idDetail
-        },{giobatdau : req.body.giobatdau, gioketthuc : req.body.gioketthuc+60}, function (err, _details) {
-          var result ={success:false};
-          if (!err){
-              result.success = true;
-          }
-          res.send(result);
-        });
+    res.send(result);
+  }
+  else {
+    const updateWorkPlan = await WorkPlanModel.update(
+      {idchitietyc: idDetail},
+      {
+        giobatdau: req.body.giobatdau, 
+        gioketthuc : req.body.gioketthuc+60
+      }
+    );
+    if (updateWorkPlan) {
+      result.success = true;
     }
-  });
+    res.send(result);
+ }
 }
 
-exports.deleteWorkPlan = function(req,res){
-    WorkPlanModel.remove({
-        idchitietyc : req.params.idchitietyc
-    },function(err,_workp){
-        var result ={success:false};
-         if (!err){
-            result.success = true;
-          }
-        res.send(result); 
-      });
+module.exports.deleteWorkPlan = async (req, res) => {
+  const removeWorkPlan = await WorkPlanModel.remove({idchitietyc: req.params.idchitietyc});
+
+  let result = {success:false};
+  if (removeWorkPlan) {
+    result.success = true;
+  }
+  res.send(result); 
 };
 
-exports.deleteWorkPlanByID = function(id){
-    WorkPlanModel.remove({
-        idchitietyc : id
-    },function(err,_workp){
-         if (err){
-            deleteWorkPlanByID(id);
-          }
-      });
+module.exports.deleteWorkPlanByID = async (req, res) => {
+  const removeWorkPlan = await WorkPlanModel.remove({idchitietyc: id});
+  
+  if (!removeWorkPlan) {
+    deleteWorkPlanByID(id);
+  }
 };
 
-exports.findByNGV = function(req,res){
+module.exports.findByNGV = async (req, res) => {
   console.log("find lich lam viec");
 
-  WorkPlanModel.find({
-      nguoigiupviec : req.params.cmnd
-  }, function (err, _workPlans) {
-    if (err){
-        res.send(err);
-        return;
-    }
-    res.json(_workPlans);
-  });
+  const findWorkPlan = await WorkPlanModel.find({nguoigiupviec: req.params.cmnd});
+  res.json(findWorkPlan);
 }
-exports.findByNGVFromToday = function(req,res){
-  var today = new Date();
+
+module.exports.findByNGVFromToday = async (req, res) => {
+  let today = new Date();
   today.setHours(7);
   today.setSeconds(0);
   today.setMinutes(0);
   today.setMilliseconds(0);
   console.log(today);
-  WorkPlanModel.find({
-      nguoigiupviec : req.params.cmnd,
-      ngaylam:{$gte:today}
-  }, function (err, _workPlans) {
-    if (err){
-        res.send(err);
-        return;
+
+  const findWorkPlan = await WorkPlanModel.find(
+    {
+      nguoigiupviec: req.params.cmnd,
+      ngaylam: {$gte:today}
     }
-    res.json(_workPlans);
-  });
+  );
+  
+  res.json(findWorkPlan);
 }

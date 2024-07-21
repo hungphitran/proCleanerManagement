@@ -1,133 +1,117 @@
-var HelperBusyTemp = require('../Models/HelperBusyDate');
-var helperBusyDate = HelperBusyTemp.HelperBusyDate;
-var WorkPlanTemp = require('../Models/WorkPlan');
-var WorkPlanModel = WorkPlanTemp.WorkPlan;
-var fs = require('fs');
-var RequestDetailTemp = require('../Models/RequestDetail');
-var RequestDetailModel = RequestDetailTemp.RequestDetailModel;
+const HelperBusyTemp = require('../Models/HelperBusyDate');
+const helperBusyDate = HelperBusyTemp.HelperBusyDate;
+const WorkPlanTemp = require('../Models/WorkPlan');
+const WorkPlanModel = WorkPlanTemp.WorkPlan;
+const fs = require('fs');
+const RequestDetailTemp = require('../Models/RequestDetail');
+const RequestDetailModel = RequestDetailTemp.RequestDetailModel;
 
-exports.findBusyDate = function (req, res) {
-  var today = new Date();
+module.exports.findBusyDate = async (req, res) => {
+  const today = new Date();
   today.setHours(7);
   today.setSeconds(0);
   today.setMinutes(0);
   today.setMilliseconds(0);
-  helperBusyDate.find({
-      cmnd : req.params.cmnd,
-      ngay : {$gte:today}
-  }, function (err, _busyDates) {
-    if (err){
-        res.send(err);
-        return;
-    }
-    res.json(_busyDates);
+
+  const record = await helperBusyDate.find(
+  { 
+    cmnd: req.params.cmnd, 
+    ngay: { $gte: today } 
   });
+
+  res.json(record);
 }
 
-exports.checkExistsWorkPlan = function(req, res){
-    var cmndTemp = req.body.cmnd;
-    var giobdTemp = req.body.giobd;
-    var gioktTemp = req.body.giokt;
-    var ngayTemp = req.body.ngay;
+module.exports.checkExistsWorkPlan = async (req, res) => {
+  const cmnd = req.body.cmnd;
+  const giobd = req.body.giobd;
+  const giokt = req.body.giokt;
+  const ngay = req.body.ngay;
+  let result = { success:false };
 
-    WorkPlanModel.find({
-        nguoigiupviec : req.body.cmnd,
-        ngaylam:ngayTemp,
-        $or:[
-              {giobatdau : {$gte:giobdTemp, $lt:gioktTemp}},
-              {gioketthuc : {$gt:giobdTemp, $lte:gioktTemp}},
-              {
-                giobatdau : { $lte:giobdTemp},
-                gioketthuc : {$gte:gioktTemp}
-              },
-            ]
+  const workPlans = await WorkPlanModel.find(
+    {
+      nguoigiupviec: cmnd,
+      ngaylam: ngay,
+      $or: [
+        { giobatdau: { $gte: giobd, $lt: giokt } },
+        { gioketthuc: { $gt: giobd, $lte: giokt } },
+        { giobatdau: { $lte: giobd }, gioketthuc: { $gte: giokt } },
+      ],
+  });
 
-    }, function (err, _workPlans) {
-      var result = {success:false};
-      if (err){
-          res.send(result);
-          return;
-      }
-      if(_workPlans.length == 0){
-        req.body.listCTYC = [];
-        
-        addBusyTime2(req, res);
-      }else{
-          result.listCTYC = [];
-          for (var i = 0; i < _workPlans.length; i++) {
-            result.listCTYC.push(_workPlans[i].idchitietyc);
-          };
-          result.success = true;
-          result.existsWorkPlan = true;
-          result.listWorkPlan = _workPlans;
-          res.send(result); 
-          return;
-      }
+  if (workPlans.length === 0) {
+    req.body.listCTYC = [];
+    addBusyTime2(req, res);
+  } else {
+    result.listCTYC = [];
+    for (let i = 0; i < workPlans.length; i++) {
+      result.listCTYC.push(workPlans[i].idchitietyc);
+    };
+    result.success = true;
+    result.existsWorkPlan = true;
+    result.listWorkPlan = workPlans;
 
-    });
-
-
+    res.send(result); 
+  }
 }
 
 function addBusyTime2(req, res) {
   console.log("add");
   console.log(req.body.listCTYC);
-  var listCTYC = req.body.listCTYC;
-  for (var i = 0; i < listCTYC.length; i++) {
+  let listCTYC = req.body.listCTYC;
+
+  for (let i = 0; i < listCTYC.length; i++) {
     removeWorkPlanOfNGV(listCTYC[i]);
   };
 
-  helperBusyDate.create({
-            cmnd : req.body.cmnd,
-            giobd : req.body.giobd,
-            giokt : req.body.giokt,
-            ngay : req.body.ngay
-        }, function(err, _busyTime) {
-          var result = {success:false};
-          if (err){
-              res.send(err);
-              return;
-          }
-          result.success = true;
-          result.existsWorkPlan = false;
-          result.busyTime = _busyTime;
-          
-          res.send(result); 
-          return;
-        });
+  const item = helperBusyDate.create(
+  {
+    cmnd : req.body.cmnd,
+    giobd : req.body.giobd,
+    giokt : req.body.giokt,
+    ngay : req.body.ngay
+  });
+
+  let result = { 
+    success: true,
+    existsWorkPlan : false,
+    busyTime : item 
+  };
+
+  res.send(result);
 };
 
-exports.addBusyTime = function(req, res) {
+module.exports.addBusyTime = async (req, res) => {
   console.log("add");
   console.log(req.body.listCTYC);
-  var listCTYC = req.body.listCTYC;
-  for (var i = 0; i < listCTYC.length; i++) {
+  let listCTYC = req.body.listCTYC;
+
+  for (let i = 0; i < listCTYC.length; i++) {
     removeWorkPlanOfNGV(listCTYC[i]);
   };
 
-  helperBusyDate.create({
-            cmnd : req.body.cmnd,
-            giobd : req.body.giobd,
-            giokt : req.body.giokt,
-            ngay : req.body.ngay
-        }, function(err, _busyTime) {
-          var result = {success:false};
-          if (err){
-              res.send(err);
-              return;
-          }
-          result.success = true;
-          result.existsWorkPlan = false;
-          result.busyTime = _busyTime;
-          
-          res.send(result); 
-          return;
-        });
+  const item = await helperBusyDate.create(
+  {
+    cmnd : req.body.cmnd,
+    giobd : req.body.giobd,
+    giokt : req.body.giokt,
+    ngay : req.body.ngay
+  });
+
+  let result = { 
+    success: true,
+    existsWorkPlan : false,
+    busyTime : item 
+  };
+
+  res.send(result);
 };
 
-function removeWorkPlanOfNGV(idCTYC){
+// Nếu lỗi thì sửa sau
+function removeWorkPlanOfNGV(idCTYC) {
   RequestDetailModel.update({
-    _id:idCTYC
+    _id: idCTYC
   },{
     nguoigiupviec:"", 
     trangthai:"Chưa giao"
@@ -142,15 +126,13 @@ function removeWorkPlanOfNGV(idCTYC){
   });
 }
 
+module.exports.deleteBusyTime = async (req, res) => {
+  const id = req.params._id;
 
-exports.deleteBusyTime = function(req,res){
-    helperBusyDate.remove({
-        _id : req.params._id
-    },function(err,_workp){
-        var result ={success:false};
-         if (!err){
-            result.success = true;
-          }
-        res.send(result); 
-      });
+  const isDone = await helperBusyDate.remove({ _id: id });
+  if (!isDone) {
+    res.send({ success: false }); 
+  } else {
+    res.send({ success: true }); 
+  }
 };
