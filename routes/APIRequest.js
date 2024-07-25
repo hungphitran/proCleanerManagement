@@ -149,13 +149,13 @@ module.exports.deleteRequest = async (req, res) => {
     }
   }
 
-  const removeRequestDetails = await RequestDetailModel.remove({idyeucau: id});
+  const removeRequestDetails = await RequestDetailModel.delete({idyeucau: id});
   if(!removeRequestDetails) {
     result.error = true;
     res.send(result);
   }
 
-  const removeRequest = await RequestModel.remove({_id : id});
+  const removeRequest = await RequestModel.delete({_id : id});
   if(!removeRequest) {
     result.error = true;
     res.send(result);

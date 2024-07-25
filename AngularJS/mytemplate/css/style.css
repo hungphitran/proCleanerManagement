@@ -88,6 +88,7 @@ a.show-sidebar:hover {
   -o-transition: 0.2s;
   transition: 0.2s;
 }
+
 .full-content {
   overflow: hidden;
   padding: 0;
@@ -2509,7 +2510,7 @@ td.beauty-hover {
   box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.1);
   
 }
-}
+
 .panel.panel-default.panel-heading {
   background: #97d3c5;   
 }

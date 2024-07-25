@@ -263,13 +263,13 @@ module.exports.deleteRequestDetail = async (req, res) => {
 	const phithoathuanRequest = req.body.phithoathuanRequest;
 	let result = {success: true,empty: false};
 
-	const removeRequestDetail = await RequestDetailModel.remove({_id : idChiTietYC});
+	const removeRequestDetail = await RequestDetailModel.delete({_id : idChiTietYC});
 	if (!removeRequestDetail) {
 		result.success = false;
 	}
 
 	if (chiphicobanRequest == 0) {
-		const removeRequest = await RequestModel.remove({_id : idYC});
+		const removeRequest = await RequestModel.delete({_id : idYC});
 		if (!removeRequest) {
 			result.success = false;
 		}

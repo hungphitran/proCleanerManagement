@@ -190,7 +190,15 @@ function mainController($scope, $rootScope, $http,$location,$route, $templateCac
 
     $rootScope.changePassword = false;
 
-    $rootScope.loginOK = false;
+    if (!sessionStorage.getItem('loginOK')) {
+        sessionStorage.setItem("loginOK", false);
+    }
+    $rootScope.loginOK = sessionStorage.getItem("loginOK");
+
+    if (!sessionStorage.getItem('stuff')) {
+        sessionStorage.setItem("stuff", JSON.stringify(null));
+    }
+    $rootScope.stuff = JSON.parse(sessionStorage.getItem("stuff"));
 
     $rootScope.account ;
     $rootScope.stuff;
@@ -207,12 +215,18 @@ function mainController($scope, $rootScope, $http,$location,$route, $templateCac
         
         $http.post('/api/account/logout',{})
         .success(function(data){
-            $rootScope.loginOK = false;
+            sessionStorage.setItem("loginOK", false);
+            $rootScope.loginOK = sessionStorage.getItem("loginOK");
+
             $rootScope.account =null;
-            $rootScope.stuff = null;
+
+            sessionStorage.setItem("stuff", JSON.stringify(null));
+            $rootScope.stuff = JSON.parse(sessionStorage.getItem("stuff"));
+
+            // $rootScope.stuff = null;
             $templateCache.remove("/Dashboard");
             $templateCache.remove("/Create-New-Account");
-            
+
             $location.path("/Login");
         })
         .error(function(data){
@@ -282,9 +296,18 @@ function mainController($scope, $rootScope, $http,$location,$route, $templateCac
     $rootScope.success = false;
 
     $rootScope.login = function(){
-        $rootScope.loginOK = false;
+        if (!sessionStorage.getItem('loginOK')) {
+            sessionStorage.setItem("loginOK", false);
+        }
+        $rootScope.loginOK = sessionStorage.getItem("loginOK");
+
+        if (!sessionStorage.getItem('stuff')) {
+            sessionStorage.setItem("stuff", JSON.stringify(null));
+        }
+        $rootScope.stuff = JSON.parse(sessionStorage.getItem("stuff"));
+        console.log("1: " + $rootScope.stuff)
+
         $rootScope.account  = null;
-        $rootScope.stuff = null;
         $rootScope.loginFail = false;
 
         if($rootScope.loginInfo.username==""||$rootScope.loginInfo.password==""){
@@ -307,12 +330,19 @@ function mainController($scope, $rootScope, $http,$location,$route, $templateCac
                 $rootScope.loginFail = true;
                 return;
             }
-            $rootScope.stuff  = data.stuff;
-            $rootScope.loginOK = true;
+
+            sessionStorage.setItem("stuff", JSON.stringify(data.stuff));
+            $rootScope.stuff = JSON.parse(sessionStorage.getItem("stuff"));
+            console.log("2: " + $rootScope.stuff.hinhanh)
+
+            sessionStorage.setItem("loginOK", true);
+            $rootScope.loginOK = sessionStorage.getItem("loginOK");
+
             $rootScope.loginFail = false;
             $rootScope.loginSuccess = true;
             $rootScope.account  = data.account;
             
+
             if($location.path() == data.startURL) {
                 $templateCache.remove(data.templateURL);
                 $route.reload();

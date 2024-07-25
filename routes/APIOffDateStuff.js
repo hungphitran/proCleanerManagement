@@ -1,85 +1,58 @@
-var StuffBusyTemp = require('../Models/OffDateStuff');
-var offDateStuff = StuffBusyTemp.OffDateStuff;
+const StuffBusyTemp = require('../Models/OffDateStuff');
+const offDateStuff = StuffBusyTemp.OffDateStuff;
 
-var fs = require('fs');
+const fs = require('fs');
 
 
-exports.findOffDate = function (req, res) {
-  offDateStuff.find({
-      cmnd : req.params.cmnd
-  }, function (err, _offDates) {
-    if (err){
-        res.send(err);
-        return;
-    }
-    res.json(_offDates);
-  });
+module.exports.findOffDate = async (req, res) => {
+    const findOffDateStaff = await offDateStuff.find({cmnd : req.params.cmnd});
+
+    res.json(findOffDateStaff);
 }
 
-
-
-exports.addOffDate = function (req, res) {
-  offDateStuff.find({
-      cmnd : req.body.cmnd,
-      ngay : req.body.ngay
-  }, function (err, _offDates) {
-    if (err){
-        res.send(err);
-        return;
-    }
-    if(_offDates.length==0){
-        offDateStuff.create({
-            cmnd : req.body.cmnd,
-            ngay : req.body.ngay,
-            loai : req.body.loai
-        }, function(err, _offDate) {
-            if (err){
-                res.send(err);
-                return;
-            }
-            res.json(_offDate);
-        });
-
-    }else{
-        offDateStuff.update({
+module.exports.addOffDate = async (req, res) => {
+    const findOffDateStaff = await offDateStuff.find(
+        {
             cmnd : req.body.cmnd,
             ngay : req.body.ngay
-        },{ loai : req.body.loai }, function(err, _offDate) {
-            if (err){
-                res.send(err);
-                return;
+        }
+    );
+
+    if (findOffDateStaff.length == 0) {
+        const createOffDateStaff = await offDateStuff.create(
+            {
+                cmnd : req.body.cmnd,
+                ngay : req.body.ngay,
+                loai : req.body.loai
             }
-            _offDates[0].loai = req.body.loai;
-            res.json(_offDates[0]);
-        });
+        );
 
+        res.json(createOffDateStaff);
     }
+    else {
+        const updateOffDateStaff = await offDateStuff.update(
+            {
+                cmnd : req.body.cmnd,
+                ngay : req.body.ngay
+            },
+            { loai : req.body.loai }
+        );
+        
+        updateOffDateStaff[0].loai = req.body.loai;
+        res.json(updateOffDateStaff[0]);
+    }
+}
 
-  });
+module.exports.deleteOffDate = async (req, res) => {
+    const removeOffDateStaff = await offDateStuff.delete({_id : req.params._id});
 
-  
+    if (removeOffDateStaff) {
+        res.send({success:true}); 
+    }
+    res.send({success:false}); 
 };
 
-exports.deleteOffDate = function(req,res){
-    offDateStuff.remove({
-        _id : req.params._id
-    },function(err,_offDate){
-        var result ={success:false};
-         if (!err){
-            result.success = true;
-          }
-        res.send(result); 
-      });
-};
-
-exports.findOffDateForComputeSalary = function (cmndTemp) {
-  offDateStuff.find({
-      cmnd : cmndTemp
-  }, function (err, _offDates) {
-    if (err){
-        res.send(err);
-        return;
-    }
-    res.json(_offDates);
-  });
+module.exports.findOffDateForComputeSalary = async (cmndTemp) => {
+    const findOffDateStaff = await offDateStuff.find({cmnd: cmndTemp});
+    res.json(findOffDateStaff);
 }

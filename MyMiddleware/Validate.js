@@ -2,7 +2,6 @@ exports.templateURL = "";
 exports.startURL  = "/Home"
 exports.checkURL = function(req){
 	var currentURL = req.url;
-	
 	switch(req.url){
 
 
@@ -204,7 +203,8 @@ exports.checkURL = function(req){
 }
 
 function check(req, url,role){
-	console.log("role "+req.session.role);
+	console.log("Check -> role: "+req.session.role);
+	console.log("Check -> role: "+req.session.username);
 	var currentURL = req.url;
 	if(checkAuthen(req) == true){
 		if(checkRole(role,req) == false){
@@ -219,7 +219,6 @@ function check(req, url,role){
 }
 
 function checkAuthen(req){
-	return true;
 	if(req.session.loginStatus == true){
 		return true;
 	} 
@@ -254,7 +253,6 @@ function checkRole(listRole,req){
 	return false;
 }
 function checkAdmin(req){
-	return true;
 	if(req.session.role.indexOf("Admin") == -1){
 		return false;
 	}

@@ -1,3 +1,4 @@
+require("dotenv").config();
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -26,9 +27,9 @@ var accountRoute =  require('./routes/APIAccount');
 var serviceRoute =  require('./routes/APITieuChi');
 var dashboardRoute =  require('./routes/APIDashboard.js');
 var validate = require('./MyMiddleware/Validate.js');
+var app = express();
 var editRoute =  require('./routes/APIEdit.js');
 var customerRoute =  require('./routes/APICustomer.js');
-var app = express();
 var router = express.Router();
 
 // view engine setup
@@ -45,9 +46,9 @@ app.use(cookieParser());
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({
-  resave: false, 
-  saveUninitialized: false, 
-  secret: 'shhhh, very secret'
+  secret: 'keyboard cat',
+  resave : false,
+  saveUninitialized : true
 }));
 
 

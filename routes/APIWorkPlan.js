@@ -70,7 +70,7 @@ module.exports.updateWorkPlanTime = async (req, res) => {
 }
 
 module.exports.deleteWorkPlan = async (req, res) => {
-  const removeWorkPlan = await WorkPlanModel.remove({idchitietyc: req.params.idchitietyc});
+  const removeWorkPlan = await WorkPlanModel.delete({idchitietyc: req.params.idchitietyc});
 
   let result = {success:false};
   if (removeWorkPlan) {
@@ -80,7 +80,7 @@ module.exports.deleteWorkPlan = async (req, res) => {
 };
 
 module.exports.deleteWorkPlanByID = async (req, res) => {
-  const removeWorkPlan = await WorkPlanModel.remove({idchitietyc: id});
+  const removeWorkPlan = await WorkPlanModel.delete({idchitietyc: id});
   
   if (!removeWorkPlan) {
     deleteWorkPlanByID(id);

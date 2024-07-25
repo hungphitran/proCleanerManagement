@@ -108,28 +108,24 @@ module.exports.addBusyTime = async (req, res) => {
   res.send(result);
 };
 
-// Nếu lỗi thì sửa sau
-function removeWorkPlanOfNGV(idCTYC) {
-  RequestDetailModel.update({
-    _id: idCTYC
-  },{
-    nguoigiupviec:"", 
-    trangthai:"Chưa giao"
-  },function(err,_RQDetails){
-    if(!err){
-      WorkPlanModel.remove({
-        idchitietyc:idCTYC
-      }, function(err, wp){
-
-      })
+async function removeWorkPlanOfNGV(idCTYC) {
+  const updateRequestDetail = await RequestDetailModel.update(
+    { _id: idCTYC },
+    {
+      nguoigiupviec:"", 
+      trangthai:"Chưa giao"
     }
-  });
+  );
+
+  if (updateRequestDetail) {
+    await WorkPlanModel.delete({idchitietyc: idCTYC});
+  }
 }
 
 module.exports.deleteBusyTime = async (req, res) => {
   const id = req.params._id;
 
-  const isDone = await helperBusyDate.remove({ _id: id });
+  const isDone = await helperBusyDate.delete({ _id: id });
   if (!isDone) {
     res.send({ success: false }); 
   } else {

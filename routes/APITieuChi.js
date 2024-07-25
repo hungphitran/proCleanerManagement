@@ -60,7 +60,7 @@ module.exports.createService = async (req, res) => {
 };
 
 module.exports.deleteService = async (req, res) => {
-    const removeTieuChi = await TieuChiModel.remove({_id : req.params._id});
+    const removeTieuChi = await TieuChiModel.delete({_id : req.params._id});
     let result = {success: false};
     if (removeTieuChi) {
         result.success = true;

@@ -67,14 +67,14 @@ module.exports.createStuff = async (req, res) => {
 };
 
 module.exports.deleteStuff = async (req, res) => {
-  await stuff.remove({_id: req.body._id});
+  await stuff.delete({_id: req.body._id});
 
   const findStuffs = await stuff.find();
   if (fs.existsSync("public/images/nhanvien/"+req.body.cmnd)) {
     deleteFolderRecursive("public/images/nhanvien/"+req.body.cmnd);
   }
 
-  await Account.remove({cmnd: req.body.cmnd});
+  await Account.delete({cmnd: req.body.cmnd});
 
   res.send(findStuffs);
 }

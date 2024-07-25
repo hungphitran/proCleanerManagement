@@ -95,7 +95,7 @@ var deleteFolderRecursive = function(path) {
 module.exports.deleteHelper = async (req, res) => {
   const id = req.body._id;
 
-  const isDeleted = await helper.remove({ _id: id });
+  const isDeleted = await helper.delete({ _id: id });
   if (!isDeleted) {
     res.send({ success: false });
   }

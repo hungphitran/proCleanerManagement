@@ -41,32 +41,8 @@ module.exports.createLocation = async (req, res) => {
 // deleteOne: xóa một địa điểm duy nhất từ cơ sở dữ liệu đó là tenkhuvuc.
 // deleteCount: đếm số địa điểm đã bị xóa
 // 2 cái này lấy từ thư viện ORM  => npm install mongoose
-exports.deleteLocation = async(req,res) => {
-    const result = {success: fasle};
-    try {
-        const tenkhuvuc = req.params.tenkhuvuc;
-
-        const deleted = await LocationModel.deleteOne({tenkhuvuc: tenkhuvuc});
-
-        if(deleted.deleteCount === 1) {
-            result.success = true;
-        }
-    } catch (error) {
-        //console.error("Lỗi khi xóa địa điểm: ", error);
-    }
-
-    res.send(result);
-
-    /*LocationModel.remove({
-        tenkhuvuc : req.params.tenkhuvuc
-    },function(err,_location)
-        {
-            var result = {success:false};
-            if(err){
-                res.send(result);
-                return;
-            }
-            result.success = true;
-            res.send(result);
-        });*/
+module.exports.deleteLocation = async (req,res) => {
+    const tenkhuvuc = req.params.tenkhuvuc;
+    await LocationModel.deleteOne({tenkhuvuc: tenkhuvuc});
+    res.send({success: true});
 };

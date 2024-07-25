@@ -102,9 +102,13 @@
 		color: 555555;
 		font-size: 12px;
 	}
+	
 	.loginContainer{
 		background:url(../../../img/bg.jpg);
-		height: 100%;
+		/* background-color: black; */
+		display: flex;
+		margin: -14px;
+		height: 100vh;
 	}
 
 	
