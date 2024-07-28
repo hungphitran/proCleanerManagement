@@ -1,8 +1,4 @@
 function waitingRequestCtrl($scope,$http,$location,progressRequestDetailService, $rootScope){
-
-
-    
-
     $('#dataSection').hide();
     $scope.phuphi =0;
     $scope.tongchiphi = 0;

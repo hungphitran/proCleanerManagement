@@ -83,7 +83,7 @@ module.exports.findStuffHaveNotAccount = async (req, res) => {
   res.send(resultList);
 }
 
-module.exports.logout = (req, res) => {
+module.exports.logout = async (req, res) => {
     console.log("logout");
     req.session.destroy();
     console.log("Logout -> session: " + req.session);

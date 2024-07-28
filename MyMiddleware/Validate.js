@@ -33,11 +33,13 @@ exports.checkURL = function(req){
 			break;
 		//start url
 		case "/WaitingRequest" :
+			console.log("Waiting request check")
 			exports.templateURL = req.url;
 			exports.startURL = "/Show-Waiting-Request-List";
 			currentURL = check(req, "/Views/Request/WaitingRequest.html",[0,1,2]);
 			break;
 		case "/ListRequest" :
+			console.log("List Request check")
 			exports.templateURL = req.url;
 			exports.startURL = "/Show-Request-Infomation-List";
 			currentURL = check(req, "/Views/Request/ListRequest.html",[0,1,2]);

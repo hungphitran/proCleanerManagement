@@ -224,10 +224,12 @@ function mainController($scope, $rootScope, $http,$location,$route, $templateCac
             $rootScope.stuff = JSON.parse(sessionStorage.getItem("stuff"));
 
             // $rootScope.stuff = null;
-            $templateCache.remove("/Dashboard");
-            $templateCache.remove("/Create-New-Account");
-
+            // $templateCache.remove("/Dashboard");
+            // $templateCache.remove("/Create-New-Account");
+            $templateCache.removeAll();
+            
             $location.path("/Login");
+            // window.location.reload(true);
         })
         .error(function(data){
             return;
@@ -342,6 +344,7 @@ function mainController($scope, $rootScope, $http,$location,$route, $templateCac
             $rootScope.loginSuccess = true;
             $rootScope.account  = data.account;
             
+            $templateCache.removeAll();
 
             if($location.path() == data.startURL) {
                 $templateCache.remove(data.templateURL);

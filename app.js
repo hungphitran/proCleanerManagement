@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart();
 var session = require('express-session');
-var RedisStore = require('connect-redis').default;
+// var RedisStore = require('connect-redis').default;
 
 var morgan = require('morgan');
 var methodOverride = require('method-override');
@@ -56,6 +56,7 @@ app.use(function(req, res, next){
   req.url = validate.checkURL(req);
   next();
 });
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -190,6 +191,7 @@ app.use(express.static(path.join(__dirname, 'public')));
     router.get('*', readFileRoute.readFile);
 
 app.use(router);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
