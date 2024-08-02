@@ -1,0 +1,484 @@
+<div class="row ">
+  <div id="breadcrumb" class="col-md-12">
+    <span> Chi tiết đơn hàng chưa hoàn thành </span>
+  </div>
+</div>
+<div id="loadDataSection" style="text-align:center;">
+      <span>Loading...</span>
+      </br>
+      <img src="img/devoops_getdata.gif" alt="Loading Data"/>
+</div>
+
+
+<!-- modal for giao viec -->
+<div class="modal fade  bs-example-modal-lg" id="giaoViecModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="border-radius:5px;">
+  <div class="modal-dialog  modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color:#8cc13d;padding-top:5px;padding-bottom:5px;">
+        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+        <h4 class="modal-title" id="myModalLabel"> Giao việc </h4>
+      </div>
+      <div class="modal-body" style="padding-bottom:2px;">
+          <div id="loadDataNGVGiaoViec" style="text-align:center;">
+            <span>Loading...</span>
+            <img src="img/devoops_getdata.gif" alt="Loading Data"/>
+          </div>
+
+          <div id="dataNGVGiaoViec">
+
+          <form class="form-horizontal" action="" style="padding-left:20px;padding-right:20px ; padding-bottom:10px;padding-top:15px; border: 1px solid #ccc; background-color:#eee;border-radius:5px;">
+
+                <div class="form-group" style="text-align:center;">
+                  <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;"> Số ĐT Khách Hàng : </label>
+                  <span class="control-label col-lg-3" style="text-align:left;">{{request.sdtkhachhang}}</span>
+                  <div>
+                    <label class="control-label col-lg-3" style="text-align:left; color:#02571c;"> Loại dịch vụ : </label>
+                    <span class="control-label col-lg-3" style="text-align:left;"> {{request.loaidichvu}}</span>
+
+                  </div>
+                </div>
+
+                <div class="form-group" style="text-align:center;">
+                  
+                    <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;">  Ngày Làm : </label>
+                    <span class="control-label col-lg-3" style="text-align:left;">{{requestDetailEdit.giobatdau.getUTCDate()}}/{{requestDetailEdit.giobatdau.getUTCMonth()+1}}/{{requestDetailEdit.giobatdau.getUTCFullYear()}}</span>
+
+                  <div>
+                    <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;">  Địa Chỉ Yêu Cầu : </label>
+                    <span class="control-label col-lg-3" style="text-align:left;">{{request.diachi}}- {{request.quan}}</span>
+                  </div>
+                </div>
+              
+                <div class="form-group" style="text-align:center;">
+                  <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;"> Giờ Bắt Đầu :</label>
+                  <span class="control-label col-lg-3" style="text-align:left;">{{requestDetailEdit.giobatdau.getUTCHours()}} : {{requestDetailEdit.giobatdau.getUTCMinutes()}}</span>
+                  <div>
+                  <label class="control-label col-lg-3" style="text-align:left; color:#02571c;"> Giờ Kết Thúc :</label>
+                  <span class="control-label col-lg-3" style="text-align:left;"> {{requestDetailEdit.gioketthuc.getUTCHours()}} : {{requestDetailEdit.gioketthuc.getUTCMinutes()}}</span>
+                  </div>
+                </div>
+
+
+
+        </form>
+
+        <form class="form-horizontal" action="" style="padding-left:20px;padding-right:20px;padding-top:15px;">
+
+                <div class="form-group" style="text-align:center;">
+                  <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;"> Người Giúp Việc : </label>
+                  <div class="col-lg-3">
+                    <select id="cmndComboBox" class="form-control valid" ng-model="helperCMND" ng-options="opt for opt in requestDetailEdit.listHelperCMND" disabled></select>
+                    
+                  </div>
+                  <div class="col-lg-2 ">
+                    <button class="btn btn-primary" ng-click="change()">Thay Đổi</button>
+                  </div>
+                </div>
+
+                <div class="form-group" style="text-align:center;">
+                    <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;">  Họ Tên :</label>
+                    <span class="control-label col-lg-3" style="text-align:left;">{{helper.hoten}}</span>
+                    
+                    <div>
+                    <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;">  Ngày Sinh :</label>
+                    <span class="control-label col-lg-3" style="text-align:left;">{{helper.ngaysinh.getUTCDate()}}/{{helper.ngaysinh.getUTCMonth()+1}}/{{helper.ngaysinh.getUTCFullYear()}} - {{helper.tuoi}} tuổi</span>
+                  </div>
+                    
+                </div>
+
+                <div class="form-group" style="text-align:center;">
+                  
+                  <label class="control-label col-lg-3" style="text-align:left; color:#02571c;"> Số ĐT :</label>
+                  <span class="control-label col-lg-3" style="text-align:left;"> {{helper.sodt}}</span>
+                  <div>
+                    <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;">  Địa Chỉ :</label>
+                    <span class="control-label col-lg-3" style="text-align:left;">{{helper.diachi.phuong}} - {{helper.diachi.quan}}</span>
+                  </div>
+                </div>
+
+            </form>
+
+           </div> 
+      </div>  
+      <div class="modal-footer" style="padding-bottom:5px;">
+        <button ng-show="helperCMND!=''" title="Giao việc" type="button" class="btn btn-success" ng-click="saveGiaoViec()">Giao việc</button>
+        <button  title="Không giao việc và quay lại" type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade  bs-example-modal-lg" id="danhGiaModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="border-radius:3px;">
+  <div class="modal-dialog  modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color:#8cc13d;padding-top:5px;padding-bottom:5px;">
+        <h4 class="modal-title" id="myModalLabel"> Đánh giá và hoàn thành  </h4>
+      </div>
+      <div class="modal-body" style="padding-bottom:2px;">
+          
+          <form class="form-horizontal" action="" style="padding-left:20px;padding-right:20px ; padding-bottom:10px;padding-top:15px; border: 1px solid #ccc; background-color:#eee;border-radius:5px;">
+
+            <div class="form-group" style="text-align:center;">
+                  <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;"> Số ĐT Khách Hàng : </label>
+                  <span class="control-label col-lg-3" style="text-align:left;">{{request.sdtkhachhang}}</span>
+                  <div>
+                    <label class="control-label col-lg-3" style="text-align:left; color:#02571c;"> Loại dịch vụ : </label>
+                    <span class="control-label col-lg-3" style="text-align:left;"> {{request.loaidichvu}}</span>
+
+                  </div>
+                </div>
+
+            <div class="form-group" style="text-align:center;">
+                
+              <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;"> Ngày Làm : </label>
+              <span class="control-label col-lg-3" style="text-align:left;">{{requestDetailEdit.giobatdau.getUTCDate()}}/{{requestDetailEdit.giobatdau.getUTCMonth()+1}}/{{requestDetailEdit.giobatdau.getUTCFullYear()}}</span>  
+              <div>
+                <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;"> Địa Chỉ Yêu Cầu : </label>
+                <span class="control-label col-lg-3" style="text-align:left;">{{request.diachi}}</span>
+              </div>
+            </div>
+          
+            <div class="form-group" style="text-align:center;">
+              <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;"> Giờ Bắt Đầu :</label>
+              <span class="control-label col-lg-3" style="text-align:left;">{{requestDetailEdit.giobatdau.getUTCHours()}} : {{requestDetailEdit.giobatdau.getUTCMinutes()}}</span>
+              <div>
+              <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;"> Giờ Kết Thúc :</label>
+              <span class="control-label col-lg-3" style="text-align:left;"> {{requestDetailEdit.gioketthuc.getUTCHours()}} : {{requestDetailEdit.gioketthuc.getUTCMinutes()}}</span>
+              </div>
+          </div>
+
+
+
+        </form>
+
+        <form class="form-horizontal" action="" style="padding-left:20px;padding-right:20px;padding-top:15px;">
+
+          <div class="form-group" style="text-align:center;">
+              <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;"> Người Giúp Việc : </label>
+              <span class="control-label col-lg-3" style="text-align:left;"> {{helper.cmnd}}</span>
+              <div>
+                <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;"> Họ Tên :</label>
+                <span class="control-label col-lg-3" style="text-align:left;">{{helper.hoten}}</span>
+              </div>
+          </div>
+
+          <div class="form-group" style="text-align:center;">
+              
+              <label class="control-label col-lg-2" style="text-align:left; color:#02571c;padding-left:10px;"> Số ĐT :</label>
+              <span class="control-label col-lg-3" style="text-align:left;"> {{helper.sodt}}</span>
+
+              <div>
+                <label class="control-label" style="text-align:left; color:#02571c;padding-left:10px;padding-right:10px;"> Có liên hệ được với khách hàng không ? </label>
+
+                <div class="radio-inline">
+                  <label style="padding-left:10px;">
+                    <input type="radio" name="radioLienLac"  ng-model="requestDetailEdit.lienlac" value="Không"> Không
+                    <i class="fa fa-circle-o"></i>
+                  </label>
+                </div>
+                <div class="radio-inline">
+                  <label style="padding-left:10px;">
+                    <input type="radio" name="radioLienLac" ng-model="requestDetailEdit.lienlac" value="Có"> Có
+                    <i class="fa fa-circle-o"></i>
+                  </label>
+                </div>
+              </div>
+          </div>
+
+            <div class=" form-group "> 
+                <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;"> Mức Đánh Giá : </label>
+                <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;">{{requestDetailEdit.nhanxet}} </label>
+                <div class="star-rating">
+                  <span class="fa fa-star-o" data-rating="1"></span>
+                  <span class="fa fa-star-o" data-rating="2"></span>
+                  <span class="fa fa-star-o" data-rating="3"></span>
+                  <span class="fa fa-star-o" data-rating="4"></span>
+                  <span class="fa fa-star-o" data-rating="5"></span>
+                  <input type="hidden" name="whatever" class="rating-value" value="3">
+                </div>
+            </div>
+
+            <div  class="form-group" style="text-align:left;">
+              
+              <label class="control-label" style="text-align:left; color:#02571c;padding-left:10px;padding-right:10px;"> Quý khách có bị thất lạc tài sản không ? </label>
+              <div class="radio-inline">
+                <label style="padding-left:10px;">
+                  <input class="khonglienlacduoc" type="radio" name="radioMatDo"  ng-model="requestDetailEdit.matdo" value="Không" checked> Không
+                  <i class="fa fa-circle-o"></i>
+                </label>
+              </div>
+              <div class="radio-inline">
+                <label style="padding-left:10px;">
+                  <input  class="khonglienlacduoc"  type="radio" name="radioMatDo" ng-model="requestDetailEdit.matdo" value="Có"> Có
+                  <i class="fa fa-circle-o"></i>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group"  style="text-align:left;">
+              <label class="control-label" style="text-align:left; color:#02571c;padding-left:10px;padding-right:10px;"> Quý khách có tài sản bị hư hỏng không ? </label>
+
+              <div class="radio-inline">
+                <label style="padding-left:10px;">
+                  <input  class="khonglienlacduoc"  type="radio" name="radioHuDo"  ng-model="requestDetailEdit.hudo" value="Không" checked> Không
+                  <i class="fa fa-circle-o"></i>
+                </label>
+              </div>
+              <div class="radio-inline">
+                <label style="padding-left:10px;">
+                  <input  class="khonglienlacduoc"  type="radio" name="radioHuDo" ng-model="requestDetailEdit.hudo" value="Có"> Có
+                  <i class="fa fa-circle-o"></i>
+                </label>
+              </div>
+            </div>
+
+        </form>
+      </div>
+      <div class="modal-footer" style="padding-bottom:5px;">
+
+        <button type="button" id="btSaveHoanThanh" class="btn btn-success" ng-click="saveHoanThanh()">Hoàn Thành</button>
+
+        <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal for chi tiet thoa thuan -->
+<div class="modal fade  bs-example-modal-lg" id="thayDoiModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="border-radius:5px;">
+  <div class="modal-dialog  modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color:#8cc13d;padding-top:5px;padding-bottom:5px;">
+        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+        <h4 class="modal-title" id="myModalLabel"> Thay đổi thời gian của chi tiết yêu cầu  </h4>
+      </div>
+      <div class="modal-body" style="padding-bottom:2px;">
+
+          <div id="dataNGVGiaoViec">
+
+          <form class="form-horizontal" action="" style="padding-left:20px;padding-right:20px ;">
+
+                <div class="form-group" style="text-align:center;">
+                  <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;"> Số ĐT Khách Hàng : </label>
+                  <span class="control-label col-lg-3" style="text-align:left;">{{request.sdtkhachhang}}</span>
+                  <div>
+                    <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;"> Loại Yêu Cầu : </label>
+                    <span class="control-label col-lg-3" style="text-align:left;">{{request.loaiyeucau}}</span>
+                  </div>
+                </div>
+
+                <div class="form-group" style="text-align:center;">
+                 
+                    <label class="control-label col-lg-3" style="text-align:left; color:#02571c;"> Loại Dịch Vụ : </label>
+                    <span class="control-label col-lg-8" style="text-align:left;"> {{request.loaidichvu}}</span>
+                </div>
+
+                <div class="form-group" style="text-align:center;">
+                  
+                    
+                    <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;">  Địa Chỉ Yêu Cầu : </label>
+                    <span class="control-label col-lg-3" style="text-align:left;">{{request.diachi}}</span>
+                  <div>
+                    <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;">  Ngày Làm : </label>
+                    <span class="control-label col-lg-3" style="text-align:left;">{{requestDetailChange.giobatdau.getUTCDate()}}/{{requestDetailChange.giobatdau.getUTCMonth()+1}}/{{requestDetailChange.giobatdau.getUTCFullYear()}}</span>
+                  </div>
+                </div>
+
+                <div class="form-group" style="text-align:center;">
+                  <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;"> Giờ Bắt Đầu Cũ :</label>
+                  <span class="control-label col-lg-3" style="text-align:left;">{{requestDetailChange.giobatdau.getUTCHours()}} : {{requestDetailChange.giobatdau.getUTCMinutes()}}</span>
+                  <div>
+                    <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;"> Giờ Kết Thúc Cũ :</label>
+                    <span class="control-label col-lg-3" style="text-align:left;"> {{requestDetailChange.gioketthuc.getUTCHours()}} : {{requestDetailChange.gioketthuc.getUTCMinutes()}}</span>
+                    </div>
+                </div>
+
+                <div class="form-group" style="text-align:center;">
+                  <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;"> Chi Phí Cơ Bản Cũ :</label>
+                  <span class="control-label col-lg-3" style="text-align:left;">{{oldBaseCost | number}} VNĐ ( {{((requestDetailChange.gioketthuc.getTime()- requestDetailChange.giobatdau.getTime())/(60*60*1000) )}} Giờ)</span>
+                  <div>
+                    <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;"> Chi Phí Ngoài Giờ Cũ :</label>
+                    <span class="control-label col-lg-3" style="text-align:left;"> {{requestDetailChange.chiphingoaigio|number}} VNĐ ({{requestDetailChange.sogiongoaigio}} Giờ)</span>
+                    </div>
+                </div>
+
+                <div class="form-group" style="text-align:center;">
+                  <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;"> Giờ Bắt Đầu Mới :</label>
+                  <div class="col-lg-3" style="text-align:left;">
+                  <select name="singleSelect" ng-model="thaydoibatdau">
+                    <option ng-repeat="gioBD in timeOption" value="{{gioBD}}">{{gioBD}}</option>
+                  </select>
+                  </div>
+                  <div>
+                    <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;"> Giờ Kết Thúc Mới :</label>
+                    <div class="col-lg-3" style="text-align:left;">
+                    <select name="singleSelect" ng-model="thaydoiketthuc">
+                    <option ng-repeat="gioKT in timeOption" value="{{gioKT}}">{{gioKT}}</option>
+                    </select>
+                    </div>
+                   </div>
+
+                   <div class="col-lg-12 myWarning" ng-show="newTimeWrong">
+                    <label for="cname" class="control-label myWarningLabel" ><i class="fa fa-warning"></i> Khoảng thời gian phải lớn hơn 2 tiếng và không được lẻ 30 phút </label>
+                  </div>
+
+                </div>
+
+                <div class="form-group" style="text-align:center;" ng-hide="newTimeWrong">
+                  <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;"> Chi Phí Cơ Bản Mới :</label>
+                  <span class="control-label col-lg-3" style="text-align:left;">{{newBaseCost| number}} VNĐ ({{((gioketthucmoi.getTime()- giobatdaumoi.getTime())/(60*60*1000) )}} Giờ)</span>
+                  <div>
+                    <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;"> Chi Phí Ngoài Giờ Mới :</label>
+                    <span class="control-label col-lg-3" style="text-align:left;"> {{newOutSideCost|number}} VNĐ ({{newOutSideTime}} Giờ)</span>
+                    </div>
+                </div>
+
+            </form>
+
+           </div> 
+      </div>  
+      <div class="modal-footer" style="padding-bottom:5px;">
+        <button  ng-hide="newTimeWrong"  title="Lưu lại dữ liệu sau khi thay đổi khung giờ" type="button" class="btn btn-success" ng-click="saveThayDoi()">Lưu Lại</button>
+        <button  title="Quay lại" type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div id="dataSection">
+<div class="row" >
+  <div class="col-lg-12">
+      <section class="panel">
+        <header class="panel-heading" >
+          <span>Thông tin đơn hàng :</span>
+        </header>
+        <div class="panel-body" >
+            <form class="form-horizontal" action="">
+
+            	<div class="form-group " style="text-align:center;">
+                	<label class="control-label col-lg-3" style="text-align:right; color:#02571c;"> Mã Số Đơn Hàng : </label>
+                	<span class="control-label col-lg-3" style="text-align:left;">{{request.id}}</span>
+                	<div>
+                	<label class="control-label col-lg-3" style="text-align:right; color:#02571c;"> Loại Yêu Cầu :</label>
+                	<span class="control-label col-lg-3" style="text-align:left;"> {{request.loaiyeucau}}</span>
+                	</div>
+              	</div>
+
+              	<div class="form-group " style="text-align:center;">
+                	<!-- <label class="control-label col-lg-3" style="text-align:right; color:#02571c;"> Chi Phí Thanh Toán : </label>
+                	<span class="control-label col-lg-3" style="text-align:left;"> {{request.chiphi | number}} đ</span>
+                	<div> -->
+                  <label class="control-label col-lg-3" style="text-align:right; color:#02571c;"> Họ Tên Khách Hàng : </label>
+                  <span class="control-label col-lg-3" style="text-align:left;"> {{request.hoten}}</span>
+                  <div>
+                	<label class="control-label col-lg-3" style="text-align:right; color:#02571c;"> Số ĐT Khách Hàng :</label>
+                	<span class="control-label col-lg-3" style="text-align:left;">{{request.sdtkhachhang}}</span>
+                	</div>
+              	</div>
+                <div class="form-group " style="text-align:center;">
+                    <label class="control-label col-lg-3" style="text-align:right; color:#02571c;"> Loại Dịch Vụ : </label>
+                    <span class="control-label col-lg-3" style="text-align:left;"> {{request.loaidichvu}}</span>
+                    <div>
+                        <label class="control-label col-lg-3" style="text-align:right; color:#02571c;"> Địa Chỉ Yêu Cầu : </label>
+                      <span class="control-label col-lg-3" style="text-align:left;"> {{request.diachi}}</span>
+                    </div>
+                    
+                </div>
+
+              	<div class="form-group " style="text-align:center;">
+                	<label class="control-label col-lg-3" style="text-align:right; color:#02571c;"> Ngày Đặt Yêu Cầu : </label>
+                	<span class="control-label col-lg-3" style="text-align:left;">{{request.ngaydatyeucau.getUTCDate()}}/{{request.ngaydatyeucau.getUTCMonth()+1}}/{{request.ngaydatyeucau.getUTCFullYear()}}</span>
+                	<div>
+                	<label class="control-label col-lg-3" style="text-align:right; color:#02571c;"> Trạng Thái :</label>
+                	<span class="control-label col-lg-3" style="text-align:left;"> {{request.trangthai}}</span>
+                	</div>
+              	</div>
+
+                <div class="form-group " style="text-align:center;">
+                  <label class="control-label col-lg-3" style="text-align:right; color:#02571c;"> Chi Phí Cơ Bản : </label>
+                  <span class="control-label col-lg-3" style="text-align:left;">{{request.chiphi | number}} VNĐ</span>
+                  <div>
+                  <label class="control-label col-lg-3" style="text-align:right; color:#02571c;"> Chi Phí Ngoài Giờ :</label>
+                  <span class="control-label col-lg-3" style="text-align:left;"> {{request.chiphingoaigio | number}} VNĐ ( {{request.sogiongoaigio}} Giờ )</span>
+                  </div>
+                </div>
+
+                <div class="form-group " style="text-align:center;">
+                  <div ng-show="request.phithoathuan>0">
+                    <label class="control-label col-lg-3" style="text-align:right; color:#02571c;"> Chi Phí Thỏa Thuận : </label>
+                    <span class="control-label col-lg-3" style="text-align:left;">{{request.phithoathuan | number}} VNĐ</span>
+                  </div>
+                  <div>
+                  <label class="control-label col-lg-3" style="text-align:right; color:#02571c;"> Tổng Chi Phí :</label>
+                  <strong class="control-label col-lg-3" style="text-align:left;"> {{request.chiphi + request.chiphingoaigio + request.phithoathuan | number}} VNĐ</strong>
+                  </div>
+                </div>
+
+              	<!-- <div class="form-group " style="text-align:center;">
+                	<label class="control-label col-lg-3" style="text-align:right; color:#02571c;"> Nhân Viên Xử Lý : </label>
+                	<span class="control-label col-lg-3" style="text-align:left;"> {{nhanvienxuly.cmnd}} - {{nhanvienxuly.hoten}} </span>
+              	</div> -->
+            </form>
+        </div>
+    </section>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box">
+	  <div class="box-name" style="background-color:#8cc13d;color:#02571c;">
+          <i class="fa fa-info"></i>
+          <span>Thông tin chi tiết khung giờ của đơn hàng</span>
+        </div>
+      <div class="box-content no-padding" style="text-align:center;">
+        <table class="table table-bordered table-striped table-hover table-heading " >
+
+          <thead style="text-align:center;color:#02571c;">
+            <tr>
+              <th style="text-align:center;padding-right:5px;"><i class="fa fa-clock-o"></i> Giờ Bắt Đầu </th>
+              <th style="text-align:center;padding-right:5px;"><i class="fa fa-clock-o"></i> Giờ Kết Thúc</th>
+              <th style="text-align:center;padding-right:5px;"><i class="fa fa-calendar"></i> Ngày Làm</th>
+              <th style="text-align:center;padding-right:5px;"><i class="fa fa-user"></i> Người Giúp Việc </th>
+              <th style="text-align:center;padding-right:5px;"><i class="fa fa-info"></i> Trạng Thái </th>
+              <th style="text-align:center;padding-right:5px;"><i class="fa fa-gears"></i> Xử Lý </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat = "detail in listDetail">
+
+                    <td>{{detail.giobatdau.getUTCHours()}} : {{detail.giobatdau.getUTCMinutes()}}</td>
+
+                    <td>{{detail.gioketthuc.getUTCHours()}} : {{detail.gioketthuc.getUTCMinutes()}}</td>
+                    <td>{{detail.giobatdau.getUTCDate()}}/{{detail.giobatdau.getUTCMonth()+1}}/{{detail.giobatdau.getUTCFullYear()}} - Thứ {{detail.giobatdau.getDay()+1}}</td>
+                    <td>{{detail.nguoigiupviec}}</td>
+                    <td>{{detail.trangthai}}</td>
+                    <td>
+                      <button title="Giao việc cho người giúp việc" class="btn btn-info myDeleteButton " ng-click = "giaoViec(detail)" id="btGiaoViec{{detail.id}}" ng-show="detail.trangthai == 'Chưa giao'">Giao Việc</button>
+
+                      <button title="Thay đổi khung giờ" class="btn btn-success myDeleteButton" ng-click = "thayDoi(detail)" id="btThayDoi{{detail.id}}" ng-show="detail.trangthai == 'Chưa giao' || detail.trangthai == 'Đã giao'" >Sửa</button>
+
+                      <button title="Giao việc cho người giúp việc" class="btn btn-info myDeleteButton " ng-click = "giaoViec(detail)" id="btGiaoViec{{detail.id}}" ng-show="detail.trangthai == 'Đã giao'">Đổi NGV</button>
+
+                      <button title="Thực hiện xác nhận và đánh giá để hoàn thành" class="btn btn-success myDeleteButton" ng-click = "hoanThanh(detail)" id="btHoanThanh{{detail.id}}" ng-show="detail.trangthai == 'Đã giao' || detail.trangthai == 'Chưa liên hệ'">Hoàn Thành</button>
+
+                      <button title="Xóa chi tiết đơn hàng" class="btn btn-danger myDeleteButton" ng-click = "deleteRequestDetail(detail)" ng-hide="detail.trangthai == 'Hoàn thành' || detail.trangthai == 'Chưa liên hệ'"> Xóa </button>
+                    </td>
+                </tr>
+          <!-- End: list_row -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

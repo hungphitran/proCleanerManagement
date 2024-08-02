@@ -1,0 +1,154 @@
+<div class="row">
+  <div id="breadcrumb" class="col-md-12">
+    <span> Danh sách các đơn hàng cần thỏa thuận về phụ phí - từ ngày {{timeRangeShow.startDate.getUTCDate()}}/{{timeRangeShow.startDate.getUTCMonth()+1}}/{{timeRangeShow.startDate.getUTCFullYear()}} đến ngày {{timeRangeShow.endDate.getUTCDate()}}/{{timeRangeShow.endDate.getUTCMonth()+1}}/{{timeRangeShow.endDate.getUTCFullYear()}}</span>
+  </div>
+</div>
+
+<div id="loadDataSection" style="text-align:center;">
+      <span>Loading...</span>
+      </br>
+      <img src="img/devoops_getdata.gif" alt="Loading Data"/>
+</div>
+
+<!-- modal for chi tiet thoa thuan -->
+<div class="modal fade  bs-example-modal-lg" id="thoaThuanModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="border-radius:5px;">
+  <div class="modal-dialog  modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color:#8cc13d;padding-top:5px;padding-bottom:5px;">
+        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+        <h4 class="modal-title" id="myModalLabel"> Thông tin chi tiết của yêu cầu  </h4>
+      </div>
+      <div class="modal-body" style="padding-bottom:2px;">
+
+          <div id="dataNGVGiaoViec">
+
+          <form class="form-horizontal" action="" style="padding-left:20px;padding-right:20px ;">
+
+                <div class="form-group" style="text-align:center;">
+
+                  <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;"> Số ĐT Khách Hàng : </label>
+                  <span class="control-label col-lg-3" style="text-align:left;">{{requestThoaThuan.sdtkhachhang}}</span>
+
+                  <div>
+                    <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;">  Ngày Đặt Yêu Cầu : </label>
+                    <span class="control-label col-lg-3" style="text-align:left;">{{requestThoaThuan.ngaydatyeucau.getUTCDate()}}/{{requestThoaThuan.ngaydatyeucau.getUTCMonth()+1}}/{{requestThoaThuan.ngaydatyeucau.getUTCFullYear()}}</span>
+                  </div>
+
+                </div>
+
+                <div class="form-group" style="text-align:center;">
+                  
+                  <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;">  Địa Chỉ Yêu Cầu : </label>
+                    <span class="control-label col-lg-3" style="text-align:left;">{{requestThoaThuan.diachi}}</span>
+                  <div>
+                    <label class="control-label col-lg-3" style="text-align:left; color:#02571c;"> Loại Dịch Vụ : </label>
+                    <span class="control-label col-lg-3" style="text-align:left;"> {{requestThoaThuan.loaidichvu}}</span>
+                  </div>
+                </div>
+
+                <div class="form-group" style="text-align:center;">
+                  
+                    <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;"> Loại Yêu Cầu : </label>
+                    <span class="control-label col-lg-3" style="text-align:left;">{{requestThoaThuan.loaiyeucau}}</span>
+
+                    <div>
+                      <label class="control-label col-lg-4" style="text-align:left; color:#02571c;padding-left:10px;"> Số lượng chi tiết yêu cầu : </label>
+                      <span class="control-label col-lg-2" style="text-align:left;">{{requestThoaThuan.soluongchitietYC}}</span>
+                    </div>
+                </div>
+
+                <div class="form-group" style="text-align:center;">
+                    <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;">Chi phí cơ bản :</label>
+                    <span class="control-label col-lg-3" style="text-align:left;">{{requestThoaThuan.chiphi | number}} VND</span>
+                    <div>
+                      <label class="control-label col-lg-4" style="text-align:left; color:#02571c;padding-left:10px;"> Phí Ngoài giờ : </label>
+                      <span class="control-label col-lg-2" style="text-align:left;">{{requestThoaThuan.chiphingoaigio | number}} ( {{requestThoaThuan.sogiongoaigio}} giờ)</span>
+                    </div>
+                </div>
+
+                <div class="form-group" style="text-align:center;">
+                    <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;">Phụ phí thỏa thuận : </label>
+                    <input class="control-label col-lg-3" style="text-align:left;" format="number" type="text" ng-model="phuphi">
+                    
+                </div>
+                <div class="form-group" style="text-align:center;">
+                    <label class="control-label col-lg-3" style="text-align:left; color:#02571c;padding-left:10px;">Tổng chi phí : </label>
+                    <span class="control-label col-lg-3" style="text-align:left;">{{tongchiphi | number}} VND</span>
+                    
+                </div>
+
+            </form>
+
+           </div> 
+      </div>  
+      <div class="modal-footer" style="padding-bottom:5px;">
+        <button title="Lưu lại chi phí mới cho yêu cầu" type="button" class="btn btn-success" ng-click="saveThoaThuan()">Lưu Lại</button>
+        <button  title="Quay lại" type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div id="dataSection">
+    <label style="padding-left:35px;">Tìm kiếm theo : </label>
+    <div class="form-group col-lg-12" style="padding-right:5px; text-align:left;">
+      <div class="col-lg-3 " style=" text-align:left; padding-bottom:10px;padding-left:20px;">
+          <select class="form-control valid" ng-model="typeSearch" ng-options="tieuchi for tieuchi in tieuchiSearch" ng-init="typeSearch=' Tất Cả '"></select>
+      </div>
+      <div class="col-lg-3 nopadding" style="padding-bottom:10px;text-align:left;padding-right:15px;">
+        <div  id="search" style="text-align:left;margin-top:-3px;" >
+          <input type="text" placeholder="Search" ng-model="searchText"/>
+          <i class="fa fa-search" style="margin-top:-10px;" ></i>
+        </div>
+      </div>
+        <div class="col-lg-3 " style="padding-bottom:20px;text-align:left;padding-right:15px;margin-top:-20px;">
+            <span>Thời gian :</span>
+            <span  class="form-control valid" style="font-size: larger;"><input id="timeRangeLoadWaitingRequest"></span>
+        </div>
+        <div class="col-lg-3 " style="padding-bottom:15px;text-align:left;padding-right:15px;">
+          <button class="btn btn-info" ng-click="checkToLoadWaitingRequest()"> Tải Đơn hàng </button>
+        </div>
+
+  </div>
+
+
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-content no-padding" style="text-align:center;">
+          <table class="table table-bordered table-striped table-hover table-heading " >
+
+            <thead style="text-align:center;color:#02571c;">
+              <tr>
+                <th style="text-align:center;padding-right:5px;"><i class="fa fa-mobile"></i> Số ĐT Khách Hàng</th>
+                <th style="text-align:center;padding-right:5px;"><i class="fa fa-adjust"></i> Loại Yêu cầu</th>
+                <th style="text-align:center;padding-right:5px;"><i class="fa fa-clock-o"></i> Loại Dịch Vụ</th>
+                <th style="text-align:center;padding-right:5px;"><i class="fa fa-calendar"></i> Ngày Đặt Yêu Cầu</th>
+                <th style="text-align:center;padding-right:5px;"><i class="fa fa-money"></i> Chi Phí</th>
+                <th style="text-align:center;padding-right:5px;"><i class="fa fa-gears"></i> Lựa Chọn</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat = "request in requestList">
+                      <td>{{request.sdtkhachhang}}</td>
+                      <td>{{request.loaiyeucau}}</td>
+                      <td>{{request.loaidichvu}}</td>
+                      <td>{{request.ngaydatyeucau.getUTCDate()}}/{{request.ngaydatyeucau.getUTCMonth()+1}}/{{request.ngaydatyeucau.getUTCFullYear()}}</td>
+                      <td>{{request.chiphi | number}} VND</td>
+                      <td>
+                        <button title="Xem thông tin chi tiết của yêu cầu để thương lượng về chi phí" class="btn btn-info myDeleteButton" ng-click = "thoaThuan(request)">Liên Hệ</button>
+                        <button title="Xóa yêu cầu" class="btn btn-danger myDeleteButton" ng-click = "deleteRequest(request)" > Xóa </button>
+                      </td>
+                      </td>
+                  </tr>
+              
+            <!-- End: list_row -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

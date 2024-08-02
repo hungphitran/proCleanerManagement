@@ -1,0 +1,106 @@
+<div class="row">
+  <div id="breadcrumb" class="col-md-12">
+    <span> Thông tin về danh sách đơn hàng của khách hàng {{customer.hoten}}</span>
+  </div>
+</div>
+
+<div id="loadDataSection" style="text-align:center;">
+      <span>Loading...</span>
+      </br>
+      <img src="img/devoops_getdata.gif" alt="Loading Data"/>
+</div>
+
+<div id="dataSection">
+  <div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+          <header class="panel-heading" >
+            <span>Thông tin khách hàng :</span>
+          </header>
+          <div class="panel-body" >
+              <form class="form-horizontal" action="">
+
+              	<div class="form-group " style="text-align:center;">
+                  	<label class="control-label col-lg-3" style="text-align:right; color:#02571c;"> Họ Tên : </label>
+                  	<span class="control-label col-lg-3" style="text-align:left;"> {{customer.hoten}}</span>
+                  	<div>
+                  	<label class="control-label col-lg-3" style="text-align:right; color:#02571c;"> Số Điện Thoại :</label>
+                  	<span class="control-label col-lg-3" style="text-align:left;"> {{customer.sdt}}</span>
+                  	</div>
+                	</div>
+
+                	<div class="form-group " style="text-align:center;">
+                  <label class="control-label col-lg-3" style="text-align:right; color:#02571c;"> Địa Chỉ : </label>
+                  <span class="control-label col-lg-3" style="text-align:left;"> {{customer.diachi}}</span>
+                  <div>
+                  <label class="control-label col-lg-3" style="text-align:right; color:#02571c;"> Email :</label>
+                  <span class="control-label col-lg-3" style="text-align:left;">{{customer.email}}</span>
+                  </div>
+                </div>
+                	
+              </form>
+          </div>
+      </section>
+    </div>
+  </div>
+  <label style="padding-left:35px;">Tìm kiếm theo: </label>
+    <div class="form-group col-lg-12" style="padding-right:5px; text-align:left;">
+      <div class="col-lg-3 " style=" text-align:left; padding-bottom:10px;padding-left:20px;">
+          <select class="form-control valid" ng-model="typeSearch" ng-options="tieuchi for tieuchi in tieuchiSearch" ng-init="typeSearch=' Tất Cả '"></select>
+      </div>
+      <div class="col-lg-3 nopadding" style="padding-bottom:10px;text-align:left;padding-right:15px;">
+        <div  id="search" style="text-align:left;margin-top:-3px;" >
+          <input type="text" placeholder="Search" ng-model="searchText"/>
+          <i class="fa fa-search" style="margin-top:-10px;" ></i>
+        </div>
+      </div>
+
+      <div class="col-lg-3 " style="padding-bottom:20px;text-align:left;padding-right:15px;margin-top:-20px;">
+          <span>Thời gian :</span>
+          <span  class="form-control valid" style="font-size: larger;"><input id="timeRangeLoadRequest"></span>
+      </div>
+      <div class="col-lg-3 " style="padding-bottom:15px;text-align:left;padding-right:15px;">
+        <button class="btn btn-info" ng-click="checkToLoadRequest()"> Tải Đơn hàng </button>
+      </div>
+
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box">
+  	  <div class="box-name" style="background-color:#8cc13d;color:#02571c;">
+            <i class="fa fa-info"></i>
+            <span>Danh sách các đơn hàng của khách hàng</span>
+          </div>
+        <div class="box-content no-padding" style="text-align:center;">
+          <table class="table table-bordered table-striped table-hover table-heading " >
+
+            <thead style="text-align:center;color:#02571c;">
+              <tr>
+                <th style="text-align:center;padding-right:5px;"><i class="fa fa-calendar"></i> Ngày Đặt Yêu Cầu</th>
+                <th style="text-align:center;padding-right:5px;"><i class="fa fa-adjust"></i> Loại Yêu cầu</th>
+                <th style="text-align:center;padding-right:5px;"><i class="fa fa-location"></i> Địa Chỉ </th>
+                <th style="text-align:center;padding-right:5px;"><i class="fa fa-clock-o"></i> Trạng Thái</th>
+                <th style="text-align:center;padding-right:5px;"><i class="fa fa-money"></i>Tổng Chi Phí</th>
+                <th style="text-align:center;padding-right:5px;"><i class="fa fa-gears"></i> Lựa Chọn</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat = "request in requestList"  >
+                      <td>{{request.ngaydatyeucau.getUTCDate()}}/{{request.ngaydatyeucau.getUTCMonth()+1}}/{{request.ngaydatyeucau.getUTCFullYear()}}</td>
+                      <td>{{request.loaiyeucau}}</td>
+                      <td>{{request.diachi}},{{request.quan}}</td>
+                      <td>{{request.trangthai}}</td>
+                      <td>{{request.chiphi +request.chiphingoaigio + request.phithoathuan | number}} VNĐ</td>
+                      <td >
+                        <button title="Xem Thông Tin Chi Tiết Của Yêu Cầu" class="btn btn-info myDeleteButton" ng-click = "editRequest(request)">Xem</button>
+                      </td>
+                  </tr>
+              
+            <!-- End: list_row -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

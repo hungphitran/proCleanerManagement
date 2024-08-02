@@ -1,0 +1,115 @@
+.mytable {
+    border: 1px solid #ccc;
+}
+.mytable th {
+    	color:#02571C;
+	text-align: center;
+	
+}
+.mytable td{
+	text-align: center;
+}
+.mytableSoTruong td{
+	text-align: left;
+}
+.requestResultForm{
+	border: none;
+}
+
+.myheader{
+	
+}
+.logo{
+	padding-bottom:10px;
+}
+.gkskIcon:hover{
+	color:#8cc13d;
+}
+.helperAvatar{
+	width:100px;
+	height:100px;
+	border:1px solid #02571c;
+}
+.listImage tr, .listImage{
+	text-align: left;
+	border-bottom:1px solid #ccc;
+}
+
+.myaddbutton:hover{
+	color:#8cc13d;	
+background-color:#02571c; 
+}
+.myWarning{
+	vertical-align: text-bottom;
+	text-align:center;
+}
+.myWarningLabel{
+	text-align:center;
+	color:red; 
+	font-weight:100;
+}
+
+.myUsernameOK{
+	vertical-align: text-bottom;
+	text-align:center;
+}
+.myUsernameOKLabel{
+	text-align:center;
+	color:green; 
+	font-weight:100;
+}
+
+.myRequiredIcon{
+	text-align:center;
+	color:red; 
+}
+.nopadding{
+	padding:0px;
+}
+.borderbottom{
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.star-rating {
+  line-height:32px;
+  font-size:2.25em;
+  cursor: pointer;
+  color:#02571c;
+}
+.myCalendarElement {
+    width:70px;
+    height:70px;
+}
+.busyDate{
+    background-color:#cc3300;
+color:#02571c;
+	
+}	
+.busyDate:hover{
+    background-color:#cc3355;
+	color:#02571c;
+	
+}
+.passedDate{
+    background-color:#9c9c9c;
+}
+.normalDate{
+    background-color:#99cc99;
+	color:#02571c;
+}
+.normalDate:hover{
+    background-color:#99ccbb;
+	color:#02571c;
+}
+.myCalendar th {
+	border-radius:5px;
+    	color:#02571c;
+	background-color:#8cc13d;
+	text-align: center;
+	
+}
+.myTransparentInput{
+	background-color:rgba(0, 0, 0, 0);
+	border:none;
+}
+

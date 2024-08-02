@@ -1,0 +1,163 @@
+
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color:#8cc13d;">
+        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+        <h4 class="modal-title" id="myModalLabel"> Xác Nhận Thao Tác Xóa </h4>
+      </div>
+      <div class="modal-body">
+          <p class="control-label" style="text-align:center;">  Bạn có chắc chắn muốn xóa <strong ng-bind="titleDelete"></strong> ? </p>
+      </div>  
+      <div class="modal-footer">
+      <button title="Xác nhận xóa" type="button" class="btn btn-danger" ng-click="confirmDelete()">Xóa</button>
+    <button title="Không xóa và quay lại" type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+    </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <div id="breadcrumb" class="col-md-12">
+    <span> DANH SÁCH KHU VỰC - QUẬN - PHƯỜNG </span>
+  </div>
+</div>
+
+<div id="loadDataSection" style="text-align:center;">
+      <span>Loading...</span>
+      </br>
+      <img src="img/devoops_getdata.gif" alt="Loading Data"/>
+</div>
+
+<div id="dataSection">
+
+<div class="row mycenter" >
+  <div class="col-xs-12 col-sm-6 " style="padding-right:29px; padding-left:29px;">
+    <div class="box nopadding ">
+      <div class="box-header" style="background-color:#8CC13D; color:#02571c; font-weight: bold;">
+        <div class="box-name">
+          <i class="fa fa-table"></i>
+          <span>Thông tin các khu vực</span>
+        </div>
+        <div class="box-icons" >
+          <a class="collapse-link">
+            <i class="fa fa-chevron-up" style="color:#02571C;"></i>
+          </a>
+          <a class="expand-link">
+            <i class="fa fa-expand" style="color:#02571C;"></i>
+          </a>
+        </div>
+        <div class="no-move"></div>
+      </div>
+      <div class="box-content nopadding">
+          <table class="table table-hover mytable">
+           <tbody >
+              <tr align="center" class="odd">
+                 <th class="col-lg-3"><i class="icon_profile"></i> Tên khu vực </th>
+                 <th class="col-lg-3"><i class="icon_cogs"></i> Lựa chọn</th>
+              </tr>
+
+              <tr ng-repeat = "location in locationList">
+                  <td>{{location.tenkhuvuc}}</td>
+                  <td>
+                        <button title="Xóa khu vưc" class="btn btn-danger myDeleteButton" ng-click = "deleteLocation(location)"><i class="fa fa-trash-o"></i></button>
+                  </td>
+              </tr>
+                                   
+           </tbody>
+        </table>
+      </div>
+    </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-6" style="padding-right:29px; padding-left:29px;" >
+    <div class="box nopadding">
+      <div class="box-header"  style="background-color:#8CC13D; color:#02571c; font-weight: bold;">
+        <div class="box-name">
+          <i class="fa fa-table"></i>
+          <span>Thông tin các quận </span>
+        </div>
+        <div class="box-icons">
+          <a class="collapse-link">
+            <i class="fa fa-chevron-up" style="color:#02571C;"></i>
+          </a>
+          <a class="expand-link">
+            <i class="fa fa-expand" style="color:#02571C;"></i>
+          </a>
+        </div>
+        <div class="no-move"></div>
+      </div>
+      <div class="box-content nopadding">
+          <table class="table table-hover mytable">
+           <tbody >
+              <tr align="center">
+                 <th class="col-lg-2"><i class="icon_profile"></i> Tên quận </th>
+                 <th class="col-lg-2"><i class="icon_cogs"></i> Tên khu vực </th>
+                 <th class="col-lg-2"><i class="icon_cogs"></i> Lựa chọn </th>
+              </tr>
+              <tr ng-repeat = "district in districtList">
+                <td>{{district.tenquan}}</td>
+                <td>{{district.khuvuc}}</td>
+                <td>
+                  <div class="btn-group">
+                      <!-- <button class="btn btn-info" ng-click = "editDistrict(district)"><i class="fa fa-pencil"></i></button> -->
+                      <button class="btn btn-danger" ng-click = "deleteDistrict(district)"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                </td>
+            </tr>
+                                   
+           </tbody>
+        </table>
+      </div>
+    </div>
+    </div>
+
+  </div>
+    
+  </br></br>
+
+  <div class="col-xs-12 col-sm-12">
+    <div class="box nopadding">
+      <div class="box-header"  style="background-color:#8CC13D; color:#02571c; font-weight: bold;">
+        <div class="box-name">
+          <i class="fa fa-table"></i>
+          <span>Thông tin các phường </span>
+        </div>
+        <div class="box-icons">
+          <a class="collapse-link">
+            <i class="fa fa-chevron-up" style="color:#02571C;"></i>
+          </a>
+          <a class="expand-link">
+            <i class="fa fa-expand" style="color:#02571C;"></i>
+          </a>
+        </div>
+        <div class="no-move"></div>
+      </div>
+      <div class="box-content nopadding">
+          <table class="table table-hover mytable">
+           <tbody >
+              <tr align="center">
+                 <th class="col-lg-4"><i class="icon_profile"></i> Tên phường </th>
+                 <th class="col-lg-4"><i class="icon_cogs"></i> Tên quận </th>
+                 <th class="col-lg-4"><i class="icon_cogs"></i> Lựa chọn </th>
+              </tr>
+              <tr ng-repeat = "ward in wardList">
+                  <td>{{ward.tenphuong}}</td>
+                  <td>{{ward.quan}}</td>
+                  <td>
+                    <div class="btn-group">
+                        <!-- <button class="btn btn-info" ng-click = "editWard(ward)"><i class="fa fa-pencil"></i></button> -->
+                        <button class="btn btn-danger" ng-click = "deleteWard(ward)"><i class="fa fa-trash-o"></i></button>
+                    </div>
+                  </td>
+              </tr>
+                                   
+           </tbody>
+        </table>
+      </div>
+    </div>
+    </div>
+</div>
+
+  

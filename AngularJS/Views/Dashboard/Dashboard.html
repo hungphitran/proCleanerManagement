@@ -1,0 +1,120 @@
+<div class="row">
+  <div id="breadcrumb" class="col-md-12">
+    <span> Thông số kinh doanh của công ty </span>
+  </div>
+</div>
+
+
+
+<div id="dataSection">
+
+  <!-- <div class="row">
+      <div class="col-lg-12" style="height:530px;">
+          <section class="panel">
+              <header class="panel-heading">
+                  Biểu đồ kinh doanh theo tháng
+              </header>
+              <div class="col-lg-12">
+
+                <div class="col-lg-5 ">
+                    <span>Thời gian :</span>
+                    <span  class="form-control valid" style="font-size: larger;">
+                      Từ tháng : <input id="dashboardByMonthRangeFromChooser"> Đến Tháng <input id="dashboardByMonthRangeToChooser"></span>
+                </div>
+                <div class="col-lg-2 " style="padding-top:18px;text-align:center;">
+                  <button class="btn btn-info" ng-click="loadData('ColumnChartWithService')"> Xem thống kê</button>
+                </div>
+              </div>
+
+              <div class="panel-body text-center" >
+                  <div style="height:350px;width:100%;padding-top:100px;text-align:center;" ng-show="noDataForColumnChartWithService">
+                    <img src="/img/nodata.png" style="width:100px;height:100px;"></br></br>
+                    <span style="font-size: x-large;padding-top:50px;padding-bottom:20px;">Không có dữ liệu trong khoảng thời gian này</span></br>
+                    <span>Vui lòng chọn khoảng thời gian khác</span>
+                  </div>
+                  <div style="height:350px;width:100%;" ng-show="loadingDataColumnChartWithService">
+                    <img src="/img/loading.gif">
+                  </div>
+                  <div style="width: auto;display: block;" id="columnChartWithServiceOuter">
+                    <div id="columnChartWithService" ></div>
+                  </div>
+              </div>
+
+          </section>
+      </div>
+  </div> -->
+
+
+  <div class="row">
+      <div class="col-lg-12" style="height:530px;">
+          <section class="panel">
+              <header class="panel-heading">
+                  Biểu đồ số lượng các dịch vụ
+              </header>
+              <div class="col-lg-12">
+                <div class="col-lg-5 ">
+                    <span>Thời gian :</span>
+                    <span  class="form-control valid" style="font-size: larger;"><input id="timeRangeChartByServiceChooser"></span>
+                </div>
+                <div class="col-lg-2 " style="padding-top:18px;text-align:center;">
+                  <button class="btn btn-info" ng-click="loadData('ColumnChartWithService')"> Xem thống kê</button>
+                </div>
+              </div>
+
+              <div class="panel-body text-center" >
+                  <div style="height:350px;width:100%;padding-top:100px;text-align:center;" ng-show="noDataForColumnChartWithService">
+                    <img src="/img/nodata.png" style="width:100px;height:100px;"></br></br>
+                    <span style="font-size: x-large;padding-top:50px;padding-bottom:20px;">Không có dữ liệu trong khoảng thời gian này</span></br>
+                    <span>Vui lòng chọn khoảng thời gian khác</span>
+                  </div>
+                  <div style="height:350px;width:100%;" ng-show="loadingDataColumnChartWithService">
+                    <img src="/img/loading.gif">
+                  </div>
+                  <div style="width: auto;display: block;" id="columnChartWithServiceOuter">
+                    <div id="columnChartWithService" ></div>
+                  </div>
+              </div>
+
+          </section>
+      </div>
+  </div>
+  
+  <div class="row"> 
+      <div class="col-lg-12" style="height:530px;">
+          <section class="panel">
+              <header class="panel-heading">
+                  Biểu đồ tỉ lệ theo các khu vực
+              </header>
+              <div class="col-lg-12">
+                <div class="col-lg-5 ">
+                    <span>Thống kê theo :</span>
+                    <select class="form-control valid" ng-model="dashboardTypeByDistrict" ng-options="typeByDistrict for typeByDistrict in typeByDistrictList"></select>
+                </div>
+                <div class="col-lg-5 ">
+                    <span>Thời gian :</span>
+                    <span  class="form-control valid" style="font-size: larger;"><input id="timeRangeChartByDistrictChooser"></span>
+                </div>
+                <div style="padding-top:18px;text-align:center;">
+                  <button class="btn btn-info" ng-click="loadData('PieChartWithDistrict')"> Xem thống kê</button>
+                </div>
+              </div>
+
+              <div class="panel-body text-center" >
+                  <div style="height:350px;width:100%;padding-top:100px;text-align:center;" ng-show="noDataForPieChartWithDistrict">
+                    <img src="/img/nodata.png" style="width:100px;height:100px;"></br></br>
+                    <span style="font-size: x-large;padding-top:50px;padding-bottom:20px;">Không có dữ liệu trong khoảng thời gian này</span></br>
+                    <span>Vui lòng chọn khoảng thời gian khác</span>
+                  </div>
+                  <div style="height:350px;width:100%;" ng-show="loadingDataPieChartWithDistrict">
+                    <img src="/img/loading.gif">
+                  </div>
+                  <div style="width: auto;display: block;" id="pieChartWithDistrictOuter">
+                    <div id="pieChartWithDistrict" ></div>
+                  </div>
+              </div>
+          </section>
+      </div>
+  </div>
+
+</div>
+

@@ -1,0 +1,81 @@
+<div class="row">
+  <div id="breadcrumb" class="col-md-12">
+    <span> Danh sách các đơn hàng cần xử lý </span>
+  </div>
+</div>
+<div class="row col-sm-12" style="padding-bottom:15px;" >
+  <div class="col-sm-7" style="padding-right:5px; text-align:right; padding-left:5px; margin-bottom:-5px;">
+    <div class="col-sm-3" >
+      <label>Tìm kiếm theo: </label>
+    </div>
+    <div class="col-sm-4" style="margin-top:-5px;">
+        <select class="form-control valid" ng-model="typeSearch" ng-options="tieuchi for tieuchi in tieuchiSearch" ng-init="typeSearch=' Tất Cả '"></select>
+      </div>
+    </div>
+  <div class="col-sm-5 nopadding" style="padding-bottom:10px;text-align:left;padding-left:0px;">
+    <div id="search" style="margin-top:-5px;text-align:left;" >
+      <input type="text" placeholder="search" ng-model="searchText"/>
+      <i class="fa fa-search" style="margin-top:-10px;" ></i>
+    </div>
+  </div>
+
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box">
+      <div class="box-content no-padding" style="text-align:center;">
+        <table class="table table-bordered table-striped table-hover table-heading " >
+
+          <thead style="text-align:center;color:#02571c;">
+            <tr>
+              <th style="text-align:center;padding-right:5px;"><i class="fa fa-tag"></i> Mã Số </th>
+              <th style="text-align:center;padding-right:5px;"><i class="fa fa-mobile"></i> Số ĐT Khách Hàng</th>
+              <th style="text-align:center;padding-right:5px;"><i class="fa fa-adjust"></i> Loại Yêu cầu</th>
+              <th style="text-align:center;padding-right:5px;"><i class="fa fa-clock-o"></i> Trạng Thái</th>
+              <th style="text-align:center;padding-right:5px;"><i class="fa fa-calendar"></i> Ngày Yêu Cầu</th>
+              <th style="text-align:center;padding-right:5px;"><i class="fa fa-money"></i> Chi Phí</th>
+              <th style="text-align:center;padding-right:5px;"><i class="fa fa-gears"></i> Lựa Chọn</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat = "request in requestList">
+                    <td>{{request.id}}</td>
+                    <td>{{request.sdtkhachhang}}</td>
+                    <td>{{request.loaiyeucau}}</td>
+                    <td>{{request.trangthai}}</td>
+                    <td>{{request.ngaydatyeucau.getDate()}}/{{request.ngaydatyeucau.getMonth()}}/{{request.ngaydatyeucau.getFullYear()}}</td>
+                    <td>{{request.chiphi}}</td>
+                    <td>
+                      <button title="Xoa" class="btn btn-info myDeleteButton" ng-click = "editRequest(request.id)"><i class="fa fa-edit"></i></button>
+                        <button title="Xoa" class="btn btn-danger myDeleteButton" ng-click = "deleteRequest(request.id)"><i class="fa fa-trash-o"></i></button>
+                    </td>
+                </tr>
+            
+          <!-- End: list_row -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+// Run Datables plugin and create 3 variants of settings
+// function AllTables(){
+//  TestTable1();
+//  TestTable2();
+//  TestTable3();
+//  LoadSelect2Script(MakeSelect2);
+// }
+// function MakeSelect2(){
+//  $('select').select2();
+//  $('.dataTables_filter').each(function(){
+//    $(this).find('label input[type=text]').attr('placeholder', 'Search');
+//  });
+// }
+// $(document).ready(function() {
+//  // Load Datatables and run plugin on tables 
+//  LoadDataTablesScripts(AllTables);
+//  // Add Drag-n-Drop feature
+//  WinMove();
+// });
+</script>
