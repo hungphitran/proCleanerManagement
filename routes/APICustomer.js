@@ -17,7 +17,7 @@ module.exports.createCustomer = async (hotenTemp, sdtTemp, diachiTemp) => {
 			email:"kocoemail"
 		})
 	} else {
-		await CustomerModel.update(
+		await CustomerModel.updateOne(
 			{ sdt:sdtTemp },
 			{ 
 				hoten:hotenTemp, 
@@ -31,6 +31,7 @@ module.exports.listCustomer = async (req, res) => {
 	
 	if (!listCustomer) {
 		res.send({ error: true });
+		return;
 	}
 
 	res.json(listCustomer);

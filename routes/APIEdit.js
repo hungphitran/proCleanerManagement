@@ -5,7 +5,7 @@ module.exports.editAllThing = async (req, res) => {
   const customers = await CustomerModel.find();
 
   for (var i = 0; i < customers.length; i++) {
-    CustomerModel.update(
+    CustomerModel.updateOne(
       {_id: customers[i]._id},
       {sdt: "0" + customers[i].sdt + ""});
   }

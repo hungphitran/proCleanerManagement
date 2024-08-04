@@ -149,13 +149,13 @@ module.exports.deleteRequest = async (req, res) => {
     }
   }
 
-  const removeRequestDetails = await RequestDetailModel.delete({idyeucau: id});
+  const removeRequestDetails = await RequestDetailModel.deleteOne({idyeucau: id});
   if(!removeRequestDetails) {
     result.error = true;
     res.send(result);
   }
 
-  const removeRequest = await RequestModel.delete({_id : id});
+  const removeRequest = await RequestModel.deleteOne({_id : id});
   if(!removeRequest) {
     result.error = true;
     res.send(result);
@@ -176,7 +176,7 @@ module.exports.findRequest = async (req, res) => {
 module.exports.updateStatus = async (req, res) => {
   const idRequest = req.body._id;
 
-  const updateRequest = await RequestModel.update(
+  const updateRequest = await RequestModel.updateOne(
     {_id: idRequest},
     {trangthai : req.body.trangthai}
   );
@@ -191,7 +191,7 @@ module.exports.updateStatus = async (req, res) => {
 module.exports.updateThoaThuan = async (req, res) => {
   const idRequest = req.body._id;
 
-  const update = await RequestModel.update(
+  const update = await RequestModel.updateOne(
     {_id : idRequest},
     {trangthai: req.body.trangthai,
       phithoathuan : req.body.phithoathuan
@@ -256,14 +256,14 @@ module.exports.createRequest = async (req, res) => {
 
   let result = {success:false};
   if (createRequest) {
-    const ngaybd = new Date(request.ngaybatdau);
-    const ngaykt = new Date(request.ngayketthuc);
+    const ngaybd = new Date(createRequest.ngaybatdau);
+    const ngaykt = new Date(createRequest.ngayketthuc);
     const numberOfDate = ((ngaykt.getTime() - ngaybd.getTime()) / (60*1000*60*24)) + 1;
-    const sogiongoaigioOfEachDetail = request.sogiongoaigio / numberOfDate;
-    const chiphingoaigioOfEachDetail = request.chiphingoaigio / numberOfDate;
+    const sogiongoaigioOfEachDetail = createRequest.sogiongoaigio / numberOfDate;
+    const chiphingoaigioOfEachDetail = createRequest.chiphingoaigio / numberOfDate;
 
     for(let i = 0; i < numberOfDate; i++) {
-        let giobd = new Date(request.ngaybatdau);
+        let giobd = new Date(createRequest.ngaybatdau);
             giobd.setDate(giobd.getDate()+i);
             giobd.setHours((req.body.giobatdau - (req.body.giobatdau%60))/60);
             giobd.setMinutes((req.body.giobatdau%60));
@@ -271,7 +271,7 @@ module.exports.createRequest = async (req, res) => {
             giobd.setSeconds(0);
             giobd.setMilliseconds(0);
             
-        let giokt = new Date(request.ngaybatdau);
+        let giokt = new Date(createRequest.ngaybatdau);
             giokt.setDate(giokt.getDate()+i);
             giokt.setHours((req.body.gioketthuc - (req.body.gioketthuc%60))/60);
             giokt.setMinutes((req.body.gioketthuc%60));
@@ -279,7 +279,7 @@ module.exports.createRequest = async (req, res) => {
             giokt.setSeconds(0);
             giokt.setMilliseconds(0);
             
-        const createRequestDetail = requestDetailRoute.createRequestDetail(request._id,giobd,giokt,request.giachuan, sogiongoaigioOfEachDetail,request.phingoaigio, chiphingoaigioOfEachDetail );
+        const createRequestDetail = requestDetailRoute.createRequestDetail(createRequest._id,giobd,giokt,createRequest.giachuan, sogiongoaigioOfEachDetail,createRequest.phingoaigio, chiphingoaigioOfEachDetail );
     }
 
     customerRoute.createCustomer(req.body.hoten, req.body.sdtkhachhang, req.body.diachi);
@@ -292,7 +292,7 @@ module.exports.createRequest = async (req, res) => {
 module.exports.payment = async (req, res) => {
   const idRequest = req.body._id;
   
-  const updateRequest = await RequestModel.update(
+  const updateRequest = await RequestModel.updateOne(
     {_id : idRequest},
     {
       trangthai : req.body.trangthai,
@@ -320,7 +320,7 @@ module.exports.updateCost = async (id, numberOfRequestDetail) =>{
     return;
   }
 
-  const updateRequest = await RequestModel.update(
+  const updateRequest = await RequestModel.updateOne(
     {_id : id},
     {chiphi : newCost}
   );

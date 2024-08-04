@@ -561,8 +561,6 @@ function helperListCtrl($filter,$scope,$http,$location,editHelperService, $rootS
     };
 
     $scope.confirmDelete = function(){
-
-
         if($scope.helperToDelete == null || $scope.helperToDelete == undefined){
             alert("Xóa người giúp việc thất bại, vui lòng thử lại");
             return;

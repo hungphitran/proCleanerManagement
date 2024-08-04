@@ -204,7 +204,7 @@ module.exports.deleteAccount = async (req, res) => {
   const username = req.params.username;
   let result = { success: false };
 
-  const isDeleted = await Account.delete({ username: username });
+  const isDeleted = await Account.deleteOne({ username: username });
   if (isDeleted) {
     result.success = true;
   }

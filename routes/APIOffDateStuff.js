@@ -30,7 +30,7 @@ module.exports.addOffDate = async (req, res) => {
         res.json(createOffDateStaff);
     }
     else {
-        const updateOffDateStaff = await offDateStuff.update(
+        const updateOffDateStaff = await offDateStuff.updateOne(
             {
                 cmnd : req.body.cmnd,
                 ngay : req.body.ngay
@@ -44,7 +44,7 @@ module.exports.addOffDate = async (req, res) => {
 }
 
 module.exports.deleteOffDate = async (req, res) => {
-    const removeOffDateStaff = await offDateStuff.delete({_id : req.params._id});
+    const removeOffDateStaff = await offDateStuff.deleteOne({_id : req.params._id});
 
     if (removeOffDateStaff) {
         res.send({success:true}); 

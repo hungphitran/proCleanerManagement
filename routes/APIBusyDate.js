@@ -56,7 +56,7 @@ module.exports.checkExistsWorkPlan = async (req, res) => {
   }
 }
 
-function addBusyTime2(req, res) {
+async function addBusyTime2(req, res) {
   console.log("add");
   console.log(req.body.listCTYC);
   let listCTYC = req.body.listCTYC;
@@ -65,7 +65,7 @@ function addBusyTime2(req, res) {
     removeWorkPlanOfNGV(listCTYC[i]);
   };
 
-  const item = helperBusyDate.create(
+  const item = await helperBusyDate.create(
   {
     cmnd : req.body.cmnd,
     giobd : req.body.giobd,
@@ -109,7 +109,7 @@ module.exports.addBusyTime = async (req, res) => {
 };
 
 async function removeWorkPlanOfNGV(idCTYC) {
-  const updateRequestDetail = await RequestDetailModel.update(
+  const updateRequestDetail = await RequestDetailModel.updateOne(
     { _id: idCTYC },
     {
       nguoigiupviec:"", 
@@ -118,14 +118,14 @@ async function removeWorkPlanOfNGV(idCTYC) {
   );
 
   if (updateRequestDetail) {
-    await WorkPlanModel.delete({idchitietyc: idCTYC});
+    await WorkPlanModel.deleteOne({idchitietyc: idCTYC});
   }
 }
 
 module.exports.deleteBusyTime = async (req, res) => {
   const id = req.params._id;
 
-  const isDone = await helperBusyDate.delete({ _id: id });
+  const isDone = await helperBusyDate.deleteOne({ _id: id });
   if (!isDone) {
     res.send({ success: false }); 
   } else {

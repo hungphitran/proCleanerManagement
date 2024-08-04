@@ -94,7 +94,7 @@ module.exports.updateRequestDetailNGV = async (req, res) => {
 		updateDetailRequestInfo(res, req, idDetail, nguoigiupviec, req.body.trangthai, nhanvienXL, idyeucau);
 	}
 	else {
-		const updateWorkPlan = await WorkPlanModel.update(
+		const updateWorkPlan = await WorkPlanModel.updateOne(
 			{idchitietyc: idDetail},
 			{nguoigiupviec: req.body.nguoigiupviec}
 		);
@@ -109,7 +109,7 @@ module.exports.updateRequestDetailNGV = async (req, res) => {
 async function updateDetailRequestInfo (res, req,idDetail, ngvTemp, trangthaiTemp, nhanvienXL, idyeucau) {
 	let result = {success:false, busy:false};
 
-	const updateRequestDetail = await RequestDetailModel.update(
+	const updateRequestDetail = await RequestDetailModel.updateOne(
 		{_id : idDetail},
 		{
 			nguoigiupviec: ngvTemp, 
@@ -123,7 +123,7 @@ async function updateDetailRequestInfo (res, req,idDetail, ngvTemp, trangthaiTem
 	if (nhanvienXL == "" || nhanvienXL == null || nhanvienXL ==0) {
 		const nvXL = req.session.cmnd;
 
-		const updateRequest = await RequestModel.update(
+		const updateRequest = await RequestModel.updateOne(
 			{_id : idyeucau},
 			{nhanvienxuly : nvXL}
 		);
@@ -146,7 +146,7 @@ module.exports.updateGiaoViec = async (req, res) => {
 	const idyeucau = req.body.idyeucau;
 	let result = {success:false};
 
-	const updateRequestDetail = await RequestDetailModel.update(
+	const updateRequestDetail = await RequestDetailModel.updateOne(
 		{_id: idDetail},
 		{trangthai: "Đã giao"}
 	);
@@ -159,7 +159,7 @@ module.exports.updateGiaoViec = async (req, res) => {
 		if (nhanvienXL == "" || nhanvienXL == null || nhanvienXL ==0) {
 			console.log("update  nhan vien xu ly");
 			const nvXL = req.session.cmnd;
-			await RequestModel.update(
+			await RequestModel.updateOne(
 				{_id : idyeucau},
 				{nhanvienxuly : nvXL}
 			);
@@ -181,7 +181,7 @@ module.exports.updateRequestDetailTime = async (req, res) => {
 	const sogiongoaigioTemp = req.body.sogiongoaigio;
 	let result = {success:true};
 
-	const updateRequestDetail = await RequestDetailModel.update(
+	const updateRequestDetail = await RequestDetailModel.updateOne(
 		{_id : idChiTietYC},
 		{
 			giobatdau: req.body.giobatdau,
@@ -194,7 +194,7 @@ module.exports.updateRequestDetailTime = async (req, res) => {
 		result.success = false;
 	}
 
-	const updateRequest = await RequestModel.update(
+	const updateRequest = await RequestModel.updateOne(
 		{_id : idYC},
 		{
 			chiphi: chiphicobanRequest,
@@ -213,7 +213,7 @@ module.exports.updateDone = async (req, res) => {
 	const idDetail = req.body.id;
 	let result = {success: false};
 
-	const updateRequestDetail = await RequestDetailModel.update(
+	const updateRequestDetail = await RequestDetailModel.updateOne(
 		{_id : idDetail},
 		{
 			matdo: req.body.matdo, 
@@ -263,13 +263,13 @@ module.exports.deleteRequestDetail = async (req, res) => {
 	const phithoathuanRequest = req.body.phithoathuanRequest;
 	let result = {success: true,empty: false};
 
-	const removeRequestDetail = await RequestDetailModel.delete({_id : idChiTietYC});
+	const removeRequestDetail = await RequestDetailModel.deleteOne({_id : idChiTietYC});
 	if (!removeRequestDetail) {
 		result.success = false;
 	}
 
 	if (chiphicobanRequest == 0) {
-		const removeRequest = await RequestModel.delete({_id : idYC});
+		const removeRequest = await RequestModel.deleteOne({_id : idYC});
 		if (!removeRequest) {
 			result.success = false;
 		}
@@ -277,7 +277,7 @@ module.exports.deleteRequestDetail = async (req, res) => {
 		res.send(result);
 	}
 	else {
-		const updateRequest = await RequestModel.update(
+		const updateRequest = await RequestModel.updateOne(
 			{_id : idYC},
 			{
 				chiphi : chiphicobanRequest,

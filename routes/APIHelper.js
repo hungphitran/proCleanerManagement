@@ -95,7 +95,7 @@ var deleteFolderRecursive = function(path) {
 module.exports.deleteHelper = async (req, res) => {
   const id = req.body._id;
 
-  const isDeleted = await helper.delete({ _id: id });
+  const isDeleted = await helper.deleteOne({ _id: id });
   if (!isDeleted) {
     res.send({ success: false });
   }
@@ -104,7 +104,7 @@ module.exports.deleteHelper = async (req, res) => {
     deleteFolderRecursive("public/images/ngv/" + req.body.cmnd);
   }
 
-  const helperRecords = helper.find();
+  const helperRecords = await helper.find();
   res.send(helperRecords);
 };
 
@@ -120,7 +120,7 @@ module.exports.editHelper = async (req, res) => {
   console.log("cmnd "+req.body.cmnd);
   console.log(req.body.sotruong);
 
-  const editHelper = await helper.update({
+  const editHelper = await helper.updateOne({
       cmnd : req.body.cmnd
   },{
       hoten : req.body.hoten,
@@ -280,7 +280,7 @@ function existInBusyDateArray(cmnd, arr){
 }
 
 module.exports.paymentSalary = async (req, res) => {
-  const helperSalary = await HelperSalary.update(
+  const helperSalary = await HelperSalary.updateOne(
   {
     startDate: req.body.startDate,
     endDate: req.body.endDate,
@@ -324,7 +324,7 @@ async function calculateNewSalary(req, res, startDate, endDate) {
   }
 
   let newHelpers = [];
-  const findRequestDetail = RequestDetailModel.find({
+  const findRequestDetail = await RequestDetailModel.find({
       trangthai:"Hoàn thành",
       giobatdau : {$lt:endDate, $gte:startDate}
   });

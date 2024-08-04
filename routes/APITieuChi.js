@@ -24,7 +24,7 @@ module.exports.listName = async (req, res) => {
 module.exports.updateService = async (req, res) => {
     const idDetail = req.body._id;
 
-    const updateTieuChi = await TieuChiModel.update(
+    const updateTieuChi = await TieuChiModel.updateOne(
         {_id : idDetail},
         {
             giachuan : req.body.giachuan,
@@ -60,7 +60,7 @@ module.exports.createService = async (req, res) => {
 };
 
 module.exports.deleteService = async (req, res) => {
-    const removeTieuChi = await TieuChiModel.delete({_id : req.params._id});
+    const removeTieuChi = await TieuChiModel.deleteOne({_id : req.params._id});
     let result = {success: false};
     if (removeTieuChi) {
         result.success = true;

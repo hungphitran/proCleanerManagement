@@ -67,14 +67,14 @@ module.exports.createStuff = async (req, res) => {
 };
 
 module.exports.deleteStuff = async (req, res) => {
-  await stuff.delete({_id: req.body._id});
+  await stuff.deleteOne({_id: req.body._id});
 
   const findStuffs = await stuff.find();
   if (fs.existsSync("public/images/nhanvien/"+req.body.cmnd)) {
     deleteFolderRecursive("public/images/nhanvien/"+req.body.cmnd);
   }
 
-  await Account.delete({cmnd: req.body.cmnd});
+  await Account.deleteOne({cmnd: req.body.cmnd});
 
   res.send(findStuffs);
 }
@@ -99,7 +99,7 @@ var deleteFolderRecursive = function(path) {
 };
 
 module.exports.editStuff = async (req, res) => {
-  const updateStuff = await stuff.update(
+  const updateStuff = await stuff.updateOne(
     {cmnd : req.body.cmnd},
     {
       hoten : req.body.hoten,
@@ -119,7 +119,7 @@ module.exports.editStuff = async (req, res) => {
 }
 
 module.exports.paymentSalary = async (req, res) => {
-  const updateStaffSalary = await StaffSalary.update(
+  const updateStaffSalary = await StaffSalary.updateOne(
     {
       startDate: req.body.startDate,
       endDate: req.body.endDate,

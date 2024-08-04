@@ -28,7 +28,7 @@ module.exports.updateWorkPlanNGV = async (req, res) => {
     res.send(result);
   }
   else {
-    const updateWorkPlan = await WorkPlanModel.update(
+    const updateWorkPlan = await WorkPlanModel.updateOne(
       {idchitietyc: idDetail},
       {nguoigiupviec: req.body.nguoigiupviec}
     );
@@ -55,7 +55,7 @@ module.exports.updateWorkPlanTime = async (req, res) => {
     res.send(result);
   }
   else {
-    const updateWorkPlan = await WorkPlanModel.update(
+    const updateWorkPlan = await WorkPlanModel.updateOne(
       {idchitietyc: idDetail},
       {
         giobatdau: req.body.giobatdau, 
@@ -70,7 +70,7 @@ module.exports.updateWorkPlanTime = async (req, res) => {
 }
 
 module.exports.deleteWorkPlan = async (req, res) => {
-  const removeWorkPlan = await WorkPlanModel.delete({idchitietyc: req.params.idchitietyc});
+  const removeWorkPlan = await WorkPlanModel.deleteOne({idchitietyc: req.params.idchitietyc});
 
   let result = {success:false};
   if (removeWorkPlan) {
@@ -80,7 +80,7 @@ module.exports.deleteWorkPlan = async (req, res) => {
 };
 
 module.exports.deleteWorkPlanByID = async (req, res) => {
-  const removeWorkPlan = await WorkPlanModel.delete({idchitietyc: id});
+  const removeWorkPlan = await WorkPlanModel.deleteOne({idchitietyc: id});
   
   if (!removeWorkPlan) {
     deleteWorkPlanByID(id);
